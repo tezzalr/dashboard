@@ -1,0 +1,111 @@
+/* Sticky footer styles
+-------------------------------------------------- */
+
+html,
+body {
+  height: 100%;
+  /* The html and body elements cannot have any padding or margin. */
+}
+body a:hover{
+	color:#444;
+}
+.no_pad{
+	padding: 0;
+}
+.right_col{
+	float: right;
+}
+/* Wrapper for page content to push down footer */
+#wrap {
+  min-height: 100%;
+  height: auto;
+  /* Negative indent footer by its height */
+  margin: 0 auto -35px;
+  /* Pad bottom by footer height */
+  padding: 0 0 28px;
+}
+#fill {
+  height: 100%;
+  /* Negative indent footer by its height */
+  margin: 0 auto -35px;
+  /* Pad bottom by footer height */
+  padding: 0 0 28px;
+}
+#fill_scroll {
+  	min-height: 100%;
+  	margin: 0 auto -35px;
+  	padding: 0 0 28px;
+  	position:relative;
+  	background-color:white;
+  	width: 100%;
+}
+
+/* Set the fixed height of the footer here */
+#footer {
+  height: 25px;
+  background-color: #000;
+  border-top: 1px solid black;
+  color: #999;
+  padding: 5px;
+  z-index: 1030;
+  position: absolute;
+  width: 100%;
+  font-size:12px;
+  margin-top:10px;
+}
+#footer a{
+	color: #999;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+.sold_out{
+	color: #B50D15;
+}
+
+/* Custom page CSS
+-------------------------------------------------- */
+/* Not required for template or sticky footer method. */
+
+#wrap, #fill, #fill_scroll > .container {
+  padding: 60px 15px 0;
+}
+.container .text-muted {
+  margin: 20px 0;
+}
+
+#footer > .container {
+  padding-left: 10px;
+  padding-right: 10px;
+  width: 100%;
+}
+
+/* Validate CSS
+-------------------------------------------------- */
+input.error{
+	border-color:#a94442;
+}
+label.error{
+	color:#a94442;
+}
+input.valid{
+	border-color:#3c763d;
+}
+.checkbox label.error{
+	display:block;
+	font-weight:bold;
+}
+
+/* Shopping List
+-------------------------------------------------- */
+#shopping_list{
+}
+#tablecartdiv{
+	width:300px; 
+	position:fixed; 
+	right:0; 
+	top:50px;
+	z-index:98;
+	overflow:auto;
+	bottom: 30px;
+}
