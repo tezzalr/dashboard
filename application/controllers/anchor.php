@@ -166,7 +166,7 @@ class Anchor extends CI_Controller {
 		$same='';
 		$i=1;
 		$rachel = array();
-		for ($row = 1; $row < $highestRow; ++$row) {
+		for ($row = 188; $row < 193/*$highestRow*/; ++$row) {
 			$agatha = $objWorksheet->getCellByColumnAndRow(0, $row)->getValue();
 			if($agatha != $same){
 				for ($col = 0; $col < $highestColumnIndex; ++$col) {
@@ -181,6 +181,7 @@ class Anchor extends CI_Controller {
 				}
 			}
 		}
+		$iter=1;
 		foreach ($rachel as $cinta){
 			$anchor['name'] = $cinta[0];
 			$anchor['group'] = $cinta[1];
@@ -237,7 +238,7 @@ class Anchor extends CI_Controller {
 			//$this->manchor->insert_ws_realization($iptdata);
 			
 			echo '<tr>';
-			echo '<td></td><td>'.$cinta[0].'</td><td>'.$cinta[1].'</td><td>'.$cinta[2].'</td><td>'.$cinta[3].'</td>';
+			echo '<td>'.$iter.'</td><td>'.$cinta[0].'</td><td>'.$cinta[1].'</td><td>'.$cinta[2].'</td><td>'.$cinta[3].'</td>';
 			for ($ar=4;$ar<=40;$ar++){
 				if($cinta[$ar]){
 					if($ar==18 || $ar == 19){$bagi = 6;}
@@ -250,7 +251,7 @@ class Anchor extends CI_Controller {
 				}
 			}
 			echo '</tr>';
-			
+			$iter++;	
 		}
 		echo '</table>' . PHP_EOL;
 		
@@ -312,8 +313,8 @@ class Anchor extends CI_Controller {
 			$iptdata['year']= 2014;
 			$iptdata['anchor_id']= $anchor_id;
 			
-			//$this->manchor->insert_ws($iptdata, $kind);
-			echo $anchor_id.' = '.$target[4].'; ddd = '.$iptdata['CASA_vol'].'<br>';
+			$this->manchor->insert_ws($iptdata, $kind);
+			//echo $anchor_id.' = '.$target[4].'; ddd = '.$iptdata['CASA_vol'].'<br>';
     	}
     } 
     

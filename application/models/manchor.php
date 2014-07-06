@@ -36,7 +36,7 @@ class Manchor extends CI_Model {
     }
     
     function insert_ws($iptdata, $kind){ 
-    	return $this->db->insert("wholesale_$kind", $iptdata);
+    	return $this->db->insert('wholesale_'.$kind, $iptdata);
     }
     
     
