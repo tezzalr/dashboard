@@ -24,7 +24,7 @@ class Anchor extends CI_Controller {
         
     }
     
-    public function detail(){
+    public function realisasi(){
     	$anchor_id = $this->uri->segment(3);
     	$target_ws = $this->manchor->get_anchor_ws_target($anchor_id);
     	$realization_ws = $this->manchor->get_anchor_ws_realization($anchor_id);
@@ -38,7 +38,22 @@ class Anchor extends CI_Controller {
 		
 		$data['header'] = $this->load->view('shared/header','',TRUE);	
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-		$data['content'] = $this->load->view('anchor/detail',array('rlzn' => $realization, 'tgt' => $target, 'anchor' => $anchor),TRUE);
+		$data['content'] = $this->load->view('anchor/realisasi',array('rlzn' => $realization, 'tgt' => $target, 'anchor' => $anchor),TRUE);
+
+		$this->load->view('front',$data);
+    }
+    
+    public function pendapatan(){
+    	$anchor_id = $this->uri->segment(3);
+    	
+    	$realization_ws = $this->manchor->get_anchor_ws_realization($anchor_id);
+    	$anchor = $this->manchor->get_anchor_by_id($anchor_id);
+    	
+    	$data['title'] = "Pendapatan - $anchor->name";
+		
+		$data['header'] = $this->load->view('shared/header','',TRUE);	
+		$data['footer'] = $this->load->view('shared/footer','',TRUE);
+		$data['content'] = $this->load->view('anchor/pendapatan',array('rlzn' => $realization_ws, 'anchor' => $anchor),TRUE);
 
 		$this->load->view('front',$data);
     }
@@ -91,18 +106,18 @@ class Anchor extends CI_Controller {
 		$iptdata['SL_vol']= $this->count_avgbal($target_ws->SL_vol,$realization_ws->SL_vol);
 		$iptdata['SL_inc']= $this->count_sum($target_ws->SL_nii+$target_ws->SL_fbi,$realization_ws->SL_nii+$realization_ws->SL_fbi, $realization_ws->month);
 		$iptdata['FX_vol']= $this->count_sum($target_ws->FX_vol,$realization_ws->FX_vol,$realization_ws->month)*1000;
-		//$iptdata['FX_inc']= $iptdata['FX_vol']*0.00568;
+		$iptdata['FX_inc']= $this->count_sum($target_ws->FX_fbi,$realization_ws->FX_fbi,$realization_ws->month);
 		$iptdata['SCF_vol']= $this->count_sum($target_ws->SCF_vol,$realization_ws->SCF_vol,$realization_ws->month);
 		//$iptdata['SCF_fbi']= $target[21];
-		$iptdata['Trade_vol']= $this->count_sum($target_ws->Trade_vol,$realization_ws->Trade_vol,$realization_ws->month);
-		//$iptdata['Trade_fbi']= $target[23];
+		$iptdata['Trade_vol']= $this->count_sum($target_ws->Trade_vol,$realization_ws->Trade_vol,$realization_ws->month)*1000;
+		$iptdata['Trade_inc']= $this->count_sum($target_ws->Trade_fbi,$realization_ws->Trade_fbi,$realization_ws->month);
 		$iptdata['PWE_vol']= $this->count_sum($target_ws->PWE_vol,$realization_ws->PWE_vol,$realization_ws->month);
 		//$iptdata['PWE_fbi']= $target[25];
 		$iptdata['TR_vol']= $this->count_sum($target_ws->TR_vol,$realization_ws->TR_vol,$realization_ws->month);
-		//$iptdata['TR_nii']= $target[27];
+		$iptdata['TR_inc']= $this->count_sum($target_ws->TR_nii,$realization_ws->TR_nii,$realization_ws->month);
 		$iptdata['BG_vol']= $this->count_sum($target_ws->BG_vol,$realization_ws->BG_vol,$realization_ws->month);
-		//$iptdata['BG_fbi']= $target[29];
-		$iptdata['OIR_vol']= $this->count_sum($target_ws->OIR_vol,$realization_ws->OIR_vol,$realization_ws->month);
+		$iptdata['BG_inc']= $this->count_sum($target_ws->BG_fbi,$realization_ws->BG_fbi,$realization_ws->month);
+		$iptdata['OIR_vol']= $this->count_sum($target_ws->OIR_vol,$realization_ws->OIR_vol,$realization_ws->month)*pow(10,9);
 		$iptdata['OIR_inc']= $this->count_sum($target_ws->OIR_fbi,$realization_ws->OIR_fbi,$realization_ws->month);
 		$iptdata['OW_vol']= 1;
 		//$iptdata['OW_nii']= $target[33];

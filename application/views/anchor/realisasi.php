@@ -82,7 +82,7 @@
                 color: 'red'
             }, */{
                 name: 'Pencapaian',
-                data: [<?php echo $rlzn['CASA_inc']?>, <?php echo $rlzn['TD_inc']?>, <?php echo $rlzn['WCL_inc']?>, <?php echo $rlzn['IL_inc']?>, <?php echo $rlzn['SL_inc']?>, 0, 0, 0, 0, 0, 0, <?php echo $rlzn['OIR_inc']?>, 0, 0, 0, 0]
+                data: [<?php echo $rlzn['CASA_inc']?>, <?php echo $rlzn['TD_inc']?>, <?php echo $rlzn['WCL_inc']?>, <?php echo $rlzn['IL_inc']?>, <?php echo $rlzn['SL_inc']?>, <?php echo $rlzn['TR_inc']?>, 0, <?php echo $rlzn['FX_inc']?>, 0, <?php echo $rlzn['Trade_inc']?>, <?php echo $rlzn['BG_inc']?>, <?php echo $rlzn['OIR_inc']?>, 0, 0, 0, 0]
             }]
         });
     });
@@ -271,14 +271,17 @@
 		<h2><?php echo $anchor->name?></h2>
 		<h4><?php echo $anchor->group?></h4>
 		<ul class="nav nav-pills" style="float:right; margin-top:30px;">
+			<li><a href="<?php echo base_url()?>anchor/pendapatan/<?php echo $anchor->id;?>">Income</a></li>
 		  <li><a href="<?php echo base_url()?>anchor/profile">Profile</a></li>
 		  <li><a href="<?php echo base_url()?>anchor/product">Product</a></li>
 		</ul><div style="clear:both"></div>
 	</div>
-	<div id="container" style="min-width: 310px; height: 350px; margin: 0 auto"></div><hr>
-	<div id="container_income" style="min-width: 310px; height: 350px; margin: 0 auto"></div><hr>
 	<div>
-		<div id="container2" style="min-width: 310px; width: 50%; height: 350px; margin: 0; float:left"></div>
-		<div id="container3" style="min-width: 310px; width: 50%; height: 350px; margin: 0; float:left"></div>
-	</div><div style="clear:both"></div><br>
+		<div id="container" style="min-width: 310px; height: 350px; margin: 0 auto"></div><hr>
+		<div id="container_income" style="min-width: 310px; height: 350px; margin: 0 auto"></div><hr>
+		<div>
+			<div id="container2" style="min-width: 310px; width: 50%; height: 350px; margin: 0; float:left"></div>
+			<div id="container3" style="min-width: 310px; width: 50%; height: 350px; margin: 0; float:left"></div>
+		</div><div style="clear:both"></div><br>
+	</div>
 </div>
