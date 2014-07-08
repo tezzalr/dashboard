@@ -8,7 +8,7 @@
                 text: 'Target vs Pencapaian Volume'
             },
             xAxis: {
-                categories: ['CASA', 'Time Deposit', 'Working Capital Loan', 'Investment Loan', 'Structured Loan', 'Trust Receipt', 'NII Others', 'FX & Derivatives', 'Supply Chain Financing', 'Trade Services', 'Bank Guarantee', 'Outgoing Intl Remittance', 'PWE non L/C', 'Loan Maintenance Fee', 'Syndication Fee', 'FBI Other']
+                categories: ['CASA', 'Time Deposit', 'Working Capital Loan', 'Investment Loan', 'Structured Loan', 'Trust Receipt', 'FX & Derivatives', 'Supply Chain Financing', 'Trade Services', 'Bank Guarantee', 'Outgoing Intl Remittance', 'PWE non L/C']
             },
             yAxis: {
                 min: 0,
@@ -37,7 +37,7 @@
                 color: 'red'
             },*/ {
                 name: 'Pencapaian',
-                data: [<?php echo $rlzn['CASA_vol']?>, <?php echo $rlzn['TD_vol']?>, <?php echo $rlzn['WCL_vol']?>, <?php echo $rlzn['IL_vol']?>, <?php echo $rlzn['SL_vol']?>, <?php echo $rlzn['TR_vol']?>, 0, <?php echo $rlzn['FX_vol']?>, <?php echo $rlzn['SCF_vol']?>, <?php echo $rlzn['Trade_vol']?>, <?php echo $rlzn['BG_vol']?>, <?php echo $rlzn['OIR_vol']?>, <?php echo $rlzn['PWE_vol']?>, 0, 0, 0],
+                data: [<?php echo $rlzn['CASA_vol']?>, <?php echo $rlzn['TD_vol']?>, <?php echo $rlzn['WCL_vol']?>, <?php echo $rlzn['IL_vol']?>, <?php echo $rlzn['SL_vol']?>, <?php echo $rlzn['TR_vol']?>, <?php echo $rlzn['FX_vol']?>, <?php echo $rlzn['SCF_vol']?>, <?php echo $rlzn['Trade_vol']?>, <?php echo $rlzn['BG_vol']?>, <?php echo $rlzn['OIR_vol']?>, <?php echo $rlzn['PWE_vol']?>],
             }]
         });
     });
@@ -82,7 +82,7 @@
                 color: 'red'
             }, */{
                 name: 'Pencapaian',
-                data: [<?php echo $rlzn['CASA_inc']?>, <?php echo $rlzn['TD_inc']?>, <?php echo $rlzn['WCL_inc']?>, <?php echo $rlzn['IL_inc']?>, <?php echo $rlzn['SL_inc']?>, <?php echo $rlzn['TR_inc']?>, 0, <?php echo $rlzn['FX_inc']?>, 0, <?php echo $rlzn['Trade_inc']?>, <?php echo $rlzn['BG_inc']?>, <?php echo $rlzn['OIR_inc']?>, 0, 0, 0, 0]
+                data: [<?php echo $rlzn['CASA_inc']?>, <?php echo $rlzn['TD_inc']?>, <?php echo $rlzn['WCL_inc']?>, <?php echo $rlzn['IL_inc']?>, <?php echo $rlzn['SL_inc']?>, <?php echo $rlzn['TR_inc']?>, 0, <?php echo $rlzn['FX_inc']?>, <?php echo $rlzn['OW_nii']?>, <?php echo $rlzn['Trade_inc']?>, <?php echo $rlzn['BG_inc']?>, <?php echo $rlzn['OIR_inc']?>, <?php echo $rlzn['PWE_inc']?>, <?php echo $rlzn['LMF']?>, <?php echo $rlzn['SF']?>, <?php echo $rlzn['OW_fbi']?>]
             }]
         });
     });
@@ -271,17 +271,18 @@
 		<h2><?php echo $anchor->name?></h2>
 		<h4><?php echo $anchor->group?></h4>
 		<ul class="nav nav-pills" style="float:right; margin-top:30px;">
+			<li><a href="<?php echo base_url()?>anchor/realisasi/<?php echo $anchor->id;?>">Realization</a></li>
 			<li><a href="<?php echo base_url()?>anchor/pendapatan/<?php echo $anchor->id;?>">Income</a></li>
-		  <li><a href="<?php echo base_url()?>anchor/profile">Profile</a></li>
-		  <li><a href="<?php echo base_url()?>anchor/product">Product</a></li>
+		  	<li><a href="<?php echo base_url()?>anchor/wallet/<?php echo $anchor->id;?>">Wallet</a></li>
+		  	<li><a href="<?php echo base_url()?>anchor/product">Product</a></li>
 		</ul><div style="clear:both"></div>
 	</div>
 	<div>
 		<div id="container" style="min-width: 310px; height: 350px; margin: 0 auto"></div><hr>
 		<div id="container_income" style="min-width: 310px; height: 350px; margin: 0 auto"></div><hr>
-		<div>
+		<!--<div>
 			<div id="container2" style="min-width: 310px; width: 50%; height: 350px; margin: 0; float:left"></div>
 			<div id="container3" style="min-width: 310px; width: 50%; height: 350px; margin: 0; float:left"></div>
-		</div><div style="clear:both"></div><br>
+		</div>--><div style="clear:both"></div><br>
 	</div>
 </div>

@@ -39,6 +39,10 @@ class Manchor extends CI_Model {
     	return $this->db->insert('wholesale_'.$kind, $iptdata);
     }
     
+    function insert_al($iptdata, $kind){ 
+    	return $this->db->insert('alliance_'.$kind, $iptdata);
+    }
+    
     
     //GET FUNCTION
     function get_anchor_id($name,$group){
@@ -57,9 +61,27 @@ class Manchor extends CI_Model {
         return $query[0];
     }
     
-    function get_anchor_ws_realization($anchor_id){
+    function get_anchor_ws_realization($anchor_id, $month, $year){
     	$this->db->where('anchor_id',$anchor_id);
+    	$this->db->where('month',$month);
+    	$this->db->where('year',$year);
     	$result = $this->db->get('wholesale_realization');
+    	$query = $result->result();
+        return $query[0];
+    }
+    
+    function get_anchor_al_target($anchor_id){
+    	$this->db->where('anchor_id',$anchor_id);
+    	$result = $this->db->get('alliance_target');
+    	$query = $result->result();
+        return $query[0];
+    }
+    
+    function get_anchor_al_realization($anchor_id, $month, $year){
+    	$this->db->where('anchor_id',$anchor_id);
+    	$this->db->where('month',$month);
+    	$this->db->where('year',$year);
+    	$result = $this->db->get('alliance_realization');
     	$query = $result->result();
         return $query[0];
     }

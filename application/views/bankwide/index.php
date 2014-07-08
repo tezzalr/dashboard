@@ -49,10 +49,10 @@
                 type: 'bar'
             },
             title: {
-                text: 'Potensi Wallet'
+                text: 'Potensi (Wallet Size) vs SoW'
             },
             xAxis: {
-                categories: ['CASA', 'Time Deposit', 'Loan', 'Trade', 'Bank Guarantee', 'NII Others'],
+                categories: ['CASA', 'Time Deposit', 'Loan', 'Trade', 'Bank Guarantee', 'NII Others', 'Total'],
                 title: {
                     text: null
                 }
@@ -92,12 +92,12 @@
                 enabled: false
             },
             series: [{
-                name: 'Income',
-                data: [107, 31, 435, 203, 400, 300],
+                name: 'Wallet Size',
+                data: [133, 156, 547, 408, 600, 900, 1200],
                 color: 'yellow'
             }, {
-                name: 'Wallet Size',
-                data: [133, 156, 547, 408, 600, 900],
+                name: 'Size of Wallet',
+                data: [107, 31, 435, 203, 400, 300, 600],
                 color: 'orange'
             }]
         });
@@ -168,7 +168,7 @@
                 type: 'bar'
             },
             title: {
-                text: 'Potensi Wallet'
+                text: 'Potensi '
             },
             xAxis: {
                 categories: ['CASA', 'Time Deposit', 'Loan', 'Trade', 'Bank Guarantee', 'NII Others'],
@@ -212,7 +212,7 @@
                 enabled: false
             },
             series: [{
-                name: 'Income',
+                name: 'S',
                 data: [107, 31, 435, 203, 400, 300],
                 color: 'yellow'
             }, {
@@ -226,7 +226,7 @@
 
 <div id="" class="container no_pad">
 	<div class="no_pad" style="border-bottom: 1px solid #ccc; margin-bottom: 20px;">
-		<h2 style="float:left">Summary Account Plan 2014</h2>
+		<h2 style="float:left">Total Relationship Income</h2>
 		<ul class="nav nav-pills" style="float:right; margin-top:30px;">
 		  <li><a href="<?php echo base_url()?>bankwide/top_anchor">Top Anchor</a></li>
 		  <li><a href="<?php echo base_url()?>bankwide/product">Product</a></li>
@@ -235,6 +235,7 @@
 	</div>
 	<div id="container" style="min-width: 310px; height: 350px; margin: 0 auto"></div><hr>
 	<div>
+		<div id="" style="min-width: 310px; width: 50%; height: 350px; margin: 0; float:left"><h2>Potensi (Wallet Size) vs SoW 2013</h2><h4>Wallet Size : Rp 31,9 T</h4><h4>Share of Wallet : Rp 8,1 T</h4></div>
 		<div id="container2" style="min-width: 310px; width: 50%; height: 350px; margin: 0; float:left"></div>
 		<div id="container3" style="min-width: 310px; width: 50%; height: 350px; margin: 0; float:left"></div>
 	</div><div style="clear:both"></div><br>

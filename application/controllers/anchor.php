@@ -24,10 +24,30 @@ class Anchor extends CI_Controller {
         
     }
     
+    public function tes(){
+    	$data['title'] = "Pendapatan -";
+		
+		$data['header'] = $this->load->view('shared/header','',TRUE);	
+		$data['footer'] = $this->load->view('shared/footer','',TRUE);
+		$data['content'] = $this->load->view('anchor/tes',array(),TRUE);
+
+		$this->load->view('front',$data);
+    }
+    
+    public function tes2(){
+    	$data['title'] = "Pendapatan -";
+		
+		$data['header'] = $this->load->view('shared/header','',TRUE);	
+		$data['footer'] = $this->load->view('shared/footer','',TRUE);
+		$data['content'] = $this->load->view('anchor/tes2',array(),TRUE);
+
+		$this->load->view('front',$data);
+    }
+    
     public function realisasi(){
     	$anchor_id = $this->uri->segment(3);
     	$target_ws = $this->manchor->get_anchor_ws_target($anchor_id);
-    	$realization_ws = $this->manchor->get_anchor_ws_realization($anchor_id);
+    	$realization_ws = $this->manchor->get_anchor_ws_realization($anchor_id, 5, 2014);
     	
     	$realization = $this->count_realization($target_ws, $realization_ws);
     	$target = $this->count_target($target_ws);
@@ -46,14 +66,15 @@ class Anchor extends CI_Controller {
     public function pendapatan(){
     	$anchor_id = $this->uri->segment(3);
     	
-    	$realization_ws = $this->manchor->get_anchor_ws_realization($anchor_id);
+    	$realization_ws = $this->manchor->get_anchor_ws_realization($anchor_id, 5, 2014);
+    	$realization_al = $this->manchor->get_anchor_al_realization($anchor_id, 5, 2014);
     	$anchor = $this->manchor->get_anchor_by_id($anchor_id);
     	
     	$data['title'] = "Pendapatan - $anchor->name";
 		
 		$data['header'] = $this->load->view('shared/header','',TRUE);	
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-		$data['content'] = $this->load->view('anchor/pendapatan',array('rlzn' => $realization_ws, 'anchor' => $anchor),TRUE);
+		$data['content'] = $this->load->view('anchor/pendapatan',array('rlzn' => $realization_ws, 'anchor' => $anchor, 'ali' => $realization_al),TRUE);
 
 		$this->load->view('front',$data);
     }
@@ -79,7 +100,7 @@ class Anchor extends CI_Controller {
     }
     
     private function count_avgbal($target,$realization){
-    	if($target){
+    	if($target && $target>0){
     		return $realization/pow(10,9)/$target*100;
     	}
     	elseif(!$target && $realization){return 100;}
@@ -87,7 +108,7 @@ class Anchor extends CI_Controller {
     }
     
     private function count_sum($target,$realization,$month){
-    	if($target){
+    	if($target && $target>0){
     		return $realization/$month*12/pow(10,9)/$target*100;
     	}
     	elseif(!$target && $realization){return 100;}
@@ -100,34 +121,36 @@ class Anchor extends CI_Controller {
 		$iptdata['TD_vol']= $this->count_avgbal($target_ws->TD_vol,$realization_ws->TD_vol);
 		$iptdata['TD_inc']= $this->count_sum($target_ws->TD_nii,$realization_ws->TD_nii, $realization_ws->month);
 		$iptdata['WCL_vol']= $this->count_avgbal($target_ws->WCL_vol,$realization_ws->WCL_vol);
-		$iptdata['WCL_inc']= $this->count_sum($target_ws->WCL_nii+$target_ws->WCL_fbi,$realization_ws->WCL_nii+$realization_ws->WCL_fbi, $realization_ws->month);
+		$iptdata['WCL_inc']= $this->count_sum($target_ws->WCL_nii,$realization_ws->WCL_nii, $realization_ws->month);
 		$iptdata['IL_vol']= $this->count_avgbal($target_ws->IL_vol,$realization_ws->IL_vol);
 		$iptdata['IL_inc']= $this->count_sum($target_ws->IL_nii,$realization_ws->IL_nii, $realization_ws->month);
 		$iptdata['SL_vol']= $this->count_avgbal($target_ws->SL_vol,$realization_ws->SL_vol);
-		$iptdata['SL_inc']= $this->count_sum($target_ws->SL_nii+$target_ws->SL_fbi,$realization_ws->SL_nii+$realization_ws->SL_fbi, $realization_ws->month);
-		$iptdata['FX_vol']= $this->count_sum($target_ws->FX_vol,$realization_ws->FX_vol,$realization_ws->month)*1000;
+		$iptdata['SL_inc']= $this->count_sum($target_ws->SL_nii,$realization_ws->SL_nii, $realization_ws->month);
+		$iptdata['FX_vol']= $this->count_sum($target_ws->FX_vol,$realization_ws->FX_vol,$realization_ws->month)*1000; if(!$target_ws->FX_vol){$iptdata['FX_vol']=$iptdata['FX_vol']/1000;}
 		$iptdata['FX_inc']= $this->count_sum($target_ws->FX_fbi,$realization_ws->FX_fbi,$realization_ws->month);
 		$iptdata['SCF_vol']= $this->count_sum($target_ws->SCF_vol,$realization_ws->SCF_vol,$realization_ws->month);
 		//$iptdata['SCF_fbi']= $target[21];
-		$iptdata['Trade_vol']= $this->count_sum($target_ws->Trade_vol,$realization_ws->Trade_vol,$realization_ws->month)*1000;
+		$iptdata['Trade_vol']= $this->count_sum($target_ws->Trade_vol,$realization_ws->Trade_vol,$realization_ws->month)*1000; if(!$target_ws->Trade_vol){$iptdata['Trade_vol']=$iptdata['Trade_vol']/1000;}
 		$iptdata['Trade_inc']= $this->count_sum($target_ws->Trade_fbi,$realization_ws->Trade_fbi,$realization_ws->month);
 		$iptdata['PWE_vol']= $this->count_sum($target_ws->PWE_vol,$realization_ws->PWE_vol,$realization_ws->month);
-		//$iptdata['PWE_fbi']= $target[25];
+		$iptdata['PWE_inc']= $this->count_sum($target_ws->PWE_fbi,$realization_ws->PWE_fbi,$realization_ws->month);
 		$iptdata['TR_vol']= $this->count_sum($target_ws->TR_vol,$realization_ws->TR_vol,$realization_ws->month);
 		$iptdata['TR_inc']= $this->count_sum($target_ws->TR_nii,$realization_ws->TR_nii,$realization_ws->month);
 		$iptdata['BG_vol']= $this->count_sum($target_ws->BG_vol,$realization_ws->BG_vol,$realization_ws->month);
 		$iptdata['BG_inc']= $this->count_sum($target_ws->BG_fbi,$realization_ws->BG_fbi,$realization_ws->month);
-		$iptdata['OIR_vol']= $this->count_sum($target_ws->OIR_vol,$realization_ws->OIR_vol,$realization_ws->month)*pow(10,9);
+		$iptdata['OIR_vol']= $this->count_sum($target_ws->OIR_vol,$realization_ws->OIR_vol,$realization_ws->month)*pow(10,9); if(!$target_ws->OIR_vol){$iptdata['OIR_vol']=$iptdata['OIR_vol']/pow(10,9);}
 		$iptdata['OIR_inc']= $this->count_sum($target_ws->OIR_fbi,$realization_ws->OIR_fbi,$realization_ws->month);
-		$iptdata['OW_vol']= 1;
-		//$iptdata['OW_nii']= $target[33];
-		//$iptdata['OW_fbi']= $target[34];
+		$iptdata['OW_nii']= $this->count_sum($target_ws->OW_nii,$realization_ws->OW_nii,$realization_ws->month);
+		$iptdata['OW_fbi']= $this->count_sum($target_ws->OW_fbi,$realization_ws->OW_fbi,$realization_ws->month);
 		$iptdata['ECM_vol']= 1;
 		//$iptdata['ECM_fbi']= $target[36];
 		$iptdata['DCM_vol']= 1;
 		//$iptdata['DCM_fbi']= $target[38];
 		$iptdata['MA_vol']= 1;
 		//$iptdata['MA_fbi']= $target[40];
+		
+		$iptdata['LMF'] = $this->count_sum($target_ws->IL_fbi+$target_ws->WCL_fbi,$realization_ws->IL_fbi+$realization_ws->WCL_fbi, $realization_ws->month);
+		$iptdata['SF'] = $this->count_sum($target_ws->SL_fbi,$realization_ws->SL_fbi, $realization_ws->month);
 		
 		return $iptdata;
     }
@@ -281,7 +304,10 @@ class Anchor extends CI_Controller {
     
     public function input_wholesale(){
     	$kind = $this->uri->segment(3);
-    	$arr_target = $this->get_excel('daftar_masuk_'.$kind.'_ws.xlsx');
+    	$year = $this->uri->segment(4);
+    	$month = '';
+    	if($kind == 'realization'){$month = $this->uri->segment(5); $iptdata['month']= $month;}
+    	$arr_target = $this->get_excel('datadashboard/daftar_'.$kind.'_ws_'.$year.$month.'.xlsx');
     	foreach($arr_target as $target){
     		
 			$anchor_id = $this->manchor->get_anchor_id($target[0],$target[1]);
@@ -324,14 +350,74 @@ class Anchor extends CI_Controller {
 			$iptdata['MA_vol']= $target[39];
 			$iptdata['MA_fbi']= $target[40];
 			
-			$iptdata['month']= 5;
-			$iptdata['year']= 2014;
+			$iptdata['year']= $year;
 			$iptdata['anchor_id']= $anchor_id;
 			
 			$this->manchor->insert_ws($iptdata, $kind);
 			//echo $anchor_id.' = '.$target[4].'; ddd = '.$iptdata['CASA_vol'].'<br>';
     	}
-    } 
+    }
+    
+    public function input_alliance(){
+    	$kind = $this->uri->segment(3);
+    	$year = $this->uri->segment(4);
+    	$month = '';
+    	if($kind == 'realization'){$month = $this->uri->segment(5); $iptdata['month']= $month;}
+    	$arr_target = $this->get_excel('datadashboard/daftar_'.$kind.'_al_'.$year.$month.'.xlsx');
+    	foreach($arr_target as $target){
+    		
+			$anchor_id = $this->manchor->get_anchor_id($target[0],$target[1]);
+			
+			$iptdata['WM_vol']= $target[4];
+			$iptdata['WM_nii']= $target[5];
+			$iptdata['DPLK_vol']= $target[6];
+			$iptdata['DPLK_fbi']= $target[7];
+			$iptdata['PCD_vol']= $target[8];
+			$iptdata['PCD_nii']= $target[9];
+			$iptdata['VCCD_vol']= $target[10];
+			$iptdata['VCCD_nii']= $target[11];
+			$iptdata['VCCD_fbi']= $target[12];
+			$iptdata['VCL_vol']= $target[13];
+			$iptdata['VCL_nii']= $target[14];
+			$iptdata['VCL_fbi']= $target[15];
+			$iptdata['VCLnDF_vol']= $target[16];
+			$iptdata['VCLnDF_nii']= $target[17];
+			$iptdata['VCLnDF_fbi']= $target[18];
+			$iptdata['Micro_Loan_vol']= $target[19];
+			$iptdata['Micro_Loan_nii']= $target[20];
+			$iptdata['Micro_Loan_fbi']= $target[21];
+			$iptdata['MKM_vol']= $target[22];
+			$iptdata['MKM_nii']= $target[23];
+			$iptdata['KPR_vol']= $target[24];
+			$iptdata['KPR_nii']= $target[25];
+			$iptdata['Auto_vol']= $target[26];
+			$iptdata['Auto_nii']= $target[27];
+			$iptdata['CC_vol']= $target[28];
+			$iptdata['CC_nii']= $target[29];
+			$iptdata['EDC_vol']= $target[30];
+			$iptdata['EDC_fbi']= $target[31];
+			$iptdata['ATM_vol']= $target[32];
+			$iptdata['ATM_fbi']= $target[33];
+			$iptdata['AXA_vol']= $target[34];
+			$iptdata['AXA_fbi']= $target[35];
+			$iptdata['MAGI_vol']= $target[36];
+			$iptdata['MAGI_fbi']= $target[37];
+			$iptdata['retail_vol']= $target[38];
+			$iptdata['retail_fbi']= $target[39];
+			$iptdata['cicil_Emas_vol']= $target[40];
+			$iptdata['cicil_Emas_fbi']= $target[41];
+			$iptdata['OA_vol']= $target[42];
+			$iptdata['OA_nii']= $target[43];
+			$iptdata['OA_fbi']= $target[44];
+			
+			$iptdata['year']= $year;
+			$iptdata['anchor_id']= $anchor_id;
+			
+			$this->manchor->insert_al($iptdata, $kind);
+			//echo $anchor_id.' = '.$target[4].'; ddd = '.$iptdata['CASA_vol'].'<br>';
+    	}
+    }
+    
     
     public function get_excel($filename){
     	$objReader = PHPExcel_IOFactory::createReader('Excel2007');
@@ -363,34 +449,5 @@ class Anchor extends CI_Controller {
 			}
 		}
 		return $rachel;
-    }
-        
-    public function input_bahasa()
-    {
-    	$bahasa = $this->input->post('bahasa');
-        
-        if(!$bahasa){
-        	redirect('welcome');
-        }
-        else{
-        	$this->session->set_userdata('bahasa',$bahasa);
-        	redirect('home');
-        }	
-    }
-    
-    public function SApage()
-    {
-    	$data['header'] = $this->load->view('shared/header','',TRUE);
-        $data['footer'] = $this->load->view('shared/footer','',TRUE);
-        $data['content'] = $this->load->view('home/','',TRUE);
-    }
-    
-    private function get_user_name_header(){
-    	$user = $this->session->userdata('user');
-        if($user){
-        	return $user['name'];
-        }else{
-        	return null;
-        }
     }
 }

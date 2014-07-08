@@ -81,7 +81,8 @@
 						allowPointSelect: true,
 						cursor: 'pointer',
 						dataLabels: {
-							enabled: false
+							enabled: true,
+							format: '<b>{point.name}</b>: {point.percentage:.1f} %',
 						},
 						showInLegend: true
 					}
@@ -90,30 +91,30 @@
 					type: 'pie',
 					name: 'Income share',
 					data: [
-						['CASA',   <?php echo ($rlzn->CASA_nii + $rlzn->CASA_fbi);?>],
-						['Time Deposit',       <?php echo $rlzn->TD_nii?>],
-						['Working Capital Loan',       <?php echo ($rlzn->WCL_nii + $rlzn->WCL_fbi);?>],
-						['Investment Loan',       <?php echo ($rlzn->IL_nii + $rlzn->IL_fbi);?>],
-						['Structured Loan',       <?php echo ($rlzn->SL_nii + $rlzn->SL_fbi);?>],
-						['Trust Receipt',       <?php echo $rlzn->TR_nii?>],
-						['NII Others',       0],
-						['FX & Derivatives',       <?php echo $rlzn->FX_fbi?>],
-						['Supply Chain Financing',       <?php echo $rlzn->SCF_fbi?>],
-						['Trade Services',       <?php echo $rlzn->Trade_fbi?>],
-						{
+						<?php if($rlzn->CASA_nii + $rlzn->CASA_fbi){?> ['CASA', <?php echo ($rlzn->CASA_nii + $rlzn->CASA_fbi);?>],<?php }?>
+						<?php if($rlzn->TD_nii){?>['Time Deposit', <?php echo $rlzn->TD_nii?>],<?php }?>
+						<?php if($rlzn->WCL_nii + $rlzn->WCL_fbi){?>['Working Capital Loan', <?php echo ($rlzn->WCL_nii + $rlzn->WCL_fbi);?>],<?php }?>
+						<?php if($rlzn->IL_nii + $rlzn->IL_fbi){?>['Investment Loan', <?php echo ($rlzn->IL_nii + $rlzn->IL_fbi);?>],<?php }?>
+						<?php if($rlzn->SL_nii + $rlzn->SL_fbi){?>['Structured Loan', <?php echo ($rlzn->SL_nii + $rlzn->SL_fbi);?>],<?php }?>
+						<?php if($rlzn->TR_nii){?>['Trust Receipt', <?php echo $rlzn->TR_nii?>],<?php }?>
+						//['NII Others',       0],
+						<?php if($rlzn->FX_fbi){?>['FX & Derivatives', <?php echo $rlzn->FX_fbi?>],<?php }?>
+						<?php if($rlzn->SCF_fbi){?> ['Supply Chain Financing', <?php echo $rlzn->SCF_fbi?>],<?php }?>
+						<?php if($rlzn->Trade_fbi){?>['Trade Services', <?php echo $rlzn->Trade_fbi?>],<?php }?>
+						<?php if($rlzn->BG_fbi){?>{
 							name: 'Bank Guarantee',       
 							y: <?php echo $rlzn->BG_fbi?>,
 							color: 'yellow'
-						},
-						{
+						},<?php }?>
+						<?php if($rlzn->OIR_fbi){?>{
 							name: 'Outgoing Intl Remittance',       
 							y: <?php echo $rlzn->OIR_fbi?>,
 							color: 'green'
-						},
-						['PWE non L/C',       <?php echo $rlzn->PWE_fbi?>],
-						['Loan Maintenance Fee',       0],
-						['Syndication Fee',       0],
-						['FBI Other',       0]
+						},<?php }?>
+						<?php if($rlzn->PWE_fbi){?> ['PWE non L/C',       <?php echo $rlzn->PWE_fbi;?>],<?php }?>
+						//['Loan Maintenance Fee',       0],
+						//['Syndication Fee',       0],
+						//['FBI Other',       0]
 					]
 				}]
 			});
@@ -281,17 +282,17 @@
 		<h2><?php echo $anchor->name?></h2>
 		<h4><?php echo $anchor->group?></h4>
 		<ul class="nav nav-pills" style="float:right; margin-top:30px;">
+			<li><a href="<?php echo base_url()?>anchor/realisasi/<?php echo $anchor->id;?>">Realization</a></li>
 			<li><a href="<?php echo base_url()?>anchor/pendapatan/<?php echo $anchor->id;?>">Income</a></li>
-		  <li><a href="<?php echo base_url()?>anchor/profile">Profile</a></li>
-		  <li><a href="<?php echo base_url()?>anchor/product">Product</a></li>
+		  	<li><a href="<?php echo base_url()?>anchor/wallet/<?php echo $anchor->id;?>">Wallet</a></li>
+		  	<li><a href="<?php echo base_url()?>anchor/product">Product</a></li>
 		</ul><div style="clear:both"></div>
 	</div>
-	<div id="container_all" style="min-width: 310px; width: 100%; height: 700px; margin: 0;"></div><br><br>
+	<!--<div id="container_all" style="min-width: 310px; width: 100%; height: 500px; margin: 0;"></div><br><br>-->
 	<div>
-		<div id="container_ws" style="min-width: 310px; width: 100%; height: 700px; margin: 0; float:left"></div>
+		<div id="container_ws" style="min-width: 310px; width: 100%; height: 500px; margin: 0; float:left"></div>
 		<div id="container_al" style="min-width: 310px; width: 50%; height: 350px; margin: 0; float:left"></div>
-	</div><div style="clear:both"></div><br><br>
-	<div>
+	
 		<div id="container_lnl" style="min-width: 310px; width: 50%; height: 350px; margin: 0; float:left"></div>
 		<div id="container_wsa" style="min-width: 310px; width: 50%; height: 350px; margin: 0; float:left"></div>
 	</div><div style="clear:both"></div><br><br>
