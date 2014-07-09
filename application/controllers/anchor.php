@@ -317,7 +317,7 @@ class Anchor extends CI_Controller {
     	$year = $this->uri->segment(4);
     	$month = '';
     	if($kind == 'realization'){$month = $this->uri->segment(5); $iptdata['month']= $month;}
-    	$arr_target = $this->get_excel('datadashboard/daftar_'.$kind.'_ws_'.$year.$month.'.xlsx');
+    	$arr_target = $this->get_excel('datadashboard/corporate/daftar_'.$kind.'_ws_'.$year.$month.'.xlsx');
     	foreach($arr_target as $target){
     		
 			$anchor_id = $this->manchor->get_anchor_id($target[0],$target[1]);
@@ -373,7 +373,7 @@ class Anchor extends CI_Controller {
     	$year = $this->uri->segment(4);
     	$month = '';
     	if($kind == 'realization'){$month = $this->uri->segment(5); $iptdata['month']= $month;}
-    	$arr_target = $this->get_excel('datadashboard/daftar_'.$kind.'_al_'.$year.$month.'.xlsx');
+    	$arr_target = $this->get_excel('datadashboard/corporate/daftar_'.$kind.'_al_'.$year.$month.'.xlsx');
     	foreach($arr_target as $target){
     		
 			$anchor_id = $this->manchor->get_anchor_id($target[0],$target[1]);
