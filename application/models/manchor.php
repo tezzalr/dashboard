@@ -45,9 +45,11 @@ class Manchor extends CI_Model {
     
     
     //GET FUNCTION
+    
+    /*Anchor Function*/
     function get_anchor_id($name,$group){
     	$this->db->where('name',$name);
-    	$this->db->where('group',$group);
+    	//$this->db->where('group',$group);
     	
     	$result = $this->db->get('anchor');
         if($result->num_rows>0){return $result->row(0)->id;}
@@ -93,97 +95,73 @@ class Manchor extends CI_Model {
         return $query[0];
     }
     
-    function get_user($userid){
-    	$this->db->where('userid',$userid);
-    	$result = $this->db->get('user');
-        $query = $result->result();
+    /*Bank Wide Function*/
+    function get_total_vol_prd($product, $month, $year){
+    	$this->db->select_sum($product.'_vol');
+    	$this->db->where('month',$month);
+    	$this->db->where('year',$year);
+    	$result = $this->db->get('wholesale_realization');
+    	$query = $result->result();
         return $query[0];
     }
     
-    function get_rab_id($date){
-    	$date = DateTime::createFromFormat('Y-m-d', $date);
+    function get_top_anchor_prd($product, $month, $year){
+    	$this->db->select('ws_main.'.$product.'_vol as '.$product.'_vol, ws_main.month as month, ws_main.year as year, anchor.name, ws_ly.'.$product.'_vol as '.$product.'_vol_ly', 'wholesale_target.'.$product.'_vol as '.$product.'_target');
+    	$this->db->join('anchor', 'anchor.id = ws_main.anchor_id');
+    	$this->db->join('wholesale_realization as ws_ly', 'anchor.id = ws_ly.anchor_id');
+    	$this->db->join('wholesale_target', 'anchor.id = wholesale_target.anchor_id');
+    	$this->db->where('ws_main.month',$month);
+    	$this->db->where('ws_main.year',$year);
+    	$this->db->where('wholesale_target.year',$year);
+    	$this->db->where('ws_ly.month',12);
+    	$this->db->where('ws_ly.year',2013);
+    	$this->db->order_by('ws_main.'.$product.'_vol', 'desc');
+    	$result = $this->db->get('wholesale_realization as ws_main');
+    	return $result->result();
+    }
+    
+    function get_top_anchor_prd_grw($product, $month, $year){
+    	$this->db->select('((ws_main.'.$product.'_vol/'.$month.'*12) - ws_ly.'.$product.'_vol)/ ws_ly.'.$product.'_vol as grow, ws_main.'.$product.'_vol as '.$product.'_vol, ws_main.month as month, ws_main.year as year, anchor.name, ws_ly.'.$product.'_vol as '.$product.'_vol_ly', 'wholesale_target.'.$product.'_vol as '.$product.'_target');
+    	$this->db->join('anchor', 'anchor.id = ws_main.anchor_id');
+    	$this->db->join('wholesale_realization as ws_ly', 'anchor.id = ws_ly.anchor_id');
+    	$this->db->join('wholesale_target', 'anchor.id = wholesale_target.anchor_id');
+    	$this->db->where('ws_main.month',$month);
+    	$this->db->where('ws_main.year',$year);
+    	$this->db->where('wholesale_target.year',$year);
+    	$this->db->where('ws_ly.month',12);
+    	$this->db->where('ws_ly.year',2013);
+    	$this->db->order_by('grow', 'desc');
+    	$this->db->limit(5);
+    	$result = $this->db->get('wholesale_realization as ws_main');
+    	return $result->result();
+    }
+    
+    function get_top_anchor_prd_nml_grw($product, $month, $year){
+    	$this->db->select('(ws_main.'.$product.'_vol/'.$month.'*12) - ws_ly.'.$product.'_vol as nom_grow, ws_main.'.$product.'_vol as '.$product.'_vol, ws_main.month as month, ws_main.year as year, anchor.name, ws_ly.'.$product.'_vol as '.$product.'_vol_ly', 'wholesale_target.'.$product.'_vol as '.$product.'_target');
+    	$this->db->join('anchor', 'anchor.id = ws_main.anchor_id');
+    	$this->db->join('wholesale_realization as ws_ly', 'anchor.id = ws_ly.anchor_id');
+    	$this->db->join('wholesale_target', 'anchor.id = wholesale_target.anchor_id');
+    	$this->db->where('ws_main.month',$month);
+    	$this->db->where('ws_main.year',$year);
+    	$this->db->where('wholesale_target.year',$year);
+    	$this->db->where('ws_ly.month',12);
+    	$this->db->where('ws_ly.year',2013);
+    	$this->db->order_by('nom_grow', 'desc');
+    	$this->db->limit(5);
+    	$result = $this->db->get('wholesale_realization as ws_main');
+    	return $result->result();
+    } 
+    
+    function get_product_name_by_inisial($inisial){
+    	$name = '';
+    	if($inisial == 'FX'){$name = 'FX & Derivatives';}
+    	elseif($inisial == 'CASA'){$name = 'CASA';}
+    	elseif($inisial == 'TD'){$name = 'Time Deposit';}
+    	elseif($inisial == 'BG'){$name = 'Bank Guarantee';}
+    	elseif($inisial == 'Trade'){$name = 'Trade Services';}
+    	elseif($inisial == 'WCL'){$name = 'Working Capital Loan';}
+    	elseif($inisial == 'IL'){$name = 'Investment Loan';}
     	
-    	$this->db->where('month',$date->format('m'));
-    	$this->db->where('year',$date->format('Y'));
-    	$result = $this->db->get('rab');
-        $query = $result->result();
-        return $query[0];
-    }
-    
-    function get_mycash_by_RAB($rab_id){
-    	$this->db->select('*, label.name as label_name');
-    	$this->db->join('label', 'my_cash.label_id = label.id');
-    	$this->db->join('merchant', 'my_cash.merchant_id = merchant.id', 'left');
-    	$this->db->order_by('my_cash.date', 'desc');
-    	$this->db->where('rab_id',$rab_id);
-        $result = $this->db->get('my_cash');
-        $query = $result->result();
-        return $query;
-    }
-    
-    function get_all_promo(){
-    	$this->db->select('*, label.name as label_name');
-    	$this->db->join('label', 'promo.label_id = label.id');
-    	$this->db->join('merchant', 'promo.merchant_id = merchant.id', 'left');
-    	$this->db->order_by('promo.merchant_id', 'desc');
-        $result = $this->db->get('promo');
-        $query = $result->result();
-        return $query;
-    }
-    
-    function get_mycash_by_label_RAB($label_id, $rab_id){
-    	$this->db->join('label', 'my_cash.label_id = label.id');
-    	$this->db->order_by('my_cash.id', 'desc');
-    	$this->db->where('rab_id',$rab_id);
-    	$this->db->where('label_id',$label_id);
-        $result = $this->db->get('my_cash');
-        $query = $result->result();
-        return $query;
-    }
-    
-    function get_position_by_RAB($rab_id){
-    	$this->db->where('userid','tezzalr');
-    	$result = $this->db->get('user');
-        $query = $result->result();
-    	return $query[0]->amount;
-    }
-    
-    function get_position_by_label_RAB($label_id, $rab_id){
-    	$allmycash = $this->get_mycash_by_label_RAB($label_id, $rab_id);
-    	$posisi = 0;
-    	foreach ($allmycash as $mycash){
-    		$posisi = $posisi+$mycash->amount;
-    	}
-    	return $posisi;
-    }
-    
-    function get_myplan_max_amount_by_label_RAB($label_id, $rab_id){
-    	$this->db->where('rab_id',$rab_id);
-    	$this->db->where('label_id',$label_id);
-    	$result = $this->db->get('my_plan');
-        $query = $result->result();
-        if($query){
-        	return $query[0]->max_amount;
-        }
-    }
-    
-    function get_mycash_labelsort_by_RAB($rab_id){
-    	$this->db->select('DISTINCT(label_id), label.name as name, kind');
-    	$this->db->join('label', 'my_cash.label_id = label.id');
-    	$this->db->where('rab_id',$rab_id);
-        $result = $this->db->get('my_cash');
-        $allmycash = $result->result();
-        $arrlabel = array(); 
-        $i=0;
-        foreach ($allmycash as $mycash){
-        	$maxaloc = $this->get_myplan_max_amount_by_label_RAB($mycash->label_id, $rab_id);
-        	if($mycash->kind == 'Expense'){
-				$arrlabel[$i]['name']=$mycash->name;
-				$arrlabel[$i]['amount']=$this->get_position_by_label_RAB($mycash->label_id, $rab_id);
-				$arrlabel[$i]['max-aloc']= $maxaloc;
-				$i++;
-        	}
-        }
-        return $arrlabel;
+    	return $name;
     }
 }

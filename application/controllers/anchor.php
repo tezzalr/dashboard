@@ -180,7 +180,7 @@ class Anchor extends CI_Controller {
     	
 		$objReader = PHPExcel_IOFactory::createReader('Excel2007');
 		$objReader->setReadDataOnly(TRUE);
-		$objPHPExcel = $objReader->load("assets/daftar_masuk_realization_ws.xlsx");
+		$objPHPExcel = $objReader->load("assets/datadashboard/ib/daftar_realization_ws_al_20145.xlsx");
 
 		$objWorksheet = $objPHPExcel->getActiveSheet();
 		// Get the highest row and column numbers referenced in the worksheet
@@ -204,7 +204,7 @@ class Anchor extends CI_Controller {
 		$same='';
 		$i=1;
 		$rachel = array();
-		for ($row = 188; $row < 193/*$highestRow*/; ++$row) {
+		for ($row = 1; $row <= $highestRow; ++$row) {
 			$agatha = $objWorksheet->getCellByColumnAndRow(0, $row)->getValue();
 			if($agatha != $same){
 				for ($col = 0; $col < $highestColumnIndex; ++$col) {
@@ -224,7 +224,7 @@ class Anchor extends CI_Controller {
 			$anchor['name'] = $cinta[0];
 			$anchor['group'] = $cinta[1];
 			
-			$anchor_id = $this->manchor->insert_anchor($anchor);
+			//$anchor_id = $this->manchor->insert_anchor($anchor);
 			
 			//$company['name'] = $cinta[2];
 			//$company['code'] = $cinta[3];
@@ -273,7 +273,7 @@ class Anchor extends CI_Controller {
 			$iptdata['year']= 2014;
 			$iptdata['anchor_id']= $anchor_id;
 			
-			//$this->manchor->insert_ws_realization($iptdata);
+			$this->manchor->insert_ws($iptdata, 'realization');
 			
 			echo '<tr>';
 			echo '<td>'.$iter.'</td><td>'.$cinta[0].'</td><td>'.$cinta[1].'</td><td>'.$cinta[2].'</td><td>'.$cinta[3].'</td>';
@@ -300,6 +300,16 @@ class Anchor extends CI_Controller {
 		//$data['content'] = $this->load->view('anchor/excel',array(),TRUE);
 
 		//$this->load->view('front',$data);
+    }
+    
+    public function input_anchor(){
+    	$arr_target = $this->get_excel('datadashboard/daftar_perusahaan_ib.xlsx');
+    	foreach($arr_target as $target){
+    		$anchor['name'] = $target[0];
+			$anchor['group'] = $target[1];
+			
+			$anchor_id = $this->manchor->insert_anchor($anchor);
+		}
     }
     
     public function input_wholesale(){
@@ -418,6 +428,108 @@ class Anchor extends CI_Controller {
     	}
     }
     
+    public function input_ws_al(){
+    	$kind = $this->uri->segment(3);
+    	$year = $this->uri->segment(4); $iter=1;
+    	$month = '';
+    	if($kind == 'realization'){$month = $this->uri->segment(5); $iptdata['month']= $month; $iptdata2['month']= $month;}
+    	$arr_target = $this->get_excel('datadashboard/ib/daftar_'.$kind.'_ws_al_'.$year.$month.'.xlsx');
+    	
+    	foreach($arr_target as $target){
+    		$anchor_id = $this->manchor->get_anchor_id($target[0],$target[1]);
+			
+			$iptdata['CASA_vol']= $target[4];
+			$iptdata['CASA_nii']= $target[5];
+			$iptdata['CASA_fbi']= $target[6];
+			$iptdata['TD_vol']= $target[7];
+			$iptdata['TD_nii']= $target[8];
+			$iptdata['WCL_vol']= $target[9];
+			$iptdata['WCL_nii']= $target[10];
+			$iptdata['WCL_fbi']= $target[11];
+			$iptdata['IL_vol']= $target[12];
+			$iptdata['IL_nii']= $target[13];
+			$iptdata['IL_fbi']= $target[14]; //salah
+			$iptdata['SL_vol']= $target[15];
+			$iptdata['SL_nii']= $target[16];
+			$iptdata['SL_fbi']= $target[17];
+			$iptdata['FX_vol']= $target[18];
+			$iptdata['FX_fbi']= $target[19];
+			$iptdata['SCF_vol']= $target[20]; //salah
+			$iptdata['SCF_fbi']= $target[21]; //salah
+			$iptdata['Trade_vol']= $target[22];
+			$iptdata['Trade_fbi']= $target[23];//salah
+			$iptdata['PWE_vol']= $target[24];
+			$iptdata['PWE_fbi']= $target[25];
+			$iptdata['TR_vol']= $target[26];
+			$iptdata['TR_nii']= $target[27];
+			$iptdata['BG_vol']= $target[28];
+			$iptdata['BG_fbi']= $target[29];
+			$iptdata['OIR_vol']= $target[30];
+			$iptdata['OIR_fbi']= $target[31];
+			$iptdata['OW_vol']= $target[32];
+			$iptdata['OW_nii']= $target[33];
+			$iptdata['OW_fbi']= $target[34];
+			$iptdata['ECM_vol']= $target[35];
+			$iptdata['ECM_fbi']= $target[36];
+			$iptdata['DCM_vol']= $target[37];
+			$iptdata['DCM_fbi']= $target[38];
+			$iptdata['MA_vol']= $target[39];
+			$iptdata['MA_fbi']= $target[40];
+			
+			$iptdata['year']= $year;
+			$iptdata['anchor_id']= $anchor_id;
+			
+			$this->manchor->insert_ws($iptdata, $kind);
+			
+			$iptdata2['WM_vol']= $target[41];
+			$iptdata2['WM_nii']= $target[42];
+			$iptdata2['DPLK_vol']= $target[43];
+			$iptdata2['DPLK_fbi']= $target[44];
+			$iptdata2['PCD_vol']= $target[45];
+			$iptdata2['PCD_nii']= $target[46];
+			$iptdata2['VCCD_vol']= $target[47];
+			$iptdata2['VCCD_nii']= $target[48];
+			$iptdata2['VCCD_fbi']= $target[49];
+			$iptdata2['VCL_vol']= $target[50];
+			$iptdata2['VCL_nii']= $target[51];
+			$iptdata2['VCL_fbi']= $target[52];
+			$iptdata2['VCLnDF_vol']= $target[53];
+			$iptdata2['VCLnDF_nii']= $target[54];
+			$iptdata2['VCLnDF_fbi']= $target[55];
+			$iptdata2['Micro_Loan_vol']= $target[56];
+			$iptdata2['Micro_Loan_nii']= $target[57];
+			$iptdata2['Micro_Loan_fbi']= $target[58];
+			$iptdata2['MKM_vol']= $target[59];
+			$iptdata2['MKM_nii']= $target[60];
+			$iptdata2['KPR_vol']= $target[61];
+			$iptdata2['KPR_nii']= $target[62];
+			$iptdata2['Auto_vol']= $target[63];
+			$iptdata2['Auto_nii']= $target[64];
+			$iptdata2['CC_vol']= $target[65];
+			$iptdata2['CC_nii']= $target[66];
+			$iptdata2['EDC_vol']= $target[67];
+			$iptdata2['EDC_fbi']= $target[68];
+			$iptdata2['ATM_vol']= $target[69];
+			$iptdata2['ATM_fbi']= $target[70];
+			$iptdata2['AXA_vol']= $target[71];
+			$iptdata2['AXA_fbi']= $target[72];
+			$iptdata2['MAGI_vol']= $target[73];
+			$iptdata2['MAGI_fbi']= $target[74];
+			$iptdata2['retail_vol']= $target[75];
+			$iptdata2['retail_fbi']= $target[76];
+			$iptdata2['cicil_Emas_vol']= $target[77];
+			$iptdata2['cicil_Emas_fbi']= $target[78];
+			$iptdata2['OA_vol']= $target[79];
+			$iptdata2['OA_nii']= $target[80];
+			$iptdata2['OA_fbi']= $target[81];
+			
+			$iptdata2['year']= $year;
+			$iptdata2['anchor_id']= $anchor_id;
+			
+			$this->manchor->insert_al($iptdata2, $kind);
+    		
+    	}
+    }
     
     public function get_excel($filename){
     	$objReader = PHPExcel_IOFactory::createReader('Excel2007');
@@ -433,7 +545,7 @@ class Anchor extends CI_Controller {
 		$same='';
 		$i=1;
 		$rachel = array();
-		for ($row = 1; $row < $highestRow; ++$row) {
+		for ($row = 1; $row <= $highestRow; ++$row) {
 			$agatha = $objWorksheet->getCellByColumnAndRow(0, $row)->getValue();
 			if($agatha != $same){
 				for ($col = 0; $col < $highestColumnIndex; ++$col) {

@@ -1,7 +1,7 @@
 <?php
 	
 	$loan_income = $rlzn->WCL_nii + $rlzn->WCL_fbi + $rlzn->IL_nii + $rlzn->IL_fbi + $rlzn->SL_nii + $rlzn->SL_fbi;
-	$nonloan_income = $rlzn->TR_nii + $rlzn->FX_fbi + $rlzn->SCF_fbi + $rlzn->Trade_fbi + $rlzn->PWE_fbi + $rlzn->BG_fbi + $rlzn->OIR_fbi;
+	$nonloan_income = $rlzn->CASA_nii + $rlzn->CASA_fbi + $rlzn->TR_nii + $rlzn->FX_fbi + $rlzn->SCF_fbi + $rlzn->Trade_fbi + $rlzn->PWE_fbi + $rlzn->BG_fbi + $rlzn->OIR_fbi;
 
 ?>
 
@@ -291,7 +291,7 @@
 	<!--<div id="container_all" style="min-width: 310px; width: 100%; height: 500px; margin: 0;"></div><br><br>-->
 	<div>
 		<div id="container_ws" style="min-width: 310px; width: 100%; height: 500px; margin: 0; float:left"></div>
-		<div id="container_al" style="min-width: 310px; width: 50%; height: 350px; margin: 0; float:left"></div>
+		<div id="container_al" style="min-width: 310px; width: 100%; height: 500px; margin: 0; float:left"></div>
 	
 		<div id="container_lnl" style="min-width: 310px; width: 50%; height: 350px; margin: 0; float:left"></div>
 		<div id="container_wsa" style="min-width: 310px; width: 50%; height: 350px; margin: 0; float:left"></div>
