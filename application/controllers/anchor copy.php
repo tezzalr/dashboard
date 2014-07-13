@@ -14,15 +14,11 @@ class Anchor extends CI_Controller {
     public function index()
     {
 
-		$data['title'] = "Daftar Anchor";
-		
-		$anchor['cor'] = $this->manchor->get_anchor_by_direktorat('corporate');
-		$anchor['ib'] = $this->manchor->get_anchor_by_direktorat('institutional');
-		$anchor['com'] = $this->manchor->get_anchor_by_direktorat('commercial');
+		$data['title'] = "Beranda";
 		
 		$data['header'] = $this->load->view('shared/header','',TRUE);	
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-		$data['content'] = $this->load->view('anchor/index',array('anchor' => $anchor),TRUE);
+		$data['content'] = $this->load->view('anchor/index',array(),TRUE);
 
 		$this->load->view('front',$data);
         
@@ -62,7 +58,7 @@ class Anchor extends CI_Controller {
 		
 		$data['header'] = $this->load->view('shared/header','',TRUE);	
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-		$data['content'] = $this->load->view('anchor/realisasi',array('rlzn' => $realization, 'tgt' => $target_ws, 'anchor' => $anchor),TRUE);
+		$data['content'] = $this->load->view('anchor/realisasi',array('rlzn' => $realization, 'tgt' => $target, 'anchor' => $anchor),TRUE);
 
 		$this->load->view('front',$data);
     }
@@ -150,7 +146,7 @@ class Anchor extends CI_Controller {
     
     private function count_realization($target_ws, $realization_ws){
 		$iptdata['CASA_vol']= $this->count_avgbal($target_ws->CASA_vol,$realization_ws->CASA_vol);
-		$iptdata['CASA_inc']=  $this->count_sum($target_ws->CASA_nii,$realization_ws->CASA_nii, $realization_ws->month);
+		$iptdata['CASA_inc']=  $this->count_sum($target_ws->CASA_nii+$target_ws->CASA_fbi,$realization_ws->CASA_nii+$realization_ws->CASA_fbi, $realization_ws->month);
 		$iptdata['TD_vol']= $this->count_avgbal($target_ws->TD_vol,$realization_ws->TD_vol);
 		$iptdata['TD_inc']= $this->count_sum($target_ws->TD_nii,$realization_ws->TD_nii, $realization_ws->month);
 		$iptdata['WCL_vol']= $this->count_avgbal($target_ws->WCL_vol,$realization_ws->WCL_vol);
@@ -162,7 +158,7 @@ class Anchor extends CI_Controller {
 		$iptdata['FX_vol']= $this->count_sum($target_ws->FX_vol,$realization_ws->FX_vol,$realization_ws->month)*1000; if(!$target_ws->FX_vol){$iptdata['FX_vol']=$iptdata['FX_vol']/1000;}
 		$iptdata['FX_inc']= $this->count_sum($target_ws->FX_fbi,$realization_ws->FX_fbi,$realization_ws->month);
 		$iptdata['SCF_vol']= $this->count_sum($target_ws->SCF_vol,$realization_ws->SCF_vol,$realization_ws->month);
-		$iptdata['SCF_inc']= $this->count_sum($target_ws->SCF_fbi,$realization_ws->SCF_fbi,$realization_ws->month);
+		//$iptdata['SCF_fbi']= $target[21];
 		$iptdata['Trade_vol']= $this->count_sum($target_ws->Trade_vol,$realization_ws->Trade_vol,$realization_ws->month)*1000; if(!$target_ws->Trade_vol){$iptdata['Trade_vol']=$iptdata['Trade_vol']/1000;}
 		$iptdata['Trade_inc']= $this->count_sum($target_ws->Trade_fbi,$realization_ws->Trade_fbi,$realization_ws->month);
 		$iptdata['PWE_vol']= $this->count_sum($target_ws->PWE_vol,$realization_ws->PWE_vol,$realization_ws->month);
@@ -174,15 +170,15 @@ class Anchor extends CI_Controller {
 		$iptdata['OIR_vol']= $this->count_sum($target_ws->OIR_vol,$realization_ws->OIR_vol,$realization_ws->month)*pow(10,9); if(!$target_ws->OIR_vol){$iptdata['OIR_vol']=$iptdata['OIR_vol']/pow(10,9);}
 		$iptdata['OIR_inc']= $this->count_sum($target_ws->OIR_fbi,$realization_ws->OIR_fbi,$realization_ws->month);
 		$iptdata['OW_nii']= $this->count_sum($target_ws->OW_nii,$realization_ws->OW_nii,$realization_ws->month);
-		$iptdata['OW_fbi']= $this->count_sum($target_ws->OW_fbi+$target_ws->CASA_fbi,$realization_ws->OW_fbi+$realization_ws->CASA_fbi,$realization_ws->month);
-		$iptdata['ECM_vol']= $this->count_sum($target_ws->ECM_vol,$realization_ws->ECM_vol,$realization_ws->month);
-		$iptdata['ECM_inc']= $this->count_sum($target_ws->ECM_fbi,$realization_ws->ECM_fbi,$realization_ws->month);
-		$iptdata['DCM_vol']= $this->count_sum($target_ws->DCM_vol,$realization_ws->DCM_vol,$realization_ws->month);
-		$iptdata['DCM_inc']= $this->count_sum($target_ws->DCM_fbi,$realization_ws->DCM_fbi,$realization_ws->month);
-		$iptdata['MA_vol']= $this->count_sum($target_ws->MA_vol,$realization_ws->MA_vol,$realization_ws->month);
-		$iptdata['MA_inc']= $this->count_sum($target_ws->MA_fbi,$realization_ws->MA_fbi,$realization_ws->month);
+		$iptdata['OW_fbi']= $this->count_sum($target_ws->OW_fbi,$realization_ws->OW_fbi,$realization_ws->month);
+		$iptdata['ECM_vol']= 1;
+		//$iptdata['ECM_fbi']= $target[36];
+		$iptdata['DCM_vol']= 1;
+		//$iptdata['DCM_fbi']= $target[38];
+		$iptdata['MA_vol']= 1;
+		//$iptdata['MA_fbi']= $target[40];
 		
-		$iptdata['LMF'] = $this->count_sum($target_ws->IL_fbi+$target_ws->WCL_fbi,$realization_ws->IL_fbi+$realization_ws->WCL_fbi, $realization_ws->month)/12*$realization_ws->month;
+		$iptdata['LMF'] = $this->count_sum($target_ws->IL_fbi+$target_ws->WCL_fbi,$realization_ws->IL_fbi+$realization_ws->WCL_fbi, $realization_ws->month);
 		$iptdata['SF'] = $this->count_sum($target_ws->SL_fbi,$realization_ws->SL_fbi, $realization_ws->month);
 		
 		return $iptdata;
@@ -214,20 +210,20 @@ class Anchor extends CI_Controller {
 		$iptdata['OIR_vol']= $this->count_sum_value($realization_ws->OIR_vol,$realization_ws->month)*pow(10,9);
 		$iptdata['OIR_inc']= $this->count_sum_value($realization_ws->OIR_fbi,$realization_ws->month);
 		$iptdata['OW_nii']= $this->count_sum_value($realization_ws->OW_nii,$realization_ws->month);
-		$iptdata['OW_inc']= $this->count_sum_value($realization_ws->OW_fbi,$realization_ws->month);
-		$iptdata['ECM_vol']= $this->count_sum_value($realization_ws->ECM_vol,$realization_ws->month);
-		$iptdata['ECM_inc']= $this->count_sum_value($realization_ws->ECM_fbi,$realization_ws->month);
-		$iptdata['DCM_vol']= $this->count_sum_value($realization_ws->DCM_vol,$realization_ws->month);
-		$iptdata['DCM_inc']= $this->count_sum_value($realization_ws->DCM_fbi,$realization_ws->month);
-		$iptdata['MA_vol']= $this->count_sum_value($realization_ws->MA_vol,$realization_ws->month);
-		$iptdata['MA_inc']= $this->count_sum_value($realization_ws->MA_fbi,$realization_ws->month);
+		$iptdata['OW_fbi']= $this->count_sum_value($realization_ws->OW_fbi,$realization_ws->month);
+		$iptdata['ECM_vol']= 1;
+		//$iptdata['ECM_fbi']= $target[36];
+		$iptdata['DCM_vol']= 1;
+		//$iptdata['DCM_fbi']= $target[38];
+		$iptdata['MA_vol']= 1;
+		//$iptdata['MA_fbi']= $target[40];
 		
 		$iptdata['LMF'] = $this->count_sum_value($realization_ws->IL_fbi+$realization_ws->WCL_fbi, $realization_ws->month);
 		$iptdata['SF'] = $this->count_sum_value($realization_ws->SL_fbi, $realization_ws->month);
 		
 		return $iptdata;
     }
-        
+    
     private function count_target($target_ws){
     	$iptdata['CASA_vol']= $this->determine_target($target_ws->CASA_vol);
 		$iptdata['CASA_inc']= $this->determine_target($target_ws->CASA_nii+$target_ws->CASA_fbi);

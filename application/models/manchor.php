@@ -95,6 +95,29 @@ class Manchor extends CI_Model {
         return $query[0];
     }
     
+    function get_anchor_by_direktorat($direktorat){
+    	if($direktorat == 'corporate'){
+    		$this->db->where('group', 'CORPORATE BANKING AGRO BASED');
+    		$this->db->or_where('group', 'CORPORATE BANKING I');
+    		$this->db->or_where('group', 'CORPORATE BANKING II');
+    		$this->db->or_where('group', 'CORPORATE BANKING III');
+    		$this->db->or_where('group', 'SYNDICATION, OIL & GAS');
+    	}
+    	elseif($direktorat == 'institutional'){
+    		$this->db->where('group', 'INSTITUTIONAL BANKING I');
+    		$this->db->or_where('group', 'INSTITUTIONAL BANKING II');
+    	}
+    	else{
+    		$this->db->where('group', 'JAKARTA COMMERCIAL SALES');
+    		$this->db->or_where('group', 'REGIONAL COMMERCIAL SALES I');
+    		$this->db->or_where('group', 'REGIONAL COMMERCIAL SALES II');
+    	}
+    	$this->db->order_by('group','asc');
+    	$this->db->order_by('name','asc');
+    	$result = $this->db->get('anchor');
+    	return $result->result();	
+    }
+    
     /*Bank Wide Function*/
     function get_total_vol_prd($product, $month, $year){
     	$this->db->select_sum($product.'_vol');
@@ -106,7 +129,7 @@ class Manchor extends CI_Model {
     }
     
     function get_top_anchor_prd($product, $month, $year){
-    	$this->db->select('ws_main.'.$product.'_vol as '.$product.'_vol, ws_main.month as month, ws_main.year as year, anchor.name, ws_ly.'.$product.'_vol as '.$product.'_vol_ly', 'wholesale_target.'.$product.'_vol as '.$product.'_target');
+    	$this->db->select('ws_main.'.$product.'_vol as '.$product.'_vol, ws_main.month as month, ws_main.year as year, anchor.name, ws_ly.'.$product.'_vol as '.$product.'_vol_ly, wholesale_target.'.$product.'_vol as '.$product.'_vol_target');
     	$this->db->join('anchor', 'anchor.id = ws_main.anchor_id');
     	$this->db->join('wholesale_realization as ws_ly', 'anchor.id = ws_ly.anchor_id');
     	$this->db->join('wholesale_target', 'anchor.id = wholesale_target.anchor_id');
@@ -121,7 +144,7 @@ class Manchor extends CI_Model {
     }
     
     function get_top_anchor_prd_grw($product, $month, $year){
-    	$this->db->select('((ws_main.'.$product.'_vol/'.$month.'*12) - ws_ly.'.$product.'_vol)/ ws_ly.'.$product.'_vol as grow, ws_main.'.$product.'_vol as '.$product.'_vol, ws_main.month as month, ws_main.year as year, anchor.name, ws_ly.'.$product.'_vol as '.$product.'_vol_ly', 'wholesale_target.'.$product.'_vol as '.$product.'_target');
+    	$this->db->select('((ws_main.'.$product.'_vol/'.$month.'*12) - ws_ly.'.$product.'_vol)/ ws_ly.'.$product.'_vol as grow, ws_main.'.$product.'_vol as '.$product.'_vol, ws_main.month as month, ws_main.year as year, anchor.name, ws_ly.'.$product.'_vol as '.$product.'_vol_ly, wholesale_target.'.$product.'_vol as '.$product.'_vol_target');
     	$this->db->join('anchor', 'anchor.id = ws_main.anchor_id');
     	$this->db->join('wholesale_realization as ws_ly', 'anchor.id = ws_ly.anchor_id');
     	$this->db->join('wholesale_target', 'anchor.id = wholesale_target.anchor_id');
@@ -137,7 +160,7 @@ class Manchor extends CI_Model {
     }
     
     function get_top_anchor_prd_nml_grw($product, $month, $year){
-    	$this->db->select('(ws_main.'.$product.'_vol/'.$month.'*12) - ws_ly.'.$product.'_vol as nom_grow, ws_main.'.$product.'_vol as '.$product.'_vol, ws_main.month as month, ws_main.year as year, anchor.name, ws_ly.'.$product.'_vol as '.$product.'_vol_ly', 'wholesale_target.'.$product.'_vol as '.$product.'_target');
+    	$this->db->select('(ws_main.'.$product.'_vol/'.$month.'*12) - ws_ly.'.$product.'_vol as nom_grow, ws_main.'.$product.'_vol as '.$product.'_vol, ws_main.month as month, ws_main.year as year, anchor.name, ws_ly.'.$product.'_vol as '.$product.'_vol_ly, wholesale_target.'.$product.'_vol as '.$product.'_vol_target');
     	$this->db->join('anchor', 'anchor.id = ws_main.anchor_id');
     	$this->db->join('wholesale_realization as ws_ly', 'anchor.id = ws_ly.anchor_id');
     	$this->db->join('wholesale_target', 'anchor.id = wholesale_target.anchor_id');
@@ -163,5 +186,22 @@ class Manchor extends CI_Model {
     	elseif($inisial == 'IL'){$name = 'Investment Loan';}
     	
     	return $name;
+    }
+    
+    /*Wallet Function*/
+    function get_anchor_ws_wallet($anchor_id, $year){
+    	$this->db->where('anchor_id',$anchor_id);
+    	$this->db->where('year',$year);
+    	$result = $this->db->get('wholesale_wallet_size');
+    	$query = $result->result();
+        return $query[0];
+    }
+    
+    function get_anchor_al_wallet($anchor_id, $year){
+    	$this->db->where('anchor_id',$anchor_id);
+    	$this->db->where('year',$year);
+    	$result = $this->db->get('alliance_wallet_size');
+    	$query = $result->result();
+        return $query[0];
     }
 }

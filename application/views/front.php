@@ -28,6 +28,7 @@
         
         <!-- Highchart -->
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/highchart/highcharts.js"></script>
+        <script type="text/javascript" src="<?php echo base_url();?>assets/js/highchart/modules/exporting.js"></script>
         
         <script type="text/javascript" src="<?php echo base_url();?>assets/ckeditor/ckeditor.js"></script>
     </head>
