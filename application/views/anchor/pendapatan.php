@@ -317,11 +317,12 @@
 		</ul><div style="clear:both"></div>
 	</div>
 	<div>
+		<div>
+			<div id="container_wsa" style="min-width: 310px; width: 50%; height: 350px; margin: 0; float:left"></div>
+			<div id="container_lnl" style="min-width: 310px; width: 50%; height: 350px; margin: 0; float:left"></div>
+		</div><div style="clear:both"></div><hr>
 		<div id="container_all" style="min-width: 310px; width: 100%; height: 500px; margin: 0; float:left"></div><div style="clear:both"></div><hr>
 		<div id="container_ws" style="min-width: 310px; width: 100%; height: 500px; margin: 0; float:left"></div><div style="clear:both"></div><hr>
 		<div id="container_al" style="min-width: 310px; width: 100%; height: 500px; margin: 0; float:left"></div><div style="clear:both"></div><hr>
-	
-		<div id="container_wsa" style="min-width: 310px; width: 50%; height: 350px; margin: 0; float:left"></div>
-		<div id="container_lnl" style="min-width: 310px; width: 50%; height: 350px; margin: 0; float:left"></div>
 	</div><div style="clear:both"></div><br><br>
 </div>
