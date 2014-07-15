@@ -6,6 +6,7 @@ class Anchor extends CI_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->model('manchor');
+        $this->load->model('mrealization');
         $this->load->library('excel');
     }
     /**
@@ -51,10 +52,9 @@ class Anchor extends CI_Controller {
     public function realisasi(){
     	$anchor_id = $this->uri->segment(3);
     	$target_ws = $this->manchor->get_anchor_ws_target($anchor_id);
-    	$realization_ws = $this->manchor->get_anchor_ws_realization($anchor_id, 5, 2014);
+    	$realization_ws = $this->mrealization->get_anchor_ws_realization($anchor_id, 5, 2014);
     	
     	$realization = $this->count_realization($target_ws, $realization_ws);
-    	$target = $this->count_target($target_ws);
     	
     	$anchor = $this->manchor->get_anchor_by_id($anchor_id);
     	
@@ -70,8 +70,8 @@ class Anchor extends CI_Controller {
     public function pendapatan(){
     	$anchor_id = $this->uri->segment(3);
     	
-    	$realization_ws = $this->manchor->get_anchor_ws_realization($anchor_id, 5, 2014);
-    	$realization_al = $this->manchor->get_anchor_al_realization($anchor_id, 5, 2014);
+    	$realization_ws = $this->mrealization->get_anchor_ws_realization($anchor_id, 5, 2014);
+    	$realization_al = $this->mrealization->get_anchor_al_realization($anchor_id, 5, 2014);
     	$anchor = $this->manchor->get_anchor_by_id($anchor_id);
     	
     	$data['title'] = "Pendapatan - $anchor->name";
@@ -89,12 +89,12 @@ class Anchor extends CI_Controller {
     	$wallet_ws = $this->manchor->get_anchor_ws_wallet($anchor_id, 2014);
     	$wallet_al = $this->manchor->get_anchor_al_wallet($anchor_id, 2014);
     	
-    	$realization_ws = $this->manchor->get_anchor_ws_realization($anchor_id, 5, 2014);
+    	$realization_ws = $this->mrealization->get_anchor_ws_realization($anchor_id, 5, 2014);
     	$realization = $this->count_realization_value($realization_ws, $realization_ws->month);
     	
     	$anchor = $this->manchor->get_anchor_by_id($anchor_id);
     	
-    	$data['title'] = "Pendapatan - $anchor->name";
+    	$data['title'] = "Wallet - $anchor->name";
 		
 		$data['header'] = $this->load->view('shared/header','',TRUE);	
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
@@ -104,11 +104,20 @@ class Anchor extends CI_Controller {
     }
     
     public function product(){
-    	$data['title'] = "Product";
+    	$anchor_id = $this->uri->segment(3);
+    	
+    	$kind = $this->uri->segment(5);
+    	$product = $this->uri->segment(4);
+    	
+    	$realization_now = $this->mrealization->get_anchor_prd_realization_annual($anchor_id, $product, $kind, 2014, date('n'));
+    	//$realization_ly = $this->mrealization->get_anchor_prd_realization($anchor_id, $product, $kind, 2013);
+    	$anchor = $this->manchor->get_anchor_by_id($anchor_id);
+    	
+    	$data['title'] = "Product - $anchor->name";
 		
 		$data['header'] = $this->load->view('shared/header','',TRUE);	
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-		$data['content'] = $this->load->view('anchor/product',array(),TRUE);
+		$data['content'] = $this->load->view('anchor/product',array('this_year' => $realization_now, 'last_month_data' => $this->mrealization->get_anchor_last_month($anchor_id, 'wholesale_realization', date('y'))),TRUE);
 
 		$this->load->view('front',$data);
     }
@@ -227,21 +236,6 @@ class Anchor extends CI_Controller {
 		
 		return $iptdata;
     }
-        
-    private function count_target($target_ws){
-    	$iptdata['CASA_vol']= $this->determine_target($target_ws->CASA_vol);
-		$iptdata['CASA_inc']= $this->determine_target($target_ws->CASA_nii+$target_ws->CASA_fbi);
-		$iptdata['TD_vol']= $this->determine_target($target_ws->TD_vol);
-		$iptdata['TD_inc']= $this->determine_target($target_ws->TD_nii);
-		$iptdata['WCL_vol']= $this->determine_target($target_ws->WCL_vol);
-		$iptdata['WCL_inc']= $this->determine_target($target_ws->WCL_nii+$target_ws->WCL_fbi);
-		$iptdata['IL_vol']= $this->determine_target($target_ws->IL_vol);
-		$iptdata['IL_inc']= $this->determine_target($target_ws->IL_nii+$target_ws->IL_fbi);
-		$iptdata['SL_vol']= $this->determine_target($target_ws->SL_vol);
-		$iptdata['SL_inc']= $this->determine_target($target_ws->SL_nii+$target_ws->SL_fbi);
-		
-		return $iptdata;
-    }
     
     private function determine_target($target){
     	if($target){return 100;}
@@ -258,7 +252,7 @@ class Anchor extends CI_Controller {
 		}
     }
     
-    public function input_wholesale(){
+    /*public function input_wholesale(){
     	$kind = $this->uri->segment(3);
     	$year = $this->uri->segment(4);
     	$month = '';
@@ -372,7 +366,7 @@ class Anchor extends CI_Controller {
 			$this->manchor->insert_al($iptdata, $kind);
 			//echo $anchor_id.' = '.$target[4].'; ddd = '.$iptdata['CASA_vol'].'<br>';
     	}
-    }
+    }*/
     
     public function input_ws_al(){
     	$kind = $this->uri->segment(3);

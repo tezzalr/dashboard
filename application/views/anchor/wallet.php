@@ -67,7 +67,7 @@
                 bar: {
                     dataLabels: {
                         enabled: true,
-                        format: '<b>{point.y:.1f}</b>',
+                        
                     }
                 }
             },
@@ -88,13 +88,13 @@
             series: [{
                 name: 'Income',
                 //data: [<?php echo $rlz_ws['CASA_vol'] ?>, <?php echo $rlz_ws['TD_vol'] ?>, <?php echo $rlz_ws['WCL_vol'] ?>, <?php echo $rlz_ws['IL_vol'] ?>, <?php echo $rlz_ws['SL_vol'] ?>, <?php echo $rlz_ws['TR_vol'] ?>, <?php echo $rlz_ws['FX_vol'] ?>, <?php echo $rlz_ws['SCF_vol'] ?>, <?php echo $rlz_ws['Trade_vol'] ?>, <?php echo $rlz_ws['BG_vol'] ?>, <?php echo $rlz_ws['OIR_vol'] ?>, <?php echo $rlz_ws['PWE_vol'] ?>, <?php echo $rlz_ws['ECM_vol'] ?>, <?php echo $rlz_ws['DCM_vol'] ?>, <?php echo $rlz_ws['MA_vol'] ?>],
-                data: [<?php foreach($arrinc as $inc){echo $inc.", ";}?>],
+                data: [<?php foreach($arrinc as $inc){echo round($inc,1).", ";}?>],
                 color: 'yellow',
                 id: 'inc'
             }, {
                 name: 'Wallet Size',
                 //data: [<?php echo $wlt_ws->CASA_vol?>, <?php echo $wlt_ws->TD_vol?>, <?php echo $wlt_ws->WCL_vol?>, <?php echo $wlt_ws->IL_vol?>, <?php echo $wlt_ws->SL_vol?>, <?php echo $wlt_ws->TR_vol?>, <?php echo $wlt_ws->FX_vol?>, <?php echo $wlt_ws->SCF_vol?>, <?php echo $wlt_ws->Trade_vol?>, <?php echo $wlt_ws->BG_vol?>, <?php echo $wlt_ws->OIR_vol?>, <?php echo $wlt_ws->PWE_vol?>, <?php echo $wlt_ws->ECM_vol?>, <?php echo $wlt_ws->DCM_vol?>, <?php echo $wlt_ws->MA_vol?>],
-                data: [<?php foreach($arrwlt as $wlt){echo $wlt.", ";}?>],
+                data: [<?php foreach($arrwlt as $wlt){echo round($wlt,1).", ";}?>],
                 color: 'orange',
                 id: 'ws'
             }],
