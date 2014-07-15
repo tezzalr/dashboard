@@ -57,12 +57,13 @@ class Anchor extends CI_Controller {
     	$realization = $this->count_realization($target_ws, $realization_ws);
     	
     	$anchor = $this->manchor->get_anchor_by_id($anchor_id);
+    	$anchor_header = $this->load->view('anchor/anchor_header',array('anchor' => $anchor),TRUE);
     	
     	$data['title'] = "Detail";
 		
 		$data['header'] = $this->load->view('shared/header','',TRUE);	
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-		$data['content'] = $this->load->view('anchor/realisasi',array('rlzn' => $realization, 'tgt' => $target_ws, 'anchor' => $anchor),TRUE);
+		$data['content'] = $this->load->view('anchor/realisasi',array('anchor_header' => $anchor_header, 'rlzn' => $realization, 'tgt' => $target_ws, 'anchor' => $anchor),TRUE);
 
 		$this->load->view('front',$data);
     }
@@ -74,11 +75,13 @@ class Anchor extends CI_Controller {
     	$realization_al = $this->mrealization->get_anchor_al_realization($anchor_id, 5, 2014);
     	$anchor = $this->manchor->get_anchor_by_id($anchor_id);
     	
+    	$anchor_header = $this->load->view('anchor/anchor_header',array('anchor' => $anchor),TRUE);
+    	
     	$data['title'] = "Pendapatan - $anchor->name";
 		
 		$data['header'] = $this->load->view('shared/header','',TRUE);	
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-		$data['content'] = $this->load->view('anchor/pendapatan',array('rlzn' => $realization_ws, 'anchor' => $anchor, 'ali' => $realization_al),TRUE);
+		$data['content'] = $this->load->view('anchor/pendapatan',array('anchor_header' => $anchor_header, 'rlzn' => $realization_ws, 'anchor' => $anchor, 'ali' => $realization_al),TRUE);
 
 		$this->load->view('front',$data);
     }
@@ -93,12 +96,13 @@ class Anchor extends CI_Controller {
     	$realization = $this->count_realization_value($realization_ws, $realization_ws->month);
     	
     	$anchor = $this->manchor->get_anchor_by_id($anchor_id);
+    	$anchor_header = $this->load->view('anchor/anchor_header',array('anchor' => $anchor),TRUE);
     	
     	$data['title'] = "Wallet - $anchor->name";
 		
 		$data['header'] = $this->load->view('shared/header','',TRUE);	
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-		$data['content'] = $this->load->view('anchor/wallet',array('wlt_ws' => $wallet_ws, 'anchor' => $anchor, 'wlt_al' => $wallet_al, 'rlz_ws' => $realization),TRUE);
+		$data['content'] = $this->load->view('anchor/wallet',array('anchor_header' => $anchor_header,  'wlt_ws' => $wallet_ws, 'anchor' => $anchor, 'wlt_al' => $wallet_al, 'rlz_ws' => $realization),TRUE);
 
 		$this->load->view('front',$data);
     }
@@ -112,12 +116,13 @@ class Anchor extends CI_Controller {
     	$realization_now = $this->mrealization->get_anchor_prd_realization_annual($anchor_id, $product, $kind, 2014, date('n'));
     	//$realization_ly = $this->mrealization->get_anchor_prd_realization($anchor_id, $product, $kind, 2013);
     	$anchor = $this->manchor->get_anchor_by_id($anchor_id);
+    	$anchor_header = $this->load->view('anchor/anchor_header',array('anchor' => $anchor),TRUE);
     	
     	$data['title'] = "Product - $anchor->name";
 		
 		$data['header'] = $this->load->view('shared/header','',TRUE);	
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-		$data['content'] = $this->load->view('anchor/product',array('this_year' => $realization_now, 'last_month_data' => $this->mrealization->get_anchor_last_month($anchor_id, 'wholesale_realization', date('y'))),TRUE);
+		$data['content'] = $this->load->view('anchor/product',array('anchor_header' => $anchor_header, 'anchor' => $anchor, 'this_year' => $realization_now, 'last_month_data' => $this->mrealization->get_anchor_last_month($anchor_id, 'wholesale_realization', date('y'))),TRUE);
 
 		$this->load->view('front',$data);
     }

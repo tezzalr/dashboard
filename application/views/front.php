@@ -25,6 +25,7 @@
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/bootstrap.file-input.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/Chart.min.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/bootstrap-datepicker.js"></script>
+        <script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery.tokeninput.js"></script>
         
         <!-- Highchart -->
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/highchart/highcharts.js"></script>

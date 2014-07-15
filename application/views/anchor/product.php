@@ -32,14 +32,7 @@
 </script>
 
 <div id="" class="container no_pad">
-	<div class="no_pad" style="border-bottom: 1px solid #ccc; margin-bottom: 20px;">
-		<h2 style="float:left">Anchor Name</h2>
-		<ul class="nav nav-pills" style="float:right; margin-top:30px;">
-		  <li><a href="<?php echo base_url()?>anchor">Home</a></li>
-		  <li><a href="#">Profile</a></li>
-		  <li><a href="<?php echo base_url()?>anchor/product">Product</a></li>
-		</ul><div style="clear:both"></div>
-	</div>
+	<?php echo $anchor_header?>
 	<div>
 		<div>
 			<div style="margin-bottom: 20px; float:left;">
@@ -57,7 +50,7 @@
 						<option>Income</option>
 					</select>
 			</div>
-			<div style="float: right"><h3>YTD (%Target) : <span style="color: red">90%</span></h3></div><div style="clear:both"></div>
+			<!--<div style="float: right"><h3>YTD (%Target) : <span style="color: red">90%</span></h3></div>--><div style="clear:both"></div>
 		</div>
 		<div id="container4" style="min-width: 310px; height: 380px; margin: 0 auto"></div>
 	</div>
