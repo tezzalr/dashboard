@@ -59,7 +59,7 @@ class Anchor extends CI_Controller {
     	$anchor = $this->manchor->get_anchor_by_id($anchor_id);
     	$anchor_header = $this->load->view('anchor/anchor_header',array('anchor' => $anchor),TRUE);
     	
-    	$data['title'] = "Detail";
+    	$data['title'] = "Realisasi - $anchor->name";
 		
 		$data['header'] = $this->load->view('shared/header','',TRUE);	
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
@@ -113,7 +113,7 @@ class Anchor extends CI_Controller {
     	$kind = $this->uri->segment(5);
     	$product = $this->uri->segment(4);
     	
-    	$realization_now = $this->mrealization->get_anchor_prd_realization_annual($anchor_id, $product, $kind, 2014, date('n'));
+    	$realization_now = $this->mrealization->get_anchor_prd_realization_annual($anchor_id, $product, $kind, date('Y'), date('n'));
     	//$realization_ly = $this->mrealization->get_anchor_prd_realization($anchor_id, $product, $kind, 2013);
     	$anchor = $this->manchor->get_anchor_by_id($anchor_id);
     	$anchor_header = $this->load->view('anchor/anchor_header',array('anchor' => $anchor),TRUE);

@@ -8,23 +8,3 @@
 		<li><a href="<?php echo base_url()?>anchor/product/<?php echo $anchor->id;?>/CASA/income">Product</a></li>
 	</ul><div style="clear:both"></div>
 </div>
-
-<script type="text/javascript">
-    $(document).ready(function() {
-        $("#unit-token").
-        tokenInput("<?php echo base_url('profile/get_unit_token');?>", {
-                   tokenLimit: 1
-                   });
-        $('#unit-token').live('change', function(){
-            window.location.replace("http://stackoverflow.com");
-        });
-    });
-</script>
-
-<form id="newunitform" method="post" action="<?php echo base_url();?>profile/add_new_unit">
-    <dl class="info_standard" id="edit_profile">
-        <dt>Tambah Unit</dt><dd><input type="text" id="unit-token" name="new-unit" /></dd>
-    </dl>
-</form>
-<div id="data-unit">
-</div>
