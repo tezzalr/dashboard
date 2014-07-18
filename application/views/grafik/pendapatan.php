@@ -1,10 +1,13 @@
 <?php
 	
-	$loan_income_ws = $rlzn->WCL_nii + $rlzn->WCL_fbi + $rlzn->IL_nii + $rlzn->IL_fbi + $rlzn->SL_nii + $rlzn->SL_fbi;
-	$nonloan_income_ws = $rlzn->CASA_nii + $rlzn->CASA_fbi + $rlzn->TD_nii + $rlzn->TR_nii + $rlzn->FX_fbi + $rlzn->SCF_fbi + $rlzn->Trade_fbi + $rlzn->PWE_fbi + $rlzn->BG_fbi + $rlzn->OIR_fbi;
+	$nii_income_ws = $rlzn->WCL_nii +  $rlzn->IL_nii +  $rlzn->SL_nii + $rlzn->CASA_nii + $rlzn->TR_nii + $rlzn->OW_nii + $rlzn->TD_nii ;
+	$fbi_income_ws = $rlzn->IL_fbi + $rlzn->SL_fbi + $rlzn->WCL_fbi + $rlzn->CASA_fbi + $rlzn->FX_fbi + $rlzn->SCF_fbi + $rlzn->Trade_fbi + $rlzn->PWE_fbi + $rlzn->BG_fbi + $rlzn->OIR_fbi + $rlzn->OW_fbi;
 	
-	$ws_income = $loan_income_ws + $nonloan_income_ws;
-	$al_income = $ali->WM_nii + $ali->DPLK_fbi + $ali->PCD_nii + $ali->VCCD_nii + $ali->VCCD_fbi + $ali->VCL_nii + $ali->VCL_fbi + $ali->Micro_Loan_nii + $ali->Micro_Loan_fbi + 
+	$loan_income = $rlzn->WCL_nii +  $rlzn->IL_nii +  $rlzn->SL_nii + $rlzn->TR_nii;
+	$trx_income = $rlzn->CASA_nii + $rlzn->FX_fbi + $rlzn->SCF_fbi + $rlzn->Trade_fbi + $rlzn->PWE_fbi + $rlzn->BG_fbi + $rlzn->OIR_fbi;
+	
+	$ws_income = $nii_income_ws + $fbi_income_ws;
+	$al_income = $ali->WM_nii + $ali->DPLK_fbi + $ali->PCD_nii + $ali->VCCD_nii + $ali->VCCD_fbi + $ali->VCL_nii + $ali->VCL_fbi+ $ali->VCLnDF_nii + $ali->VCLnDF_fbi + $ali->Micro_Loan_nii + $ali->Micro_Loan_fbi + 
 					$ali->MKM_nii + $ali->KPR_nii + $ali->Auto_nii + $ali->CC_nii + $ali->EDC_fbi + $ali->ATM_fbi + $ali->AXA_fbi + $ali->MAGI_fbi + $ali->retail_fbi + $ali->cicil_Emas_fbi;
 ?>
 
@@ -61,22 +64,22 @@
 						<?php if($rlzn->ECM_fbi){?>['ECM', <?php echo ($rlzn->ECM_fbi/$rlzn->month*12);?>],<?php }?>
 						<?php if($rlzn->DCM_fbi){?>['DCM', <?php echo ($rlzn->DCM_fbi/$rlzn->month*12);?>],<?php }?>
 						<?php if($rlzn->MA_fbi){?>['M&A', <?php echo ($rlzn->MA_fbi/$rlzn->month*12);?>],<?php }?>
-						<?php if($ali->WM_nii){?> ['Wealth Management', <?php echo ($ali->WM_nii);?>],<?php }?>
-						<?php if($ali->DPLK_fbi){?> ['DPLK', <?php echo ($ali->DPLK_fbi);?>],<?php }?>
-						<?php if($ali->PCD_nii){?> ['Payroll Casa Deposit', <?php echo ($ali->PCD_nii);?>],<?php }?>
-						<?php if($ali->VCCD_nii + $ali->VCCD_fbi){?> ['Value Chain Casa Deposit', <?php echo ($ali->VCCD_nii + $ali->VCCD_fbi);?>],<?php }?>
-						<?php if($ali->VCL_nii + $ali->VCL_fbi + $ali->VCLnDF_nii + $ali->VCLnDF_fbi){?> ['Value Chain Lending', <?php echo ($ali->VCLnDF_nii + $ali->VCLnDF_fbi);?>],<?php }?>
-						<?php if($ali->Micro_Loan_nii + $ali->Micro_Loan_fbi){?> ['Micro Loan', <?php echo ($ali->Micro_Loan_nii + $ali->Micro_Loan_fbi);?>],<?php }?>
-						<?php if($ali->MKM_nii){?> ['MKM & KTA', <?php echo ($ali->MKM_nii);?>],<?php }?>
-						<?php if($ali->KPR_nii){?> ['KPR & MGM', <?php echo ($ali->KPR_nii);?>],<?php }?>
-						<?php if($ali->Auto_nii){?> ['AUTO & 2W Loan', <?php echo ($ali->Auto_nii);?>],<?php }?>
-						<?php if($ali->CC_nii){?> ['Credit Cards', <?php echo ($ali->CC_nii);?>],<?php }?>
-						<?php if($ali->EDC_fbi){?> ['EDC', <?php echo ($ali->EDC_fbi);?>],<?php }?>
-						<?php if($ali->ATM_fbi){?> ['ATM', <?php echo ($ali->ATM_fbi);?>],<?php }?>
-						<?php if($ali->AXA_fbi){?> ['Life Insurance - AXA', <?php echo ($ali->AXA_fbi);?>],<?php }?>
-						<?php if($ali->MAGI_fbi){?> ['General Insurance - MAGI', <?php echo ($ali->MAGI_fbi);?>],<?php }?>
-						<?php if($ali->retail_fbi){?> ['Retail Trading - MANSEK', <?php echo ($ali->retail_fbi);?>],<?php }?>
-						<?php if($ali->cicil_Emas_fbi){?> ['Cicil Emas - BSM', <?php echo ($ali->cicil_Emas_fbi);?>],<?php }?>
+						<?php if($ali->WM_nii){?> ['Wealth Management', <?php echo ($ali->WM_nii/$rlzn->month*12);?>],<?php }?>
+						<?php if($ali->DPLK_fbi){?> ['DPLK', <?php echo ($ali->DPLK_fbi/$rlzn->month*12);?>],<?php }?>
+						<?php if($ali->PCD_nii){?> ['Payroll Casa Deposit', <?php echo ($ali->PCD_nii/$rlzn->month*12);?>],<?php }?>
+						<?php if($ali->VCCD_nii + $ali->VCCD_fbi){?> ['Value Chain Casa Deposit', <?php echo ($ali->VCCD_nii + $ali->VCCD_fbi)/$rlzn->month*12;?>],<?php }?>
+						<?php if($ali->VCL_nii + $ali->VCL_fbi + $ali->VCLnDF_nii + $ali->VCLnDF_fbi){?> ['Value Chain Lending', <?php echo ($ali->VCLnDF_nii + $ali->VCLnDF_fbi)/$rlzn->month*12;?>],<?php }?>
+						<?php if($ali->Micro_Loan_nii + $ali->Micro_Loan_fbi){?> ['Micro Loan', <?php echo ($ali->Micro_Loan_nii + $ali->Micro_Loan_fbi)/$rlzn->month*12;?>],<?php }?>
+						<?php if($ali->MKM_nii){?> ['MKM & KTA', <?php echo ($ali->MKM_nii/$rlzn->month*12);?>],<?php }?>
+						<?php if($ali->KPR_nii){?> ['KPR & MGM', <?php echo ($ali->KPR_nii/$rlzn->month*12);?>],<?php }?>
+						<?php if($ali->Auto_nii){?> ['AUTO & 2W Loan', <?php echo ($ali->Auto_nii/$rlzn->month*12);?>],<?php }?>
+						<?php if($ali->CC_nii){?> ['Credit Cards', <?php echo ($ali->CC_nii/$rlzn->month*12);?>],<?php }?>
+						<?php if($ali->EDC_fbi){?> ['EDC', <?php echo ($ali->EDC_fbi/$rlzn->month*12);?>],<?php }?>
+						<?php if($ali->ATM_fbi){?> ['ATM', <?php echo ($ali->ATM_fbi/$rlzn->month*12);?>],<?php }?>
+						<?php if($ali->AXA_fbi){?> ['Life Insurance - AXA', <?php echo ($ali->AXA_fbi/$rlzn->month*12);?>],<?php }?>
+						<?php if($ali->MAGI_fbi){?> ['General Insurance - MAGI', <?php echo ($ali->MAGI_fbi/$rlzn->month*12);?>],<?php }?>
+						<?php if($ali->retail_fbi){?> ['Retail Trading - MANSEK', <?php echo ($ali->retail_fbi/$rlzn->month*12);?>],<?php }?>
+						<?php if($ali->cicil_Emas_fbi){?> ['Cicil Emas - BSM', <?php echo ($ali->cicil_Emas_fbi/$rlzn->month*12);?>],<?php }?>
 						
 					]
 				}]
@@ -230,7 +233,7 @@
 					plotShadow: false
 				},
 				title: {
-					text: 'Komposisi Pendapatan Wholesale vs Alliance'
+					text: 'Komposisi Wholesale vs Alliance'
 				},
 				tooltip: {
 					pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -241,7 +244,7 @@
 						cursor: 'pointer',
 						dataLabels: {
 							enabled: true,
-							format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+							format: '<b>{point.name}</b>:<br> {point.percentage:.1f} %',
 						},
 						showInLegend: true
 					}
@@ -267,14 +270,14 @@
 		$(document).ready(function () {
 		
 			// Build the chart
-			$('#container_lnl').highcharts({
+			$('#container_nii').highcharts({
 				chart: {
 					plotBackgroundColor: null,
 					plotBorderWidth: null,
 					plotShadow: false
 				},
 				title: {
-					text: 'Komposisi Pendapatan Loan vs Non Loan'
+					text: 'Komposisi NII vs FBI'
 				},
 				tooltip: {
 					pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -285,7 +288,7 @@
 						cursor: 'pointer',
 						dataLabels: {
 							enabled: true,
-							format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+							format: '<b>{point.name}</b>:<br> {point.percentage:.1f} %',
 						},
 						showInLegend: true
 					}
@@ -294,8 +297,52 @@
 					type: 'pie',
 					name: 'Income share',
 					data: [
-						['Non Loan',   <?php echo $nonloan_income_ws?>],
-						['Loan',   <?php echo $loan_income_ws?>]
+						['FBI',   <?php echo $fbi_income_ws?>],
+						['NII',   <?php echo $nii_income_ws?>]
+					]
+				}]
+			});
+		});
+	
+	});
+</script>
+
+<script type="text/javascript">
+	$(function () {
+		var chart;
+	
+		$(document).ready(function () {
+		
+			// Build the chart
+			$('#container_lnl').highcharts({
+				chart: {
+					plotBackgroundColor: null,
+					plotBorderWidth: null,
+					plotShadow: false
+				},
+				title: {
+					text: 'Komposisi Loan vs TRX + CASA'
+				},
+				tooltip: {
+					pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+				},
+				plotOptions: {
+					pie: {
+						allowPointSelect: true,
+						cursor: 'pointer',
+						dataLabels: {
+							enabled: true,
+							format: '<b>{point.name}</b>:<br> {point.percentage:.1f} %',
+						},
+						showInLegend: true
+					}
+				},
+				series: [{
+					type: 'pie',
+					name: 'Income share',
+					data: [
+						['Loan',   <?php echo $loan_income?>],
+						['CASA + TRX',   <?php echo $trx_income?>]
 					]
 				}]
 			});
@@ -306,11 +353,14 @@
 
 
 <div id="" class="container no_pad">
-	<?php echo $anchor_header?>
+	<?php echo $header?>
 	<div>
 		<div>
-			<div id="container_wsa" style="min-width: 310px; width: 50%; height: 350px; margin: 0; float:left"></div>
-			<div id="container_lnl" style="min-width: 310px; width: 50%; height: 350px; margin: 0; float:left"></div>
+			<div id="container_wsa" style="min-width: 310px; width: 50%; height: 300px; margin: 0; float:left"></div>
+			<div id="container_nii" style="min-width: 310px; width: 50%; height: 300px; margin: 0; float:left"></div>
+		</div><div style="clear:both"></div><hr>
+		<div>
+			<div id="container_lnl" style="min-width: 310px; width: 50%; height: 300px; margin: 0; float:left"></div>
 		</div><div style="clear:both"></div><hr>
 		<div id="container_all" style="min-width: 310px; width: 100%; height: 500px; margin: 0; float:left"></div><div style="clear:both"></div><hr>
 		<div id="container_ws" style="min-width: 310px; width: 100%; height: 500px; margin: 0; float:left"></div><div style="clear:both"></div><hr>

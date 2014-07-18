@@ -55,39 +55,7 @@ class Manchor extends CI_Model {
         if($result->num_rows>0){return $result->row(0)->id;}
         else{return false;}
     }
-    
-    function get_anchor_ws_target($anchor_id){
-    	$this->db->where('anchor_id',$anchor_id);
-    	$result = $this->db->get('wholesale_target');
-    	$query = $result->result();
-        return $query[0];
-    }
-    
-    function get_anchor_ws_realization($anchor_id, $month, $year){
-    	$this->db->where('anchor_id',$anchor_id);
-    	$this->db->where('month',$month);
-    	$this->db->where('year',$year);
-    	$result = $this->db->get('wholesale_realization');
-    	$query = $result->result();
-        return $query[0];
-    }
-    
-    function get_anchor_al_target($anchor_id){
-    	$this->db->where('anchor_id',$anchor_id);
-    	$result = $this->db->get('alliance_target');
-    	$query = $result->result();
-        return $query[0];
-    }
-    
-    function get_anchor_al_realization($anchor_id, $month, $year){
-    	$this->db->where('anchor_id',$anchor_id);
-    	$this->db->where('month',$month);
-    	$this->db->where('year',$year);
-    	$result = $this->db->get('alliance_realization');
-    	$query = $result->result();
-        return $query[0];
-    }
-    
+        
     function get_anchor_by_id($anchor_id){
     	$this->db->where('id',$anchor_id);
     	$result = $this->db->get('anchor');
@@ -186,22 +154,5 @@ class Manchor extends CI_Model {
     	elseif($inisial == 'IL'){$name = 'Investment Loan';}
     	
     	return $name;
-    }
-    
-    /*Wallet Function*/
-    function get_anchor_ws_wallet($anchor_id, $year){
-    	$this->db->where('anchor_id',$anchor_id);
-    	$this->db->where('year',$year);
-    	$result = $this->db->get('wholesale_wallet_size');
-    	$query = $result->result();
-        return $query[0];
-    }
-    
-    function get_anchor_al_wallet($anchor_id, $year){
-    	$this->db->where('anchor_id',$anchor_id);
-    	$this->db->where('year',$year);
-    	$result = $this->db->get('alliance_wallet_size');
-    	$query = $result->result();
-        return $query[0];
     }
 }

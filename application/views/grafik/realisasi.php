@@ -1,20 +1,20 @@
 <?php
-	$arrprod = array(); $arrinc = array(); $arrwlt = array();
-	if($rlzn['CASA_vol'] || $tgt->CASA_vol){$arrprod[1]='CASA'; $arrinc[1]=$rlzn['CASA_vol']; $arrwlt[1]=$tgt->CASA_vol;}
-	if($rlzn['TD_vol'] || $tgt->TD_vol){$arrprod[2]='Time Deposit'; $arrinc[2]=$rlzn['TD_vol']; $arrwlt[2]=$tgt->TD_vol;}
-	if($rlzn['WCL_vol'] || $tgt->WCL_vol){$arrprod[3]='Working Capital Loan'; $arrinc[3]=$rlzn['WCL_vol']; $arrwlt[3]=$tgt->WCL_vol;}
-	if($rlzn['IL_vol'] || $tgt->IL_vol){$arrprod[4]='Investment Loan'; $arrinc[4]=$rlzn['IL_vol']; $arrwlt[4]=$tgt->IL_vol;}
-	if($rlzn['SL_vol'] || $tgt->SL_vol){$arrprod[5]='Structured Loan'; $arrinc[5]=$rlzn['SL_vol']; $arrwlt[5]=$tgt->SL_vol;}
-	if($rlzn['TR_vol'] || $tgt->TR_vol){$arrprod[6]='Trust Receipt'; $arrinc[6]=$rlzn['TR_vol']; $arrwlt[6]=$tgt->TR_vol;}
-	if($rlzn['FX_vol'] || $tgt->FX_vol){$arrprod[7]='FX & Derivatives'; $arrinc[7]=$rlzn['FX_vol']; $arrwlt[7]=$tgt->FX_vol;}
-	if($rlzn['SCF_vol'] || $tgt->SCF_vol){$arrprod[8]='Supply Chain Financing'; $arrinc[8]=$rlzn['SCF_vol']; $arrwlt[8]=$tgt->SCF_vol;}
-	if($rlzn['Trade_vol'] || $tgt->Trade_vol){$arrprod[9]='Trade Services'; $arrinc[9]=$rlzn['Trade_vol']; $arrwlt[9]=$tgt->Trade_vol;}
-	if($rlzn['BG_vol'] || $tgt->BG_vol){$arrprod[10]='Bank Guarantee'; $arrinc[10]=$rlzn['BG_vol']; $arrwlt[10]=$tgt->BG_vol;}
-	if($rlzn['OIR_vol'] || $tgt->OIR_vol){$arrprod[11]='Outgoing Intl Remittance'; $arrinc[11]=$rlzn['OIR_vol']; $arrwlt[11]=$tgt->OIR_vol;}
-	if($rlzn['PWE_vol'] || $tgt->PWE_vol){$arrprod[12]='PWE non L/C'; $arrinc[12]=$rlzn['PWE_vol']; $arrwlt[12]=$tgt->PWE_vol;}
-	if($rlzn['ECM_vol'] || $tgt->ECM_vol){$arrprod[13]='ECM'; $arrinc[13]=$rlzn['ECM_vol']; $arrwlt[13]=$tgt->ECM_vol;}
-	if($rlzn['DCM_vol'] || $tgt->DCM_vol){$arrprod[14]='DCM'; $arrinc[14]=$rlzn['DCM_vol']; $arrwlt[14]=$tgt->DCM_vol;}
-	if($rlzn['MA_vol'] || $tgt->MA_vol){$arrprod[15]='M&A'; $arrinc[15]=$rlzn['MA_vol']; $arrwlt[15]=$tgt->MA_vol;}
+	$arrprod = array(); $arrinc_hj = array(); $arrinc_mr = array();
+	if($rlzn['CASA_vol'] || $tgt->CASA_vol){$arrprod[1]='CASA <br>('.number_format($rlzn['CASA_vol'],0,".",",").'%)'; if($rlzn['CASA_vol']<100){ $arrinc_mr[1]=$rlzn['CASA_vol']; $arrinc_hj[1]=0;}else{$arrinc_hj[1]=$rlzn['CASA_vol']; $arrinc_mr[1]=0;}}
+	if($rlzn['TD_vol'] || $tgt->TD_vol){$arrprod[2]='Time Deposit <br>('.number_format($rlzn['TD_vol'],0,".",",").'%)'; if($rlzn['TD_vol']<100){ $arrinc_mr[2]=$rlzn['TD_vol']; $arrinc_hj[2]=0;}else{$arrinc_hj[2]=$rlzn['TD_vol']; $arrinc_mr[2]=0;}}
+	if($rlzn['WCL_vol'] || $tgt->WCL_vol){$arrprod[3]='Working Capital Loan <br>('.number_format($rlzn['WCL_vol'],0,".",",").'%)'; if($rlzn['WCL_vol']<100){ $arrinc_mr[3]=$rlzn['WCL_vol']; $arrinc_hj[3]=0;}else{$arrinc_hj[3]=$rlzn['WCL_vol']; $arrinc_mr[3]=0;}}
+	if($rlzn['IL_vol'] || $tgt->IL_vol){$arrprod[4]='Investment Loan <br>('.number_format($rlzn['IL_vol'],0,".",",").'%)'; if($rlzn['IL_vol']<100){ $arrinc_mr[4]=$rlzn['IL_vol']; $arrinc_hj[4]=0;}else{$arrinc_hj[4]=$rlzn['IL_vol']; $arrinc_mr[4]=0;}}
+	if($rlzn['SL_vol'] || $tgt->SL_vol){$arrprod[5]='Structured Loan <br>('.number_format($rlzn['SL_vol'],0,".",",").'%)'; if($rlzn['SL_vol']<100){ $arrinc_mr[5]=$rlzn['SL_vol']; $arrinc_hj[5]=0;}else{$arrinc_hj[5]=$rlzn['SL_vol']; $arrinc_mr[5]=0;}}
+	if($rlzn['TR_vol'] || $tgt->TR_vol){$arrprod[6]='Trust Receipt <br>('.number_format($rlzn['TR_vol'],0,".",",").'%)'; if($rlzn['TR_vol']<100){ $arrinc_mr[6]=$rlzn['TR_vol']; $arrinc_hj[6]=0;}else{$arrinc_hj[6]=$rlzn['TR_vol']; $arrinc_mr[6]=0;}}
+	if($rlzn['FX_vol'] || $tgt->FX_vol){$arrprod[7]='FX & Derivatives <br>('.number_format($rlzn['FX_vol'],0,".",",").'%)'; if($rlzn['FX_vol']<100){ $arrinc_mr[7]=$rlzn['FX_vol']; $arrinc_hj[7]=0;}else{$arrinc_hj[7]=$rlzn['FX_vol']; $arrinc_mr[7]=0;}}
+	if($rlzn['SCF_vol'] || $tgt->SCF_vol){$arrprod[8]='Supply Chain Financing <br>('.number_format($rlzn['SCF_vol'],0,".",",").'%)'; if($rlzn['SCF_vol']<100){ $arrinc_mr[8]=$rlzn['SCF_vol']; $arrinc_hj[8]=0;}else{$arrinc_hj[8]=$rlzn['SCF_vol']; $arrinc_mr[8]=0;}}
+	if($rlzn['Trade_vol'] || $tgt->Trade_vol){$arrprod[9]='Trade Services <br>('.number_format($rlzn['Trade_vol'],0,".",",").'%)'; if($rlzn['Trade_vol']<100){ $arrinc_mr[9]=$rlzn['Trade_vol']; $arrinc_hj[9]=0;}else{$arrinc_hj[9]=$rlzn['Trade_vol']; $arrinc_mr[9]=0;}}
+	if($rlzn['BG_vol'] || $tgt->BG_vol){$arrprod[10]='Bank Guarantee <br>('.number_format($rlzn['BG_vol'],0,".",",").'%)'; if($rlzn['BG_vol']<100){ $arrinc_mr[10]=$rlzn['BG_vol']; $arrinc_hj[10]=0;}else{$arrinc_hj[10]=$rlzn['BG_vol']; $arrinc_mr[10]=0;}}
+	if($rlzn['OIR_vol'] || $tgt->OIR_vol){$arrprod[11]='Outgoing Intl Remittance <br>('.number_format($rlzn['OIR_vol'],0,".",",").'%)'; if($rlzn['OIR_vol']<100){ $arrinc_mr[11]=$rlzn['OIR_vol']; $arrinc_hj[11]=0;}else{$arrinc_hj[11]=$rlzn['OIR_vol']; $arrinc_mr[11]=0;}}
+	if($rlzn['PWE_vol'] || $tgt->PWE_vol){$arrprod[12]='PWE non L/C <br>('.number_format($rlzn['PWE_vol'],0,".",",").'%)'; if($rlzn['PWE_vol']<100){ $arrinc_mr[12]=$rlzn['PWE_vol']; $arrinc_hj[12]=0;}else{$arrinc_hj[12]=$rlzn['PWE_vol']; $arrinc_mr[12]=0;}}
+	if($rlzn['ECM_vol'] || $tgt->ECM_vol){$arrprod[13]='ECM <br>('.number_format($rlzn['ECM_vol'],0,".",",").'%)'; if($rlzn['ECM_vol']<100){ $arrinc_mr[13]=$rlzn['ECM_vol']; $arrinc_hj[13]=0;}else{$arrinc_hj[13]=$rlzn['ECM_vol']; $arrinc_mr[13]=0;}}
+	if($rlzn['DCM_vol'] || $tgt->DCM_vol){$arrprod[14]='DCM <br>('.number_format($rlzn['DCM_vol'],0,".",",").'%)'; if($rlzn['DCM_vol']<100){ $arrinc_mr[14]=$rlzn['DCM_vol']; $arrinc_hj[14]=0;}else{$arrinc_hj[14]=$rlzn['DCM_vol']; $arrinc_mr[14]=0;}}
+	if($rlzn['MA_vol'] || $tgt->MA_vol){$arrprod[15]='M&A <br>('.number_format($rlzn['MA_vol'],0,".",",").'%)'; if($rlzn['MA_vol']<100){ $arrinc_mr[15]=$rlzn['MA_vol']; $arrinc_hj[15]=0;}else{$arrinc_hj[15]=$rlzn['MA_vol']; $arrinc_mr[15]=0;}}
 	
 	$arrprod_inc = array(); $arrinc_inc = array(); $arrwlt_inc = array();
 	if($rlzn['CASA_inc'] || $tgt->CASA_nii){$arrprod_inc[1]='CASA'; $arrinc_inc[1]=$rlzn['CASA_inc'];}
@@ -58,27 +58,29 @@
             },
             tooltip: {
                 pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y:.0f}%</b><br/>',
-                shared: true
+                shared: false,
+                
             },
             plotOptions: {
                 column: {
-                    //stacking: 'true'
+                    stacking: true,
                     dataLabels: {
-                        enabled: true,
-                        format: '{point.y:.0f}%'
+                        enabled: false,
+                        format: '<span style="color:white">{point.y:.0f}%</span>'
                     }
                 }
             },
                 series: [
-            /*{
-                name: 'Target',
-                data: [100, 100, 100, 100, 100, 100, 100],
-                real_val: [4, 5, 6, 2, 5, 7, 8],
-                color: 'red'
-            },*/ {
-                name: 'Pencapaian',
+            {
+                name: 'Tercapai',
                 //data: [<?php echo $rlzn['CASA_vol']?>, <?php echo $rlzn['TD_vol']?>, <?php echo $rlzn['WCL_vol']?>, <?php echo $rlzn['IL_vol']?>, <?php echo $rlzn['SL_vol']?>, <?php echo $rlzn['TR_vol']?>, <?php echo $rlzn['FX_vol']?>, <?php echo $rlzn['SCF_vol']?>, <?php echo $rlzn['Trade_vol']?>, <?php echo $rlzn['BG_vol']?>, <?php echo $rlzn['OIR_vol']?>, <?php echo $rlzn['PWE_vol']?>],
-            	data: [<?php foreach($arrinc as $inc){echo $inc.", ";}?>],
+            	data: [<?php foreach($arrinc_hj as $inc){echo $inc.", ";}?>],
+            	color: 'green'
+            },{
+                name: 'Belum Tercapai',
+                //data: [<?php echo $rlzn['CASA_vol']?>, <?php echo $rlzn['TD_vol']?>, <?php echo $rlzn['WCL_vol']?>, <?php echo $rlzn['IL_vol']?>, <?php echo $rlzn['SL_vol']?>, <?php echo $rlzn['TR_vol']?>, <?php echo $rlzn['FX_vol']?>, <?php echo $rlzn['SCF_vol']?>, <?php echo $rlzn['Trade_vol']?>, <?php echo $rlzn['BG_vol']?>, <?php echo $rlzn['OIR_vol']?>, <?php echo $rlzn['PWE_vol']?>],
+            	data: [<?php foreach($arrinc_mr as $inc){echo $inc.", ";}?>],
+            	color: 'red'
             }]
         });
     });
@@ -99,11 +101,11 @@
             yAxis: {
                 min: 0,
                 title: {
-                    text: 'Total'
+                    text: 'Percentage %'
                 }
             },
             tooltip: {
-                pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y:.0f}%</b> ({real_val})<br/>',
+                pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y:.0f}%</b><br/>',
                 shared: true
             },
             plotOptions: {
@@ -132,11 +134,12 @@
 </script>
 
 <div id="" class="container no_pad">
-	<?php echo $anchor_header?>
+	<?php echo $header?>
 	<div>
 		<div id="container" style="min-width: 310px; height: 350px; margin: 0 auto"></div><hr>
 		<div id="container_income" style="min-width: 310px; height: 350px; margin: 0 auto"></div><hr>
 		<!--<div>
+			
 			<div id="container2" style="min-width: 310px; width: 50%; height: 350px; margin: 0; float:left"></div>
 			<div id="container3" style="min-width: 310px; width: 50%; height: 350px; margin: 0; float:left"></div>
 		</div>--><div style="clear:both"></div><br>

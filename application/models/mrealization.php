@@ -103,13 +103,10 @@ class Mrealization extends CI_Model {
     		$this->db->where("(`group` = 'CORPORATE BANKING AGRO BASED' OR `group` = 'CORPORATE BANKING I' OR `group` = 'CORPORATE BANKING II' OR `group` = 'CORPORATE BANKING III' OR `group` = 'SYNDICATION, OIL & GAS')");
     	}
     	elseif($direktorat == 'IB'){
-    		$this->db->where('group', 'INSTITUTIONAL BANKING I');
-    		$this->db->or_where('group', 'INSTITUTIONAL BANKING II');
+    		$this->db->where("(`group` = 'INSTITUTIONAL BANKING I' OR `group` = 'INSTITUTIONAL BANKING II')");
     	}
     	else{
-    		$this->db->where('group', 'JAKARTA COMMERCIAL SALES');
-    		$this->db->or_where('group', 'REGIONAL COMMERCIAL SALES I');
-    		$this->db->or_where('group', 'REGIONAL COMMERCIAL SALES II');
+    		$this->db->where("(`group` = 'JAKARTA COMMERCIAL SALES' OR `group` = 'REGIONAL COMMERCIAL SALES I' OR `group` = 'REGIONAL COMMERCIAL SALES II' )");
     	}
     }
     
@@ -152,6 +149,156 @@ class Mrealization extends CI_Model {
 								SUM(DCM_fbi) as DCM_fbi,
 								SUM(MA_vol) as MA_vol,
 								SUM(MA_fbi) as MA_fbi,');
+    	}else{
+    		$this->db->select('month, SUM(WM_vol) as WM_vol,
+								SUM(WM_nii) as WM_nii,
+								SUM(DPLK_vol) as DPLK_vol,
+								SUM(DPLK_fbi) as DPLK_fbi,
+								SUM(PCD_vol) as PCD_vol,
+								SUM(PCD_nii) as PCD_nii,
+								SUM(VCCD_vol) as VCCD_vol,
+								SUM(VCCD_nii) as VCCD_nii,
+								SUM(VCCD_fbi) as VCCD_fbi,
+								SUM(VCL_vol) as VCL_vol,
+								SUM(VCL_nii) as VCL_nii,
+								SUM(VCL_fbi) as VCL_fbi,
+								SUM(VCLnDF_vol) as VCLnDF_vol,
+								SUM(VCLnDF_nii) as VCLnDF_nii,
+								SUM(VCLnDF_fbi) as VCLnDF_fbi,
+								SUM(Micro_Loan_vol) as Micro_Loan_vol,
+								SUM(Micro_Loan_nii) as Micro_Loan_nii,
+								SUM(Micro_Loan_fbi) as Micro_Loan_fbi,
+								SUM(MKM_vol) as MKM_vol,
+								SUM(MKM_nii) as MKM_nii,
+								SUM(KPR_vol) as KPR_vol,
+								SUM(KPR_nii) as KPR_nii,
+								SUM(Auto_vol) as Auto_vol,
+								SUM(Auto_nii) as Auto_nii,
+								SUM(CC_vol) as CC_vol,
+								SUM(CC_nii) as CC_nii,
+								SUM(EDC_vol) as EDC_vol,
+								SUM(EDC_fbi) as EDC_fbi,
+								SUM(ATM_vol) as ATM_vol,
+								SUM(ATM_fbi) as ATM_fbi,
+								SUM(AXA_vol) as AXA_vol,
+								SUM(AXA_fbi) as AXA_fbi,
+								SUM(MAGI_vol) as MAGI_vol,
+								SUM(MAGI_fbi) as MAGI_fbi,
+								SUM(retail_vol) as retail_vol,
+								SUM(retail_fbi) as retail_fbi,
+								SUM(cicil_Emas_vol) as cicil_Emas_vol,
+								SUM(cicil_Emas_fbi) as cicil_Emas_fbi,
+								SUM(OA_vol) as OA_vol,
+								SUM(OA_nii) as OA_nii,
+								SUM(OA_fbi) as OA_fbi,');
     	}
+    	
+    }
+    
+    /*Shared Function*/
+    
+    private function count_avgbal($target,$realization){
+    	if($target && $target>0){
+    		return $realization/pow(10,9)/$target*100;
+    	}
+    	elseif(!$target && $realization){return 100;}
+    	else{return 0;}
+    }
+    
+    private function count_sum($target,$realization,$month){
+    	if($target && $target>0){
+    		return $realization/$month*12/pow(10,9)/$target*100;
+    	}
+    	elseif(!$target && $realization){return 100;}
+    	else{return 0;}
+    }
+    
+    private function count_avgbal_value($realization){
+    	return $realization/pow(10,9);
+    }
+    
+    private function count_sum_value($realization,$month){
+    	
+    	return $realization/$month*12/pow(10,9);
+    }
+    
+    function count_realization($target_ws, $realization_ws){
+		$iptdata['CASA_vol']= $this->count_avgbal($target_ws->CASA_vol,$realization_ws->CASA_vol);
+		$iptdata['CASA_inc']=  $this->count_sum($target_ws->CASA_nii,$realization_ws->CASA_nii, $realization_ws->month);
+		$iptdata['TD_vol']= $this->count_avgbal($target_ws->TD_vol,$realization_ws->TD_vol);
+		$iptdata['TD_inc']= $this->count_sum($target_ws->TD_nii,$realization_ws->TD_nii, $realization_ws->month);
+		$iptdata['WCL_vol']= $this->count_avgbal($target_ws->WCL_vol,$realization_ws->WCL_vol);
+		$iptdata['WCL_inc']= $this->count_sum($target_ws->WCL_nii,$realization_ws->WCL_nii, $realization_ws->month);
+		$iptdata['IL_vol']= $this->count_avgbal($target_ws->IL_vol,$realization_ws->IL_vol);
+		$iptdata['IL_inc']= $this->count_sum($target_ws->IL_nii,$realization_ws->IL_nii, $realization_ws->month);
+		$iptdata['SL_vol']= $this->count_avgbal($target_ws->SL_vol,$realization_ws->SL_vol);
+		$iptdata['SL_inc']= $this->count_sum($target_ws->SL_nii,$realization_ws->SL_nii, $realization_ws->month);
+		$iptdata['FX_vol']= $this->count_sum($target_ws->FX_vol,$realization_ws->FX_vol,$realization_ws->month)*1000; if(!$target_ws->FX_vol){$iptdata['FX_vol']=$iptdata['FX_vol']/1000;}
+		$iptdata['FX_inc']= $this->count_sum($target_ws->FX_fbi,$realization_ws->FX_fbi,$realization_ws->month);
+		$iptdata['SCF_vol']= $this->count_sum($target_ws->SCF_vol,$realization_ws->SCF_vol,$realization_ws->month);
+		$iptdata['SCF_inc']= $this->count_sum($target_ws->SCF_fbi,$realization_ws->SCF_fbi,$realization_ws->month);
+		$iptdata['Trade_vol']= $this->count_sum($target_ws->Trade_vol,$realization_ws->Trade_vol,$realization_ws->month)*1000; if(!$target_ws->Trade_vol){$iptdata['Trade_vol']=$iptdata['Trade_vol']/1000;}
+		$iptdata['Trade_inc']= $this->count_sum($target_ws->Trade_fbi,$realization_ws->Trade_fbi,$realization_ws->month);
+		$iptdata['PWE_vol']= $this->count_sum($target_ws->PWE_vol,$realization_ws->PWE_vol,$realization_ws->month);
+		$iptdata['PWE_inc']= $this->count_sum($target_ws->PWE_fbi,$realization_ws->PWE_fbi,$realization_ws->month);
+		$iptdata['TR_vol']= $this->count_sum($target_ws->TR_vol,$realization_ws->TR_vol,$realization_ws->month);
+		$iptdata['TR_inc']= $this->count_sum($target_ws->TR_nii,$realization_ws->TR_nii,$realization_ws->month);
+		$iptdata['BG_vol']= $this->count_sum($target_ws->BG_vol,$realization_ws->BG_vol,$realization_ws->month);
+		$iptdata['BG_inc']= $this->count_sum($target_ws->BG_fbi,$realization_ws->BG_fbi,$realization_ws->month);
+		$iptdata['OIR_vol']= $this->count_sum($target_ws->OIR_vol,$realization_ws->OIR_vol,$realization_ws->month)*pow(10,9); if(!$target_ws->OIR_vol){$iptdata['OIR_vol']=$iptdata['OIR_vol']/pow(10,9);}
+		$iptdata['OIR_inc']= $this->count_sum($target_ws->OIR_fbi,$realization_ws->OIR_fbi,$realization_ws->month);
+		$iptdata['OW_nii']= $this->count_sum($target_ws->OW_nii,$realization_ws->OW_nii,$realization_ws->month);
+		$iptdata['OW_fbi']= $this->count_sum($target_ws->OW_fbi+$target_ws->CASA_fbi,$realization_ws->OW_fbi+$realization_ws->CASA_fbi,$realization_ws->month);
+		$iptdata['ECM_vol']= $this->count_sum($target_ws->ECM_vol,$realization_ws->ECM_vol,$realization_ws->month);
+		$iptdata['ECM_inc']= $this->count_sum($target_ws->ECM_fbi,$realization_ws->ECM_fbi,$realization_ws->month)/12*$realization_ws->month;
+		$iptdata['DCM_vol']= $this->count_sum($target_ws->DCM_vol,$realization_ws->DCM_vol,$realization_ws->month);
+		$iptdata['DCM_inc']= $this->count_sum($target_ws->DCM_fbi,$realization_ws->DCM_fbi,$realization_ws->month)/12*$realization_ws->month;
+		$iptdata['MA_vol']= $this->count_sum($target_ws->MA_vol,$realization_ws->MA_vol,$realization_ws->month);
+		$iptdata['MA_inc']= $this->count_sum($target_ws->MA_fbi,$realization_ws->MA_fbi,$realization_ws->month)/12*$realization_ws->month;
+		
+		$iptdata['LMF'] = $this->count_sum($target_ws->IL_fbi+$target_ws->WCL_fbi,$realization_ws->IL_fbi+$realization_ws->WCL_fbi, $realization_ws->month)/12*$realization_ws->month;
+		$iptdata['SF'] = $this->count_sum($target_ws->SL_fbi,$realization_ws->SL_fbi, $realization_ws->month)/12*$realization_ws->month;
+		
+		return $iptdata;
+    }
+    
+    function count_realization_value($realization_ws, $month){
+		$iptdata['CASA_vol']= $this->count_avgbal_value($realization_ws->CASA_vol);
+		$iptdata['CASA_inc']=  $this->count_sum_value($realization_ws->CASA_nii+$realization_ws->CASA_fbi, $realization_ws->month);
+		$iptdata['TD_vol']= $this->count_avgbal_value($realization_ws->TD_vol);
+		$iptdata['TD_inc']= $this->count_sum_value($realization_ws->TD_nii, $realization_ws->month);
+		$iptdata['WCL_vol']= $this->count_avgbal_value($realization_ws->WCL_vol);
+		$iptdata['WCL_inc']= $this->count_sum_value($realization_ws->WCL_nii, $realization_ws->month);
+		$iptdata['IL_vol']= $this->count_avgbal_value($realization_ws->IL_vol);
+		$iptdata['IL_inc']= $this->count_sum_value($realization_ws->IL_nii, $realization_ws->month);
+		$iptdata['SL_vol']= $this->count_avgbal_value($realization_ws->SL_vol);
+		$iptdata['SL_inc']= $this->count_sum_value($realization_ws->SL_nii, $realization_ws->month);
+		$iptdata['FX_vol']= $this->count_sum_value($realization_ws->FX_vol,$realization_ws->month)*1000;
+		$iptdata['FX_inc']= $this->count_sum_value($realization_ws->FX_fbi,$realization_ws->month);
+		$iptdata['SCF_vol']= $this->count_sum_value($realization_ws->SCF_vol,$realization_ws->month);
+		$iptdata['SCF_inc']= $this->count_sum_value($realization_ws->SCF_fbi,$realization_ws->month);
+		$iptdata['Trade_vol']= $this->count_sum_value($realization_ws->Trade_vol,$realization_ws->month)*1000;
+		$iptdata['Trade_inc']= $this->count_sum_value($realization_ws->Trade_fbi,$realization_ws->month);
+		$iptdata['PWE_vol']= $this->count_sum_value($realization_ws->PWE_vol,$realization_ws->month);
+		$iptdata['PWE_inc']= $this->count_sum_value($realization_ws->PWE_fbi,$realization_ws->month);
+		$iptdata['TR_vol']= $this->count_sum_value($realization_ws->TR_vol,$realization_ws->month);
+		$iptdata['TR_inc']= $this->count_sum_value($realization_ws->TR_nii,$realization_ws->month);
+		$iptdata['BG_vol']= $this->count_sum_value($realization_ws->BG_vol,$realization_ws->month);
+		$iptdata['BG_inc']= $this->count_sum_value($realization_ws->BG_fbi,$realization_ws->month);
+		$iptdata['OIR_vol']= $this->count_sum_value($realization_ws->OIR_vol,$realization_ws->month)*pow(10,9);
+		$iptdata['OIR_inc']= $this->count_sum_value($realization_ws->OIR_fbi,$realization_ws->month);
+		$iptdata['OW_nii']= $this->count_sum_value($realization_ws->OW_nii,$realization_ws->month);
+		$iptdata['OW_inc']= $this->count_sum_value($realization_ws->OW_fbi,$realization_ws->month);
+		$iptdata['ECM_vol']= $this->count_sum_value($realization_ws->ECM_vol,$realization_ws->month);
+		$iptdata['ECM_inc']= $this->count_sum_value($realization_ws->ECM_fbi,$realization_ws->month);
+		$iptdata['DCM_vol']= $this->count_sum_value($realization_ws->DCM_vol,$realization_ws->month);
+		$iptdata['DCM_inc']= $this->count_sum_value($realization_ws->DCM_fbi,$realization_ws->month);
+		$iptdata['MA_vol']= $this->count_sum_value($realization_ws->MA_vol,$realization_ws->month);
+		$iptdata['MA_inc']= $this->count_sum_value($realization_ws->MA_fbi,$realization_ws->month);
+		
+		$iptdata['LMF'] = $this->count_sum_value($realization_ws->IL_fbi+$realization_ws->WCL_fbi, $realization_ws->month);
+		$iptdata['SF'] = $this->count_sum_value($realization_ws->SL_fbi, $realization_ws->month);
+		
+		return $iptdata;
     }
 }

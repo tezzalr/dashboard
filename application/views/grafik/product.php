@@ -32,7 +32,7 @@
 </script>
 
 <div id="" class="container no_pad">
-	<?php echo $anchor_header?>
+	<?php echo $header?>
 	<div>
 		<div>
 			<div style="margin-bottom: 20px; float:left;">

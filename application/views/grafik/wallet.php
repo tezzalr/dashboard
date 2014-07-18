@@ -1,20 +1,13 @@
 <?php
 	$arrprod = array(); $arrinc = array(); $arrwlt = array();
-	if($rlz_ws['CASA_vol'] || $wlt_ws->CASA_vol){$arrprod[1]='CASA'; $arrinc[1]=$rlz_ws['CASA_vol']; $arrwlt[1]=$wlt_ws->CASA_vol;}
-	if($rlz_ws['TD_vol'] || $wlt_ws->TD_vol){$arrprod[2]='Time Deposit'; $arrinc[2]=$rlz_ws['TD_vol']; $arrwlt[2]=$wlt_ws->TD_vol;}
-	if($rlz_ws['WCL_vol'] || $wlt_ws->WCL_vol){$arrprod[3]='Working Capital Loan'; $arrinc[3]=$rlz_ws['WCL_vol']; $arrwlt[3]=$wlt_ws->WCL_vol;}
-	if($rlz_ws['IL_vol'] || $wlt_ws->IL_vol){$arrprod[4]='Investment Loan'; $arrinc[4]=$rlz_ws['IL_vol']; $arrwlt[4]=$wlt_ws->IL_vol;}
-	if($rlz_ws['SL_vol'] || $wlt_ws->SL_vol){$arrprod[5]='Structured Loan'; $arrinc[5]=$rlz_ws['SL_vol']; $arrwlt[5]=$wlt_ws->SL_vol;}
-	if($rlz_ws['TR_vol'] || $wlt_ws->TR_vol){$arrprod[6]='Trust Receipt'; $arrinc[6]=$rlz_ws['TR_vol']; $arrwlt[6]=$wlt_ws->TR_vol;}
-	if($rlz_ws['FX_vol'] || $wlt_ws->FX_vol){$arrprod[7]='FX & Derivatives'; $arrinc[7]=$rlz_ws['FX_vol']; $arrwlt[7]=$wlt_ws->FX_vol;}
-	if($rlz_ws['SCF_vol'] || $wlt_ws->SCF_vol){$arrprod[8]='Supply Chain Financing'; $arrinc[8]=$rlz_ws['SCF_vol']; $arrwlt[8]=$wlt_ws->SCF_vol;}
-	if($rlz_ws['Trade_vol'] || $wlt_ws->Trade_vol){$arrprod[9]='Trade Services'; $arrinc[9]=$rlz_ws['Trade_vol']; $arrwlt[9]=$wlt_ws->Trade_vol;}
-	if($rlz_ws['BG_vol'] || $wlt_ws->BG_vol){$arrprod[10]='Bank Guarantee'; $arrinc[10]=$rlz_ws['BG_vol']; $arrwlt[10]=$wlt_ws->BG_vol;}
-	if($rlz_ws['OIR_vol'] || $wlt_ws->OIR_vol){$arrprod[11]='Outgoing Intl Remittance'; $arrinc[11]=$rlz_ws['OIR_vol']; $arrwlt[11]=$wlt_ws->OIR_vol;}
-	if($rlz_ws['PWE_vol'] || $wlt_ws->PWE_vol){$arrprod[12]='PWE non L/C'; $arrinc[12]=$rlz_ws['PWE_vol']; $arrwlt[12]=$wlt_ws->PWE_vol;}
-	if($rlz_ws['ECM_vol'] || $wlt_ws->ECM_vol){$arrprod[13]='ECM'; $arrinc[13]=$rlz_ws['ECM_vol']; $arrwlt[13]=$wlt_ws->ECM_vol;}
-	if($rlz_ws['DCM_vol'] || $wlt_ws->DCM_vol){$arrprod[14]='DCM'; $arrinc[14]=$rlz_ws['DCM_vol']; $arrwlt[14]=$wlt_ws->DCM_vol;}
-	if($rlz_ws['MA_vol'] || $wlt_ws->MA_vol){$arrprod[15]='M&A'; $arrinc[15]=$rlz_ws['MA_vol']; $arrwlt[15]=$wlt_ws->MA_vol;}
+	for($i=1;$i<=15;$i++){
+		$prd_name = $prod[$i]."_vol";
+		if($rlz_ws[$prd_name] || $wlt_ws->$prd_name){
+			$arrinc[$i]=$rlz_ws[$prd_name]; 
+			$arrwlt[$i]=$wlt_ws->$prd_name; 
+			$arrprod[$i]=$arr_name[$i].' <br>(SoW : '.number_format($sow_ws[$i],0,'.',',').'%)';
+		}
+	}
 	
 	$arrprod_inc = array(); $arrinc_inc = array(); $arrwlt_inc = array();
 	if($rlz_ws['CASA_inc'] || $wlt_ws->CASA_nii){$arrprod_inc[1]='CASA'; $arrinc_inc[1]=$rlz_ws['CASA_inc']; $arrwlt_inc[1]=$wlt_ws->CASA_nii;}
@@ -177,7 +170,7 @@
 </script>
 
 <div id="" class="container no_pad">
-	<?php echo $anchor_header?>
+	<?php echo $header?>
 	<div>
 		<div id="container_volume" style="min-width: 310px; height: 500px; margin: 0 auto"></div><hr>
 		<div id="container_income" style="min-width: 310px; height: 500px; margin: 0 auto"></div><hr>
