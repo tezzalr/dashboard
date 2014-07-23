@@ -1,8 +1,8 @@
-function change_table_view(id){
+function change_table_view(id, code){
 	$.ajax({
     	type: "GET",
-        url: config.base+"anchor/realization_table_view",
-        data: {id: id},
+        url: config.base+"realization/realization_table_view",
+        data: {id: id, code: code},
         dataType: 'json',
         cache: false,
         success: function(resp){
@@ -13,11 +13,11 @@ function change_table_view(id){
     });
 }
 
-function change_graph_view(id){
+function change_graph_view(id, code){
 	$.ajax({
     	type: "GET",
-        url: config.base+"anchor/realization_graph_view",
-        data: {id: id},
+        url: config.base+"realization/realization_graph_view",
+        data: {id: id, code: code},
         dataType: 'json',
         cache: false,
         success: function(resp){

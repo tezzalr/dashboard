@@ -2,11 +2,13 @@
 	$arrprod = array();
 	for($i=1;$i<=15;$i++){
 		$prd_name = $prod[$i]."_vol";
+		if($prod[$i]=="FX" || $prod[$i]=="Trade"){$unit_mes = "Mn USD";}elseif($prod[$i]=="OIR"){$unit_mes="# Trx";}else{$unit_mes="Bn IDR";}
 		if($pct[$prd_name] || $tgt->$prd_name){
 			$arrprod[$i]['name'] = $arr_name[$i];
 			$arrprod[$i]['tgt'] = $tgt->$prd_name;  
 			$arrprod[$i]['pct'] = $pct[$prd_name]; 
 			$arrprod[$i]['ytd'] = $ytd[$prd_name];
+			$arrprod[$i]['unt'] = $unit_mes;
 			//if($prod[$i] == "FX" || $prod[$i] == "Trade"){$bagi=6;}elseif($prod[$i] == "OIR"){$bagi=0;}else{$bagi=9;}
 			$arrprod[$i]['rlzn'] = $rlzn[$prd_name]/pow(10,9);
 		}
@@ -41,14 +43,15 @@
 <div style="margin-top:20px;">
 <h3>Volume Realization</h3>
 <table class="table table-striped">
-	<thead><tr><th>Product</th><th>Mei 2014</th><th>Target 2014</th><th>YTD 2014</th><th>%</th></tr></thead>
+	<thead><tr><th>Product</th><th>Unit</th><th  style="text-align:right">Mei 2014</th><th  style="text-align:right">Target 2014</th><th  style="text-align:right">YTD 2014</th><th  style="text-align:right">% Target</th></tr></thead>
 	<tbody>
 		<?php foreach($arrprod as $prod){
 			echo "<tr><td>".$prod['name']."</td>
-				<td>".number_format($prod['rlzn'],1,'.',',')."</td>
-				<td>".number_format($prod['tgt'],1,'.',',')."</td>
-				<td>".number_format($prod['ytd'],1,'.',',')."</td>
-				<td>".number_format($prod['pct'],0,'.',',')." %</td>
+				<td>".$prod['unt']."</td>
+				<td style=\"text-align:right\">".number_format($prod['rlzn'],1,'.',',')."</td>
+				<td style=\"text-align:right\">".number_format($prod['tgt'],1,'.',',')."</td>
+				<td style=\"text-align:right\">".number_format($prod['ytd'],1,'.',',')."</td>
+				<td style=\"text-align:right\">".number_format($prod['pct'],0,'.',',')." %</td>
 				</tr>";
 		}?>
 	</tbody>
@@ -57,21 +60,19 @@
 <hr>
 <div style="margin-top:20px;">
 <h3>Income Realization</h3>
+<h5 style="color:grey; margin-top:-10px;">(in Billion Rupiah)</h5>
 <table class="table table-striped">
 	<thead><tr>
 		<th>Product</th>
-		<th>Mei 2014</th>
-		<th>Target 2014</th>
-		<th>YTD 2014</th>
-		<th>%</th>
+		<th  style="text-align:right">Mei 2014</th><th  style="text-align:right">Target 2014</th><th  style="text-align:right">YTD 2014</th><th  style="text-align:right">% Target</th>
 	</tr></thead>
 	<tbody>
 		<?php foreach($arrprod_inc as $prod){
 			echo "<tr><td>".$prod['name']."</td>
-				<td>".number_format($prod['rlzn'],1,'.',',')."</td>
-				<td>".number_format($prod['tgt'],1,'.',',')."</td>
-				<td>".number_format($prod['ytd'],1,'.',',')."</td>
-				<td>".number_format($prod['pct'],0,'.',',')." %</td>
+				<td style=\"text-align:right\">".number_format($prod['rlzn'],1,'.',',')."</td>
+				<td style=\"text-align:right\">".number_format($prod['tgt'],1,'.',',')."</td>
+				<td style=\"text-align:right\">".number_format($prod['ytd'],1,'.',',')."</td>
+				<td style=\"text-align:right\">".number_format($prod['pct'],0,'.',',')." %</td>
 				</tr>";
 		}?>
 	</tbody>

@@ -5,7 +5,7 @@
                 type: 'line'
             },
             title: {
-                text: 'Pertumbuhan Trade 2013 dan 2014'
+                text: 'Pertumbuhan <?php echo $product_name?> <?php $date = date("Y"); echo $date-1?> & <?php echo $date?>'
             },
             xAxis: {
                 categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']

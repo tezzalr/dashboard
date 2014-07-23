@@ -2,10 +2,10 @@
 	<?php echo $header?>
 	<div>
 		<div>
-			<button type="button" class="btn btn-success btn-md" onclick="change_graph_view(<?php echo $anchor->id?>);">
+			<button type="button" class="btn btn-success btn-md" onclick="change_graph_view('<?php echo $id_ybs?>','<?php echo $code?>');">
 				<span class="glyphicon glyphicon-signal"></span> Graph
 			</button>
-			<button type="button" class="btn btn-warning btn-md" onclick="change_table_view(<?php echo $anchor->id?>);">
+			<button type="button" class="btn btn-warning btn-md" onclick="change_table_view('<?php echo $id_ybs?>','<?php echo $code?>');">
 				<span class="glyphicon glyphicon-list"></span> Table
 			</button>
 		</div>

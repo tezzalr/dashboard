@@ -1,14 +1,26 @@
 <?php
 	
-	$nii_income_ws = $rlzn->WCL_nii +  $rlzn->IL_nii +  $rlzn->SL_nii + $rlzn->CASA_nii + $rlzn->TR_nii + $rlzn->OW_nii + $rlzn->TD_nii ;
-	$fbi_income_ws = $rlzn->IL_fbi + $rlzn->SL_fbi + $rlzn->WCL_fbi + $rlzn->CASA_fbi + $rlzn->FX_fbi + $rlzn->SCF_fbi + $rlzn->Trade_fbi + $rlzn->PWE_fbi + $rlzn->BG_fbi + $rlzn->OIR_fbi + $rlzn->OW_fbi;
+	$nii_income_ws = $rlzn->WCL_nii +  $rlzn->IL_nii +  $rlzn->SL_nii + $rlzn->CASA_nii + $rlzn->TR_nii + $rlzn->OW_nii + $rlzn->TD_nii;
+	$fbi_income_ws = $rlzn->CASA_fbi + $rlzn->FX_fbi + $rlzn->SCF_fbi + $rlzn->Trade_fbi + $rlzn->PWE_fbi + $rlzn->BG_fbi + $rlzn->OIR_fbi + $rlzn->OW_fbi + $rlzn->IL_fbi + $rlzn->SL_fbi + $rlzn->WCL_fbi;
 	
 	$loan_income = $rlzn->WCL_nii +  $rlzn->IL_nii +  $rlzn->SL_nii + $rlzn->TR_nii;
 	$trx_income = $rlzn->CASA_nii + $rlzn->FX_fbi + $rlzn->SCF_fbi + $rlzn->Trade_fbi + $rlzn->PWE_fbi + $rlzn->BG_fbi + $rlzn->OIR_fbi;
 	
+	
 	$ws_income = $nii_income_ws + $fbi_income_ws;
 	$al_income = $ali->WM_nii + $ali->DPLK_fbi + $ali->PCD_nii + $ali->VCCD_nii + $ali->VCCD_fbi + $ali->VCL_nii + $ali->VCL_fbi+ $ali->VCLnDF_nii + $ali->VCLnDF_fbi + $ali->Micro_Loan_nii + $ali->Micro_Loan_fbi + 
 					$ali->MKM_nii + $ali->KPR_nii + $ali->Auto_nii + $ali->CC_nii + $ali->EDC_fbi + $ali->ATM_fbi + $ali->AXA_fbi + $ali->MAGI_fbi + $ali->retail_fbi + $ali->cicil_Emas_fbi;
+	$tot_income = $ws_income + $al_income;
+	
+	$trx_wallet = $wlt->CASA_nii + $wlt->FX_fbi + $wlt->SCF_fbi + $wlt->Trade_fbi + $wlt->PWE_fbi + $wlt->BG_fbi + $wlt->OIR_fbi;
+	$loan_wallet = $wlt->WCL_nii +  $wlt->IL_nii +  $wlt->SL_nii + $wlt->TR_nii;
+	
+	$trx_sow = $trx_income/$month*12/$trx_wallet/pow(10,9);
+	$loan_sow = $loan_income/$month*12/$loan_wallet/pow(10,9);
+	
+	$al_ytd = $al_income/$month*12;
+	$ws_ytd = $nii_income_ws/$month*12+(($rlzn->CASA_fbi + $rlzn->FX_fbi + $rlzn->SCF_fbi + $rlzn->Trade_fbi + $rlzn->PWE_fbi + $rlzn->BG_fbi + $rlzn->OIR_fbi + $rlzn->OW_fbi)/$month*12) + ($rlzn->IL_fbi + $rlzn->SL_fbi + $rlzn->WCL_fbi);
+	
 ?>
 
 <script type="text/javascript">
@@ -356,11 +368,20 @@
 	<?php echo $header?>
 	<div>
 		<div>
-			<div id="container_wsa" style="min-width: 310px; width: 50%; height: 300px; margin: 0; float:left"></div>
-			<div id="container_nii" style="min-width: 310px; width: 50%; height: 300px; margin: 0; float:left"></div>
-		</div><div style="clear:both"></div><hr>
-		<div>
-			<div id="container_lnl" style="min-width: 310px; width: 50%; height: 300px; margin: 0; float:left"></div>
+			<div id="container_wsa" style="min-width: 310px; width: 50%; height: 300px; margin: 0; float:left; margin-bottom:50px;"></div>
+			<div id="" style="min-width: 310px; width: 50%; height: 300px; margin: 0; float:left; margin-bottom:50px; padding-left:100px;">
+				<span style="font-size:25px">Total Relationship Income : <?php echo number_format($tot_income/pow(10,9),1,'.',',')?></span><br>
+				<div>
+					<span style="font-size:16px">Total Wholesale : <?php echo number_format($ws_income/pow(10,9),1,'.',',')?></span><br>
+					<span style="font-size:16px">Total Alliance : <?php echo number_format($al_income/pow(10,9),1,'.',',')?></span>
+				</div><hr>
+				<table>
+					<tr><td style="width:200px">TRX X-SELL</td><td><?php echo number_format($trx_sow/$loan_sow,2,'.',',');?></td></tr>
+					<tr><td style="width:200px">ALL X-SELL</td><td><?php echo number_format($al_ytd/$ws_ytd*100,0,'.',',')?>%</td></tr>
+				</table>
+			</div>
+			<div id="container_nii" style="min-width: 310px; width: 50%; height: 300px; margin: 0; float:left; margin-bottom:50px;"></div>
+			<div id="container_lnl" style="min-width: 310px; width: 50%; height: 300px; margin: 0; float:left; margin-bottom:50px;"></div>
 		</div><div style="clear:both"></div><hr>
 		<div id="container_all" style="min-width: 310px; width: 100%; height: 500px; margin: 0; float:left"></div><div style="clear:both"></div><hr>
 		<div id="container_ws" style="min-width: 310px; width: 100%; height: 500px; margin: 0; float:left"></div><div style="clear:both"></div><hr>

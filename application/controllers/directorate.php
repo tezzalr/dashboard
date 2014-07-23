@@ -53,8 +53,10 @@ class Directorate extends CI_Controller {
     
     public function pendapatan(){
     	$directorate = $this->uri->segment(3);
-    	$realization_ws = $this->mrealization->get_directorate_realization($directorate, 5, date('Y'), 'wholesale');
-    	$realization_al = $this->mrealization->get_directorate_realization($directorate, 5, date('Y'), 'alliance');
+    	$month = 5;
+    	$realization_ws = $this->mrealization->get_directorate_realization($directorate, $month, date('Y'), 'wholesale');
+    	$realization_al = $this->mrealization->get_directorate_realization($directorate, $month, date('Y'), 'alliance');
+    	$wallet_ws = $this->mwallet->get_directorate_wallet($directorate, date('Y'), 'wholesale');
     	
     	$dir_header = $this->load->view('directorate/dir_header',array('directorate' => $directorate),TRUE);
     	
@@ -62,7 +64,7 @@ class Directorate extends CI_Controller {
 		
 		$data['header'] = $this->load->view('shared/header','',TRUE);	
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-		$data['content'] = $this->load->view('grafik/pendapatan',array('header' => $dir_header, 'rlzn' => $realization_ws, 'ali' => $realization_al),TRUE);
+		$data['content'] = $this->load->view('grafik/pendapatan',array('header' => $dir_header, 'rlzn' => $realization_ws, 'ali' => $realization_al, 'wlt' => $wallet_ws, 'month' => $month),TRUE);
 
 		$this->load->view('front',$data);
     }
