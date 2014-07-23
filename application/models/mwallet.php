@@ -72,9 +72,18 @@ class Mwallet extends CI_Model {
     			if(!$wallet->$wlt_prd){$arr_sow[$i]=100;}
     			else{$arr_sow[$i]=$realization[$wlt_prd]/$wallet->$wlt_prd*100;}
     		}
+    		for($i=16;$i<=30;$i++){
+    			$nii_arr = array(16,17,18,19,20,21);
+    			$imbuhan = "_fbi"; if(in_array($i,$nii_arr)){$imbuhan = "_nii";}
+    			$wlt_inc = $this->return_prod_name($i-15).$imbuhan;
+    			if(!$wallet->$wlt_inc){$arr_sow[$i]=100;}
+    			else{$arr_sow[$i]=$realization[$this->return_prod_name($i-15)."_inc"]/$wallet->$wlt_inc*100;}	
+    		}
     	}
     	return $arr_sow;
     }
+    
+    
     
     function get_direktorat_where($direktorat){
     	if($direktorat == 'CB'){
@@ -189,6 +198,10 @@ class Mwallet extends CI_Model {
     	elseif($i==13){return "ECM";}
     	elseif($i==14){return "DCM";}
     	elseif($i==15){return "MA";}
+    	elseif($i==16){return "LMF";}
+    	elseif($i==17){return "SF";}
+    	elseif($i==18){return "OW_nii";}
+    	elseif($i==19){return "OW_fbi";}
     }
        
     function change_real_name($initial){
@@ -207,5 +220,9 @@ class Mwallet extends CI_Model {
 		elseif($initial ==  "ECM"){return 'ECM';}
 		elseif($initial ==  "DCM"){return 'DCM';}
 		elseif($initial ==  "MA"){return 'M&A';}
+		elseif($initial ==  "LMF"){return 'Loan Maintenance Fee';}
+		elseif($initial ==  "SF"){return 'Syndication Fee';}
+		elseif($initial ==  "OW_nii"){return 'NII Others';}
+		elseif($initial ==  "OW_fbi"){return 'FBI Others';}
     }
 }

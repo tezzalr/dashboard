@@ -155,4 +155,11 @@ class Manchor extends CI_Model {
     	
     	return $name;
     }
+    
+    function get_anchor_dir($a){
+    	$this->db->where('name',$a);
+    	$result = $this->db->get('anchor');
+    	$query = $result->result();
+    	if($query){return $query[0]->group;}
+    }
 }

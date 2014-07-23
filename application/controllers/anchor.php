@@ -31,44 +31,70 @@ class Anchor extends CI_Controller {
         
     }
     
-    public function tes(){
-    	$data['title'] = "Pendapatan -";
-		
-		$data['header'] = $this->load->view('shared/header','',TRUE);	
-		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-		$data['content'] = $this->load->view('anchor/tes',array(),TRUE);
-
-		$this->load->view('front',$data);
-    }
-    
-    public function tes2(){
-    	$data['title'] = "Pendapatan -";
-		
-		$data['header'] = $this->load->view('shared/header','',TRUE);	
-		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-		$data['content'] = $this->load->view('anchor/tes2',array(),TRUE);
-
-		$this->load->view('front',$data);
-    }
-    
     public function realisasi(){
     	$anchor_id = $this->uri->segment(3);
     	$target_ws = $this->mtarget->get_anchor_ws_target($anchor_id);
-    	$realization_ws = $this->mrealization->get_anchor_ws_realization($anchor_id, 5, 2014);
-    	
+    	$realization_ws = $this->mrealization->get_anchor_ws_realization($anchor_id, 5, date('Y'));
     	$realization = $this->mrealization->count_realization($target_ws, $realization_ws);
+    	
+    	$arr_prod = array(); for($i=1;$i<=19;$i++){$arr_prod[$i] = $this->mwallet->return_prod_name($i);}
+    	$arr_name = array(); for($i=1;$i<=19;$i++){$arr_name[$i] = $this->mwallet->change_real_name($arr_prod[$i]);}
     	
     	$anchor = $this->manchor->get_anchor_by_id($anchor_id);
     	$anchor_header = $this->load->view('anchor/anchor_header',array('anchor' => $anchor),TRUE);
     	
     	$data['title'] = "Realisasi - $anchor->name";
-		
+    	
+		$graphview = $this->load->view('grafik/realisasi/_graph_view',array('rlzn' => $realization, 'tgt' => $target_ws, 'prod' => $arr_prod, 'arr_name' => $arr_name),TRUE);
+
 		$data['header'] = $this->load->view('shared/header','',TRUE);	
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-		$data['content'] = $this->load->view('grafik/realisasi',array('header' => $anchor_header, 'rlzn' => $realization, 'tgt' => $target_ws, 'anchor' => $anchor),TRUE);
+		$data['content'] = $this->load->view('grafik/realisasi',array('header' => $anchor_header, 'anchor' => $anchor, 'graphview' => $graphview),TRUE);
 
 		$this->load->view('front',$data);
     }
+    
+    public function realization_table_view(){
+        $anchor_id = $this->input->get('id');
+        $target_ws = $this->mtarget->get_anchor_ws_target($anchor_id);
+    	$realization_ws = $this->mrealization->get_anchor_ws_realization($anchor_id, 5, date('Y'));
+    	$realization_now = $this->mrealization->count_realization_now($realization_ws);
+    	$realization_percent = $this->mrealization->count_realization($target_ws, $realization_ws);
+    	$realization_YTD = $this->mrealization->count_realization_value($realization_ws, $realization_ws->month);
+    	
+    	$arr_prod = array(); for($i=1;$i<=19;$i++){$arr_prod[$i] = $this->mwallet->return_prod_name($i);}
+    	$arr_name = array(); for($i=1;$i<=19;$i++){$arr_name[$i] = $this->mwallet->change_real_name($arr_prod[$i]);}
+    	
+		if($target_ws && $realization_ws){
+			$json['status'] = 1;
+    		$tableview = $this->load->view('grafik/realisasi/_table_view',array('ytd' => $realization_YTD, 'pct' =>$realization_percent, 'rlzn' => $realization_now, 'tgt' => $target_ws, 'prod' => $arr_prod, 'arr_name' => $arr_name),TRUE);
+            $json['html'] = $tableview;
+		}else{
+			$json['status'] = 0;
+		}
+		$this->output->set_content_type('application/json')
+                     ->set_output(json_encode($json));
+	}
+	
+	public function realization_graph_view(){
+        $anchor_id = $this->input->get('id');
+    	$target_ws = $this->mtarget->get_anchor_ws_target($anchor_id);
+    	$realization_ws = $this->mrealization->get_anchor_ws_realization($anchor_id, 5, date('Y'));
+    	$realization = $this->mrealization->count_realization($target_ws, $realization_ws);
+    	
+    	$arr_prod = array(); for($i=1;$i<=19;$i++){$arr_prod[$i] = $this->mwallet->return_prod_name($i);}
+    	$arr_name = array(); for($i=1;$i<=19;$i++){$arr_name[$i] = $this->mwallet->change_real_name($arr_prod[$i]);}
+    	
+		if($target_ws && $realization_ws){
+			$json['status'] = 1;
+    		$graphview = $this->load->view('grafik/realisasi/_graph_view',array('rlzn' => $realization, 'tgt' => $target_ws, 'prod' => $arr_prod, 'arr_name' => $arr_name),TRUE);
+            $json['html'] = $graphview;
+		}else{
+			$json['status'] = 0;
+		}
+		$this->output->set_content_type('application/json')
+                     ->set_output(json_encode($json));
+	}
     
     public function pendapatan(){
     	$anchor_id = $this->uri->segment(3);
@@ -91,10 +117,10 @@ class Anchor extends CI_Controller {
     public function wallet(){
     	$anchor_id = $this->uri->segment(3);
     	
-    	$wallet_ws = $this->mwallet->get_anchor_ws_wallet($anchor_id, 2014);
-    	$wallet_al = $this->mwallet->get_anchor_al_wallet($anchor_id, 2014);
+    	$wallet_ws = $this->mwallet->get_anchor_ws_wallet($anchor_id, date('Y'));
+    	$wallet_al = $this->mwallet->get_anchor_al_wallet($anchor_id, date('Y'));
     	
-    	$realization_ws = $this->mrealization->get_anchor_ws_realization($anchor_id, 5, 2014);
+    	$realization_ws = $this->mrealization->get_anchor_ws_realization($anchor_id, 5, date('Y'));
     	$realization = $this->mrealization->count_realization_value($realization_ws, $realization_ws->month);
     	
     	$sow_ws = $this->mwallet->get_sow($wallet_ws, $realization, 'wholesale');
@@ -142,11 +168,6 @@ class Anchor extends CI_Controller {
 		$data['content'] = $this->load->view('grafik/profile',array(),TRUE);
 
 		$this->load->view('front',$data);
-    }
-    
-    private function determine_target($target){
-    	if($target){return 100;}
-    	else{return 0;}
     }
     
     public function input_anchor(){
