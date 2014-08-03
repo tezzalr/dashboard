@@ -305,9 +305,9 @@ class Anchor extends CI_Controller {
     public function input_ws_al(){
     	$kind = $this->uri->segment(3);
     	$year = $this->uri->segment(4); $iter=1;
-    	$month = '';
-    	if($kind == 'realization'){$month = $this->uri->segment(5); $iptdata['month']= $month; $iptdata2['month']= $month;}
-    	$arr_target = $this->get_excel('datadashboard/'.$kind.'/'.$kind.'_'.$year.$month.'.xlsx');
+    	$month = ''; $year_fldr = '';
+    	if($kind == 'realization'){$month = $this->uri->segment(5); $year_fldr= $year."/"; $iptdata['month']= $month; $iptdata2['month']= $month;}
+    	$arr_target = $this->get_excel('datadashboard/'.$kind.'/'.$year_fldr.$kind.'_'.$year.$month.'.xlsx');
     	
     	foreach($arr_target as $target){
     		$anchor_id = $this->manchor->get_anchor_id($target[0],$target[1]);
