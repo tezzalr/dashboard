@@ -150,7 +150,7 @@ class Anchor extends CI_Controller {
     	$product = $this->uri->segment(4);
     	
     	$realization_now = $this->mrealization->get_anchor_prd_realization_annual($anchor_id, $product, $kind, date('Y'), date('n'));
-    	//$realization_ly = $this->mrealization->get_anchor_prd_realization($anchor_id, $product, $kind, 2013);
+    	$realization_ly = $this->mrealization->get_anchor_prd_realization_annual($anchor_id, $product, $kind, 2013,12);
     	$anchor = $this->manchor->get_anchor_by_id($anchor_id);
     	$anchor_header = $this->load->view('anchor/anchor_header',array('anchor' => $anchor),TRUE);
     	

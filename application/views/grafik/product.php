@@ -26,6 +26,9 @@
             series: [{
                 name: '2014',
                 data: [<?php for($i=1;$i<=5;$i++){$mth = 'mth_'.$i; echo round($this_year->$mth/pow(10,6),2).', ';}?>],
+            }, {
+            	name: '2013',
+                data: [<?php for($i=1;$i<=12;$i++){$mth = 'mth_'.$i; echo round($ly_year->$mth/pow(10,6),2).', ';}?>],
             }]
         });
     });
