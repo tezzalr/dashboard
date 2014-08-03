@@ -160,7 +160,7 @@ class Anchor extends CI_Controller {
 		$data['header'] = $this->load->view('shared/header','',TRUE);	
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
 		$data['content'] = $this->load->view('grafik/product',array('header' => $anchor_header, 
-												'anchor' => $anchor, 'this_year' => $realization_now, 'last_month_data' => $this->mrealization->get_anchor_last_month($anchor_id, 'wholesale_realization', date('y')), 
+												'anchor' => $anchor, 'this_year' => $realization_now, 'ly_year' => $realization_ly, 'last_month_data' => $this->mrealization->get_anchor_last_month($anchor_id, 'wholesale_realization', date('y')), 
 												'product_name' => $this->mwallet->change_real_name($product)),TRUE);
 
 		$this->load->view('front',$data);
