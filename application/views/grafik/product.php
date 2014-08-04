@@ -1,4 +1,3 @@
-<?php echo $last_month_data?>
 <script type="text/javascript">
 	$(function () {
         $('#container4').highcharts({
@@ -6,7 +5,7 @@
                 type: 'line'
             },
             title: {
-                text: 'Pertumbuhan <?php echo $product_name?> <?php $date = date("Y"); echo $date-1?> & <?php echo $date?>'
+                text: 'Pertumbuhan <?php echo $this->uri->segment(5)?> <?php echo $product_name?> <?php $date = date("Y"); echo $date-1?> & <?php echo $date?>'
             },
             xAxis: {
                 categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
@@ -26,7 +25,7 @@
             },
             series: [{
                 name: '2014',
-                data: [<?php for($i=1;$i<=5;$i++){$mth = 'mth_'.$i; echo round($this_year->$mth/pow(10,9),2).', ';}?>],
+                data: [<?php for($i=1;$i<=$last_month_data;$i++){$mth = 'mth_'.$i; echo round($this_year->$mth/pow(10,9),2).', ';}?>],
             }, {
             	name: '2013',
                 data: [<?php for($i=1;$i<=12;$i++){$mth = 'mth_'.$i; echo round($ly_year->$mth/pow(10,9),2).', ';}?>],
@@ -40,19 +39,19 @@
 	<div>
 		<div>
 			<div style="margin-bottom: 20px; float:left;">
+					<form method="post" action="<?php echo base_url()?>anchor/refresh_product/<?php echo $anchor->id?>">
 					<label style="margin-right:20px;">Produk:</label> 
-					<select>
-						<option>Trade</option>
-						<option>CASA</option>
-						<option>Time Deposit</option>
-						<option>Bank Guarantee</option>
-						<option>NII Others</option>
+					<select name="product">
+						<?php foreach($arr_prod as $prod){?>
+						<option value="<?php echo $prod['id']?>" <?php if($this->uri->segment(4)==$prod['id']){echo "selected";}?>><?php echo $prod['name']?></option>
+						<?php }?>
 					</select><br>
 					<label style="margin-right:37px;">Data:</label> 
-					<select>
-						<option>Volume</option>
-						<option>Income</option>
-					</select>
+					<select name="kind">
+						<option value="volume" <?php if($this->uri->segment(5)=="volume"){echo "selected";}?>>Volume</option>
+						<option value="income" <?php if($this->uri->segment(5)=="income"){echo "selected";}?>>Income</option>
+					</select><hr>
+					<button type="submit" class="btn btn-default btn-md">Cari</button>
 			</div>
 			<!--<div style="float: right"><h3>YTD (%Target) : <span style="color: red">90%</span></h3></div>--><div style="clear:both"></div>
 		</div>

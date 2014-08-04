@@ -223,3 +223,58 @@
     	}
     	
     }
+    
+    function return_prod_name($i){
+    	if($i==1){return "CASA";}
+    	elseif($i==2){return "TD";}
+    	elseif($i==3){return "WCL";}
+    	elseif($i==4){return "IL";}
+    	elseif($i==5){return "SL";}
+    	elseif($i==6){return "TR";}
+    	elseif($i==7){return "FX";}
+    	elseif($i==8){return "SCF";}
+    	elseif($i==9){return "Trade";}
+    	elseif($i==10){return "BG";}
+    	elseif($i==11){return "OIR";}
+    	elseif($i==12){return "PWE";}
+    	elseif($i==13){return "ECM";}
+    	elseif($i==14){return "DCM";}
+    	elseif($i==15){return "MA";}
+    	elseif($i==16){return "LMF";}
+    	elseif($i==17){return "SF";}
+    	elseif($i==18){return "OW_nii";}
+    	elseif($i==19){return "OW_fbi";}
+    }
+       
+    function change_real_name($initial){
+    	if($initial == "CASA"){return "CASA";}
+    	elseif($initial ==  "TD"){return "Time Deposit";}
+		elseif($initial ==  "WCL"){return 'Working Capital Loan';}
+		elseif($initial ==  "IL"){return 'Investment Loan';}
+		elseif($initial ==  "SL"){return 'Structured Loan';}
+		elseif($initial ==  "TR"){return 'Trust Receipt';}
+		elseif($initial ==  "FX"){return 'FX & Derivatives';}
+		elseif($initial ==  "SCF"){return 'Supply Chain Financing';}
+		elseif($initial ==  "Trade"){return 'Trade Services';}
+		elseif($initial ==  "BG"){return 'Bank Guarantee';}
+		elseif($initial ==  "OIR"){return 'Outgoing Intl Remittance';}
+		elseif($initial ==  "PWE"){return 'PWE non L/C';}
+		elseif($initial ==  "ECM"){return 'ECM';}
+		elseif($initial ==  "DCM"){return 'DCM';}
+		elseif($initial ==  "MA"){return 'M&A';}
+		elseif($initial ==  "LMF"){return 'Loan Maintenance Fee';}
+		elseif($initial ==  "SF"){return 'Syndication Fee';}
+		elseif($initial ==  "OW_nii"){return 'NII Others';}
+		elseif($initial ==  "OW_fbi"){return 'FBI Others';}
+    }
+    
+    function get_tot_income($ws, $al){
+    	$arr_tot_inc = array();
+    	
+    	$arr_tot_inc['ws'] = $ws->WCL_nii +  $ws->IL_nii +  $ws->SL_nii + $ws->CASA_nii + $ws->TR_nii + $ws->OW_nii + $ws->TD_nii + 
+    					$ws->CASA_fbi + $ws->FX_fbi + $ws->SCF_fbi + $ws->Trade_fbi + $ws->PWE_fbi + $ws->BG_fbi + $ws->OIR_fbi + $ws->OW_fbi + $ws->IL_fbi;// + $ws->SL_fbi + $ws->WCL_fbi;
+    	$arr_tot_inc['al'] = $al->WM_nii + $al->DPLK_fbi + $al->PCD_nii + $al->VCCD_nii + $al->VCCD_fbi + $al->VCL_nii + $al->VCL_fbi+ $al->VCLnDF_nii + $al->VCLnDF_fbi + $al->Micro_Loan_nii + $al->Micro_Loan_fbi + 
+					$al->MKM_nii + $al->KPR_nii + $al->Auto_nii + $al->CC_nii + $al->EDC_fbi + $al->ATM_fbi + $al->AXA_fbi + $al->MAGI_fbi + $al->retail_fbi + $al->cicil_Emas_fbi;
+		$arr_tot_inc['tot'] = $arr_tot_inc['ws'] + $arr_tot_inc['al'];
+		return $arr_tot_inc;
+    }

@@ -40,6 +40,13 @@ class Mwallet extends CI_Model {
         return $query[0];
     }
     
+    function get_anchor_total_wallet($anchor_id, $year){
+    	$ws_wallet = $this->get_anchor_ws_wallet($anchor_id, $year);
+    	$al_wallet = $this->get_anchor_al_wallet($anchor_id, $year);
+
+		return get_tot_income($ws_wallet, $al_wallet);
+    }
+    
     /*Directorate Function*/
     function get_directorate_realization($direktorat, $month, $year, $type){
     	$db = $type.'_realization';

@@ -46,7 +46,7 @@ class Mrealization extends CI_Model {
     	if($kind == 'volume'){$colom = $product.'_vol';}
     	else{$colom = $product.'_'.$this->get_product_income_type($product);}
     	
-    	$db = $this->get_ws_or_ol_by_product($product).'_realization';
+    	$db = $this->get_ws_or_al_by_product($product).'_realization';
     	$last_month_data = $this->get_anchor_last_month($anchor_id, $db, $year);
     	$select_sentence = '';
     	for($i=1;$i<=$last_month_data;$i++)
@@ -66,22 +66,35 @@ class Mrealization extends CI_Model {
         return $query[0];
     }
     
+    function get_anchor_total_income($anchor_id, $year){
+    	$month = $this->get_last_month($year);
+    	$ws_realization = $this->get_anchor_ws_realization($anchor_id, $month, $year);
+    	$al_realization = $this->get_anchor_al_realization($anchor_id, $month, $year);
+    	
+		return get_tot_income($ws_realization, $al_realization);
+    }
+    
     function get_product_income_type($product){
-    	$prod_nii = array("CASA", "TD", "IL", "SL", "WCL", "TR");
+    	$prod_nii = array("CASA", "TD", "IL", "SL", "WCL", "TR", "WM");
     	$prod_fbi = array("FX", "SCF", "Trade", "PWE", "BG", "OIR", "OW", "ECM", "DCM", "MA");
     	if(in_array($product, $prod_nii)){return 'nii';}
     	elseif(in_array($product, $prod_fbi)){return 'fbi';}
     }
     
-    function get_ws_or_ol_by_product($product){
+    function get_ws_or_al_by_product($product){
     	$ws = array("CASA", "TD", "IL", "SL", "WCL", "TR", "FX", "SCF", "Trade", "PWE", "BG", "OIR", "OW", "ECM", "DCM", "MA");
-    	$al = array("WM, DPLK, PCD");
+    	$al = array("WM", "DPLK", "PCD");
     	if(in_array($product, $ws)){return 'wholesale';}
     	elseif(in_array($product, $al)){return 'alliance';}
     }
     
     function get_anchor_last_month($anchor_id, $db, $year){
     	$result = $this->db->query('SELECT MAX(month) as month FROM '.$db.' WHERE anchor_id = '.$anchor_id.' AND year = '.$year);
+    	return $result->row(0)->month;
+    }
+    
+    function get_last_month($year){
+    	$result = $this->db->query('SELECT MAX(month) as month FROM wholesale_realization WHERE year = '.$year);
     	return $result->row(0)->month;
     }
     
