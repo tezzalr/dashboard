@@ -24,7 +24,8 @@ class Mrealization extends CI_Model {
     
     /*Anchor Function*/
     
-    function get_anchor_ws_realization($anchor_id, $month, $year){
+    function get_anchor_ws_realization($anchor_id, $year){
+    	$month = $this->get_last_month($year);
     	$this->db->where('anchor_id',$anchor_id);
     	$this->db->where('month',$month);
     	$this->db->where('year',$year);
@@ -33,7 +34,8 @@ class Mrealization extends CI_Model {
         return $query[0];
     }
     
-    function get_anchor_al_realization($anchor_id, $month, $year){
+    function get_anchor_al_realization($anchor_id, $year){
+    	$month = $this->get_last_month($year);
     	$this->db->where('anchor_id',$anchor_id);
     	$this->db->where('month',$month);
     	$this->db->where('year',$year);
@@ -68,10 +70,10 @@ class Mrealization extends CI_Model {
     
     function get_anchor_total_income($anchor_id, $year){
     	$month = $this->get_last_month($year);
-    	$ws_realization = $this->get_anchor_ws_realization($anchor_id, $month, $year);
-    	$al_realization = $this->get_anchor_al_realization($anchor_id, $month, $year);
+    	$ws_realization = $this->get_anchor_ws_realization($anchor_id, $year);
+    	$al_realization = $this->get_anchor_al_realization($anchor_id, $year);
     	
-		return get_tot_income($ws_realization, $al_realization);
+		return get_tot_income($ws_realization, $al_realization, $month, 9);
     }
     
     function get_product_income_type($product){
@@ -99,7 +101,8 @@ class Mrealization extends CI_Model {
     }
     
     /*Directorate Function*/
-    function get_directorate_realization($direktorat, $month, $year, $type){
+    function get_directorate_realization($direktorat, $year, $type){
+    	$month = $this->get_last_month($year);
     	$db = $type.'_realization';
     	get_type_select_month($type,$this);
     	get_direktorat_where($direktorat,$this);

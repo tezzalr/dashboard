@@ -53,9 +53,9 @@ class Directorate extends CI_Controller {
     
     public function pendapatan(){
     	$directorate = $this->uri->segment(3);
-    	$month = 5;
-    	$realization_ws = $this->mrealization->get_directorate_realization($directorate, $month, date('Y'), 'wholesale');
-    	$realization_al = $this->mrealization->get_directorate_realization($directorate, $month, date('Y'), 'alliance');
+    	$month = $this->mrealization->get_last_month(date('Y'));
+    	$realization_ws = $this->mrealization->get_directorate_realization($directorate, date('Y'), 'wholesale');
+    	$realization_al = $this->mrealization->get_directorate_realization($directorate, date('Y'), 'alliance');
     	$wallet_ws = $this->mwallet->get_directorate_wallet($directorate, date('Y'), 'wholesale');
     	
     	$dir_header = $this->load->view('directorate/dir_header',array('directorate' => $directorate),TRUE);
@@ -75,7 +75,7 @@ class Directorate extends CI_Controller {
     	$wallet_ws = $this->mwallet->get_directorate_wallet($directorate, date('Y'), 'wholesale');
     	$wallet_al = $this->mwallet->get_directorate_wallet($directorate, date('Y'), 'alliance');
     	
-    	$realization_ws = $this->mrealization->get_directorate_realization($directorate, 5, date('Y'), 'wholesale');
+    	$realization_ws = $this->mrealization->get_directorate_realization($directorate, date('Y'), 'wholesale');
     	$realization = $this->mrealization->count_realization_value($realization_ws, $realization_ws->month);
     	$sow_ws = $this->mwallet->get_sow($wallet_ws, $realization, 'wholesale');
     	

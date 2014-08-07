@@ -23,102 +23,95 @@ class Report extends CI_Controller {
     	if($this->uri->segment(3)=='anchor'){
     		$year = date('Y');
     		$anchor_id = $this->uri->segment(4);
-    		$tot_inc_wal = $this->mwallet->get_anchor_total_wallet($anchor_id, 2014);
-    		$tot_inc = $this->mrealization->get_anchor_total_income($anchor_id, 2014);
-    		$tot_inc_wal_ly = $this->mwallet->get_anchor_total_wallet($anchor_id, 2013);
-    		$tot_inc_ly = $this->mrealization->get_anchor_total_income($anchor_id, 2013);
+    		$data_rl_inc = array();
+    		$data_rl_inc['inc_wal'] = $this->mwallet->get_anchor_total_wallet($anchor_id, $year);
+    		$data_rl_inc['inc'] = $this->mrealization->get_anchor_total_income($anchor_id, $year);
+    		$data_rl_inc['inc_wal_ly'] = $this->mwallet->get_anchor_total_wallet($anchor_id, ($year-1));
+    		$data_rl_inc['inc_ly'] = $this->mrealization->get_anchor_total_income($anchor_id, ($year-1));
+    		$anchor = $this->manchor->get_anchor_by_id($anchor_id);
     		
-    		//echo $tot_inc_wal['tot'].'<br>'.$tot_inc['tot']."<br>";
-    		echo $tot_inc_wal_ly['ws'].'<br>'.$tot_inc_wal_ly['al'].'<br>';
-    		echo $tot_inc_wal_ly['tot'].'<br>'.$tot_inc_ly['tot'];
-    	}
-    }
+    		$data['title'] = "Relationship Income - $anchor->name";
     
-    public function show(){
-    	if($this->uri->segment(3)=='anchor'){
-			$anchor_id = $this->uri->segment(4);
-			$target_ws = $this->mtarget->get_anchor_ws_target($anchor_id);
-			$realization_ws = $this->mrealization->get_anchor_ws_realization($anchor_id, 5, date('Y'));
-	
-			$anchor = $this->manchor->get_anchor_by_id($anchor_id);
-			$header = $this->load->view('anchor/anchor_header',array('anchor' => $anchor, 'id_ybs' => $anchor->id, 'code' => 'anc'),TRUE);
-			$data['title'] = "Realisasi - $anchor->name";
-		}
-		elseif($this->uri->segment(3)=='directorate'){
-			$directorate = $this->uri->segment(4);
-			$target_ws = $this->mtarget->get_directorate_target($directorate,'wholesale');
-			$realization_ws = $this->mrealization->get_directorate_realization($directorate, 5, date('Y'), 'wholesale');
-			
-			$header = $this->load->view('directorate/dir_header',array('directorate' => $directorate, 'id_ybs' => $directorate, 'code' => 'dir'),TRUE);
-			$data['title'] = "Realisasi";
-		}
-		$realization = $this->mrealization->count_realization($target_ws, $realization_ws);
-		$arr_prod = array(); for($i=1;$i<=19;$i++){$arr_prod[$i] = $this->mwallet->return_prod_name($i);}
-		$arr_name = array(); for($i=1;$i<=19;$i++){$arr_name[$i] = $this->mwallet->change_real_name($arr_prod[$i]);}
+    		$header = $this->load->view('anchor/anchor_header',array('anchor' => $anchor, 'id_ybs' => $anchor->id, 'code' => 'anc'),TRUE);
+    	}
     	
-		$graphview = $this->load->view('grafik/realisasi/_graph_view',array('rlzn' => $realization, 'tgt' => $target_ws, 'prod' => $arr_prod, 'arr_name' => $arr_name),TRUE);
-
-		$data['header'] = $this->load->view('shared/header','',TRUE);	
+    	$data['header'] = $this->load->view('shared/header','',TRUE);	
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-		$data['content'] = $this->load->view('grafik/realisasi',array('header' => $header, 'graphview' => $graphview),TRUE);
+		$data['content'] = $this->load->view('report/relation_income',array('rl_inc' => $data_rl_inc, 'header' => $header),TRUE);
 
 		$this->load->view('front',$data);
     }
     
-    public function realization_table_view(){
-        $code = $this->input->get('code');
-        if($code == 'anc'){
-			$anchor_id = $this->input->get('id');
-			$target_ws = $this->mtarget->get_anchor_ws_target($anchor_id);
-			$realization_ws = $this->mrealization->get_anchor_ws_realization($anchor_id, 5, date('Y'));
-		}
-		elseif($code == 'dir'){
-			$directorate = $this->input->get('id');
-			$target_ws = $this->mtarget->get_directorate_target($directorate,'wholesale');
-			$realization_ws = $this->mrealization->get_directorate_realization($directorate, 5, date('Y'), 'wholesale');
-		}
-		$realization_now = $this->mrealization->count_realization_now($realization_ws);
-		$realization_percent = $this->mrealization->count_realization($target_ws, $realization_ws);
-		$realization_YTD = $this->mrealization->count_realization_value($realization_ws, $realization_ws->month);
-    	$arr_prod = array(); for($i=1;$i<=19;$i++){$arr_prod[$i] = $this->mwallet->return_prod_name($i);}
-    	$arr_name = array(); for($i=1;$i<=19;$i++){$arr_name[$i] = $this->mwallet->change_real_name($arr_prod[$i]);}
+    public function wholesale_income(){
+    	if($this->uri->segment(3)=='anchor'){
+    		$year = date('Y');
+    		$month = $this->mrealization->get_last_month($year);
+    		$anchor_id = $this->uri->segment(4);
+    		$data_ws_inc = array();
+    		$data_ws_inc['ty'] = $this->mrealization->get_anchor_ws_realization($anchor_id, $year);
+    		$data_ws_inc['ly'] = $this->mrealization->get_anchor_ws_realization($anchor_id, $year-1);
+    		$anchor = $this->manchor->get_anchor_by_id($anchor_id);
+    		
+    		$data['title'] = "Relationship Income - $anchor->name";
+    
+    		$header = $this->load->view('anchor/anchor_header',array('anchor' => $anchor, 'id_ybs' => $anchor->id, 'code' => 'anc'),TRUE);
+    	}
     	
-		if($target_ws && $realization_ws){
-			$json['status'] = 1;
-    		$tableview = $this->load->view('grafik/realisasi/_table_view',array('ytd' => $realization_YTD, 'pct' =>$realization_percent, 'rlzn' => $realization_now, 'tgt' => $target_ws, 'prod' => $arr_prod, 'arr_name' => $arr_name),TRUE);
-            $json['html'] = $tableview;
-		}else{
-			$json['status'] = 0;
-		}
-		$this->output->set_content_type('application/json')
-                     ->set_output(json_encode($json));
-	}
-	
-	public function realization_graph_view(){
-       	$code = $this->input->get('code');
-        if($code == 'anc'){
-			$anchor_id = $this->input->get('id');
-			$target_ws = $this->mtarget->get_anchor_ws_target($anchor_id);
-			$realization_ws = $this->mrealization->get_anchor_ws_realization($anchor_id, 5, date('Y'));
-		}
-		elseif($code = 'dir'){
-			$directorate = $this->input->get('id');
-			$target_ws = $this->mtarget->get_directorate_target($directorate,'wholesale');
-			$realization_ws = $this->mrealization->get_directorate_realization($directorate, 5, date('Y'), 'wholesale');
-		}
-    	$realization = $this->mrealization->count_realization($target_ws, $realization_ws);
+    	$data['header'] = $this->load->view('shared/header','',TRUE);	
+		$data['footer'] = $this->load->view('shared/footer','',TRUE);
+		$data['content'] = $this->load->view('report/wholesale_income',array('ws_inc' => $data_ws_inc, 'header' => $header, 'month' => $month),TRUE);
+
+		$this->load->view('front',$data);
+    }
+    
+    public function trans_xsell(){
+    	if($this->uri->segment(3)=='anchor'){
+    		$year = date('Y');
+    		$anchor_id = $this->uri->segment(4);
+    		$data_xsell = array();
+    		$inc = $this->mrealization->get_anchor_ws_realization($anchor_id, $year);
+    		$data_xsell['wal'] = $this->mwallet->get_anchor_ws_wallet($anchor_id, $year);		
+    		$data_xsell['inc'] = $this->mrealization->count_realization_value($inc, $inc->month);
+    		$data_xsell['sow'] = $this->mwallet->get_sow($data_xsell['wal'], $data_xsell['inc'], 'wholesale');
+    		
+    		$inc_ly = $this->mrealization->get_anchor_ws_realization($anchor_id, ($year-1));
+    		$data_xsell['wal_ly'] = $this->mwallet->get_anchor_ws_wallet($anchor_id, ($year-1));
+    		$data_xsell['inc_ly'] = $this->mrealization->count_realization_value($inc_ly, $inc_ly->month);
+    		$data_xsell['sow_ly'] = $this->mwallet->get_sow($data_xsell['wal_ly'], $data_xsell['inc_ly'], 'wholesale');
+    		
+    		$anchor = $this->manchor->get_anchor_by_id($anchor_id);
+    		
+    		$data['title'] = "Relationship Income - $anchor->name";
+    
+    		$header = $this->load->view('anchor/anchor_header',array('anchor' => $anchor, 'id_ybs' => $anchor->id, 'code' => 'anc'),TRUE);
+    	}
     	
-    	$arr_prod = array(); for($i=1;$i<=19;$i++){$arr_prod[$i] = $this->mwallet->return_prod_name($i);}
-    	$arr_name = array(); for($i=1;$i<=19;$i++){$arr_name[$i] = $this->mwallet->change_real_name($arr_prod[$i]);}
+    	$data['header'] = $this->load->view('shared/header','',TRUE);	
+		$data['footer'] = $this->load->view('shared/footer','',TRUE);
+		$data['content'] = $this->load->view('report/trans_xsell',array('xsell' => $data_xsell, 'header' => $header),TRUE);
+
+		$this->load->view('front',$data);
+    }
+    
+    public function alliance_income(){
+    	if($this->uri->segment(3)=='anchor'){
+    		$year = date('Y');
+    		$month = $this->mrealization->get_last_month($year);
+    		$anchor_id = $this->uri->segment(4);
+    		$data_ws_inc = array();
+    		$data_ws_inc['ty'] = $this->mrealization->get_anchor_ws_realization($anchor_id, $year);
+    		$data_ws_inc['ly'] = $this->mrealization->get_anchor_ws_realization($anchor_id, $year-1);
+    		$anchor = $this->manchor->get_anchor_by_id($anchor_id);
+    		
+    		$data['title'] = "Relationship Income - $anchor->name";
+    
+    		$header = $this->load->view('anchor/anchor_header',array('anchor' => $anchor, 'id_ybs' => $anchor->id, 'code' => 'anc'),TRUE);
+    	}
     	
-		if($target_ws && $realization_ws){
-			$json['status'] = 1;
-    		$graphview = $this->load->view('grafik/realisasi/_graph_view',array('rlzn' => $realization, 'tgt' => $target_ws, 'prod' => $arr_prod, 'arr_name' => $arr_name),TRUE);
-            $json['html'] = $graphview;
-		}else{
-			$json['status'] = 0;
-		}
-		$this->output->set_content_type('application/json')
-                     ->set_output(json_encode($json));
-	}
+    	$data['header'] = $this->load->view('shared/header','',TRUE);	
+		$data['footer'] = $this->load->view('shared/footer','',TRUE);
+		$data['content'] = $this->load->view('report/alliance_income',array('ws_inc' => $data_ws_inc, 'header' => $header, 'month' => $month),TRUE);
+
+		$this->load->view('front',$data);
+    }
 }

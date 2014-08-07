@@ -31,81 +31,14 @@ class Anchor extends CI_Controller {
         
     }
     
-    public function realisasi(){
-    	$anchor_id = $this->uri->segment(3);
-    	$target_ws = $this->mtarget->get_anchor_ws_target($anchor_id);
-    	$realization_ws = $this->mrealization->get_anchor_ws_realization($anchor_id, 5, date('Y'));
-    	$realization = $this->mrealization->count_realization($target_ws, $realization_ws);
-    	
-    	$arr_prod = array(); for($i=1;$i<=19;$i++){$arr_prod[$i] = $this->mwallet->return_prod_name($i);}
-    	$arr_name = array(); for($i=1;$i<=19;$i++){$arr_name[$i] = $this->mwallet->change_real_name($arr_prod[$i]);}
-    	
-    	$anchor = $this->manchor->get_anchor_by_id($anchor_id);
-    	$anchor_header = $this->load->view('anchor/anchor_header',array('anchor' => $anchor),TRUE);
-    	
-    	$data['title'] = "Realisasi - $anchor->name";
-    	
-		$graphview = $this->load->view('grafik/realisasi/_graph_view',array('rlzn' => $realization, 'tgt' => $target_ws, 'prod' => $arr_prod, 'arr_name' => $arr_name),TRUE);
-
-		$data['header'] = $this->load->view('shared/header','',TRUE);	
-		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-		$data['content'] = $this->load->view('grafik/realisasi',array('header' => $anchor_header, 'anchor' => $anchor, 'graphview' => $graphview),TRUE);
-
-		$this->load->view('front',$data);
-    }
-    
-    public function realization_table_view(){
-        $anchor_id = $this->input->get('id');
-        $target_ws = $this->mtarget->get_anchor_ws_target($anchor_id);
-    	$realization_ws = $this->mrealization->get_anchor_ws_realization($anchor_id, 5, date('Y'));
-    	$realization_now = $this->mrealization->count_realization_now($realization_ws);
-    	$realization_percent = $this->mrealization->count_realization($target_ws, $realization_ws);
-    	$realization_YTD = $this->mrealization->count_realization_value($realization_ws, $realization_ws->month);
-    	
-    	$arr_prod = array(); for($i=1;$i<=19;$i++){$arr_prod[$i] = $this->mwallet->return_prod_name($i);}
-    	$arr_name = array(); for($i=1;$i<=19;$i++){$arr_name[$i] = $this->mwallet->change_real_name($arr_prod[$i]);}
-    	
-		if($target_ws && $realization_ws){
-			$json['status'] = 1;
-    		$tableview = $this->load->view('grafik/realisasi/_table_view',array('ytd' => $realization_YTD, 'pct' =>$realization_percent, 'rlzn' => $realization_now, 'tgt' => $target_ws, 'prod' => $arr_prod, 'arr_name' => $arr_name),TRUE);
-            $json['html'] = $tableview;
-		}else{
-			$json['status'] = 0;
-		}
-		$this->output->set_content_type('application/json')
-                     ->set_output(json_encode($json));
-	}
-	
-	public function realization_graph_view(){
-        $anchor_id = $this->input->get('id');
-    	$target_ws = $this->mtarget->get_anchor_ws_target($anchor_id);
-    	$realization_ws = $this->mrealization->get_anchor_ws_realization($anchor_id, 5, date('Y'));
-    	$realization = $this->mrealization->count_realization($target_ws, $realization_ws);
-    	
-    	$arr_prod = array(); for($i=1;$i<=19;$i++){$arr_prod[$i] = $this->mwallet->return_prod_name($i);}
-    	$arr_name = array(); for($i=1;$i<=19;$i++){$arr_name[$i] = $this->mwallet->change_real_name($arr_prod[$i]);}
-    	
-		if($target_ws && $realization_ws){
-			$json['status'] = 1;
-    		$graphview = $this->load->view('grafik/realisasi/_graph_view',array('rlzn' => $realization, 'tgt' => $target_ws, 'prod' => $arr_prod, 'arr_name' => $arr_name),TRUE);
-            $json['html'] = $graphview;
-		}else{
-			$json['status'] = 0;
-		}
-		$this->output->set_content_type('application/json')
-                     ->set_output(json_encode($json));
-	}
-    
     public function pendapatan(){
     	$anchor_id = $this->uri->segment(3);
     	
-    	$month = 5;
-    	
-    	$realization_ws = $this->mrealization->get_anchor_ws_realization($anchor_id, $month, date('Y'));
-    	$realization_al = $this->mrealization->get_anchor_al_realization($anchor_id, $month, date('Y'));
+    	$realization_ws = $this->mrealization->get_anchor_ws_realization($anchor_id, date('Y'));
+    	$realization_al = $this->mrealization->get_anchor_al_realization($anchor_id, date('Y'));
     	$wallet_ws = $this->mwallet->get_anchor_ws_wallet($anchor_id, date('Y'));
     	$anchor = $this->manchor->get_anchor_by_id($anchor_id);
-    	
+    	$month = $this->mrealization->get_last_month(date('Y'));
     	$anchor_header = $this->load->view('anchor/anchor_header',array('anchor' => $anchor),TRUE);
     	
     	$data['title'] = "Pendapatan - $anchor->name";
@@ -123,9 +56,8 @@ class Anchor extends CI_Controller {
     	$wallet_ws = $this->mwallet->get_anchor_ws_wallet($anchor_id, date('Y'));
     	$wallet_al = $this->mwallet->get_anchor_al_wallet($anchor_id, date('Y'));
     	
-    	$realization_ws = $this->mrealization->get_anchor_ws_realization($anchor_id, 5, date('Y'));
+    	$realization_ws = $this->mrealization->get_anchor_ws_realization($anchor_id, date('Y'));
     	$realization = $this->mrealization->count_realization_value($realization_ws, $realization_ws->month);
-    	
     	$sow_ws = $this->mwallet->get_sow($wallet_ws, $realization, 'wholesale');
     	
     	$anchor = $this->manchor->get_anchor_by_id($anchor_id);
@@ -150,7 +82,7 @@ class Anchor extends CI_Controller {
     	$product = $this->uri->segment(4);
     	
     	$realization_now = $this->mrealization->get_anchor_prd_realization_annual($anchor_id, $product, $kind, date('Y'), date('n'));
-    	$realization_ly = $this->mrealization->get_anchor_prd_realization_annual($anchor_id, $product, $kind, 2013,12);
+    	$realization_ly = $this->mrealization->get_anchor_prd_realization_annual($anchor_id, $product, $kind, date('Y')-1,12);
     	$anchor = $this->manchor->get_anchor_by_id($anchor_id);
     	$anchor_header = $this->load->view('anchor/anchor_header',array('anchor' => $anchor),TRUE);
     	$arr_prod = array(); 
@@ -324,6 +256,12 @@ class Anchor extends CI_Controller {
     	
     	foreach($arr_target as $target){
     		$anchor_id = $this->manchor->get_anchor_id($target[0],$target[1]);
+    		if(!$anchor_id){
+    			$anchor['name'] = $target[0];
+				$anchor['group'] = $target[1];
+				
+    			$anchor_id = $this->manchor->insert_anchor($anchor)
+    		}
     		
     		if($anchor_id){			
 				$iptdata['CASA_vol']= $target[4];
@@ -578,5 +516,41 @@ class Anchor extends CI_Controller {
 		//$data['content'] = $this->load->view('anchor/excel',array(),TRUE);
 
 		//$this->load->view('front',$data);
+    }
+    
+    public function pend(){
+    	$objReader = PHPExcel_IOFactory::createReader('Excel2007');
+		$objReader->setReadDataOnly(TRUE);
+		$objPHPExcel = $objReader->load("assets/dataRM.xlsx");
+
+		$objWorksheet = $objPHPExcel->getActiveSheet();
+		// Get the highest row and column numbers referenced in the worksheet
+		$highestRow = $objWorksheet->getHighestRow(); // e.g. 10
+		$highestColumn = $objWorksheet->getHighestColumn(); // e.g 'F'
+		$highestColumnIndex = PHPExcel_Cell::columnIndexFromString($highestColumn);
+    	echo "<table border=1>";
+    	$arrres = array();
+    	for ($row = 1; $row <= $highestRow; ++$row) {
+    		echo "<tr>";
+    		echo "<td>".$row."</td>";
+			for ($col = 0; $col < $highestColumnIndex; ++$col) {
+				$arrres[$row][$col] = $objWorksheet->getCellByColumnAndRow($col, $row)->getValue();
+				echo "<td>".$arrres[$row][$col]."</td>";
+				/*if($col == 1){
+					$arpend = explode(" ; ",$arrres[$row][$col]);
+					foreach($arpend as $pendi){
+						$pp = explode(" - ", $pendi);
+					}
+					//echo "<td>".count($arpend)."</td>";
+					foreach($pp as $p){
+						echo "<td>".$p."</td>";
+					}
+				}*/
+			}
+			//if($arrres[$row][2]=="S1" && count($arpend) !=1){echo "<td>Pinter S1</td>";}
+			//if($arrres[$row][2]=="S2" && count($arpend) !=2){echo "<td>Pinter S2</td>";}
+			echo "</tr>";
+		}
+		echo "</table>";
     }
 }

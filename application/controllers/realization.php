@@ -23,7 +23,7 @@ class Realization extends CI_Controller {
     	if($this->uri->segment(3)=='anchor'){
 			$anchor_id = $this->uri->segment(4);
 			$target_ws = $this->mtarget->get_anchor_ws_target($anchor_id);
-			$realization_ws = $this->mrealization->get_anchor_ws_realization($anchor_id, 5, date('Y'));
+			$realization_ws = $this->mrealization->get_anchor_ws_realization($anchor_id, date('Y'));
 	
 			$anchor = $this->manchor->get_anchor_by_id($anchor_id);
 			$header = $this->load->view('anchor/anchor_header',array('anchor' => $anchor, 'id_ybs' => $anchor->id, 'code' => 'anc'),TRUE);
@@ -32,7 +32,7 @@ class Realization extends CI_Controller {
 		elseif($this->uri->segment(3)=='directorate'){
 			$directorate = $this->uri->segment(4);
 			$target_ws = $this->mtarget->get_directorate_target($directorate,'wholesale');
-			$realization_ws = $this->mrealization->get_directorate_realization($directorate, 5, date('Y'), 'wholesale');
+			$realization_ws = $this->mrealization->get_directorate_realization($directorate, date('Y'), 'wholesale');
 			
 			$header = $this->load->view('directorate/dir_header',array('directorate' => $directorate, 'id_ybs' => $directorate, 'code' => 'dir'),TRUE);
 			$data['title'] = "Realisasi";
@@ -55,12 +55,12 @@ class Realization extends CI_Controller {
         if($code == 'anc'){
 			$anchor_id = $this->input->get('id');
 			$target_ws = $this->mtarget->get_anchor_ws_target($anchor_id);
-			$realization_ws = $this->mrealization->get_anchor_ws_realization($anchor_id, 5, date('Y'));
+			$realization_ws = $this->mrealization->get_anchor_ws_realization($anchor_id, date('Y'));
 		}
 		elseif($code == 'dir'){
 			$directorate = $this->input->get('id');
 			$target_ws = $this->mtarget->get_directorate_target($directorate,'wholesale');
-			$realization_ws = $this->mrealization->get_directorate_realization($directorate, 5, date('Y'), 'wholesale');
+			$realization_ws = $this->mrealization->get_directorate_realization($directorate, date('Y'), 'wholesale');
 		}
 		$realization_now = $this->mrealization->count_realization_now($realization_ws);
 		$realization_percent = $this->mrealization->count_realization($target_ws, $realization_ws);
@@ -84,12 +84,12 @@ class Realization extends CI_Controller {
         if($code == 'anc'){
 			$anchor_id = $this->input->get('id');
 			$target_ws = $this->mtarget->get_anchor_ws_target($anchor_id);
-			$realization_ws = $this->mrealization->get_anchor_ws_realization($anchor_id, 5, date('Y'));
+			$realization_ws = $this->mrealization->get_anchor_ws_realization($anchor_id, date('Y'));
 		}
 		elseif($code = 'dir'){
 			$directorate = $this->input->get('id');
 			$target_ws = $this->mtarget->get_directorate_target($directorate,'wholesale');
-			$realization_ws = $this->mrealization->get_directorate_realization($directorate, 5, date('Y'), 'wholesale');
+			$realization_ws = $this->mrealization->get_directorate_realization($directorate, date('Y'), 'wholesale');
 		}
     	$realization = $this->mrealization->count_realization($target_ws, $realization_ws);
     	

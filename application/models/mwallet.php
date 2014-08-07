@@ -44,7 +44,7 @@ class Mwallet extends CI_Model {
     	$ws_wallet = $this->get_anchor_ws_wallet($anchor_id, $year);
     	$al_wallet = $this->get_anchor_al_wallet($anchor_id, $year);
 
-		return get_tot_income($ws_wallet, $al_wallet);
+		return get_tot_income($ws_wallet, $al_wallet,12,0);
     }
     
     /*Directorate Function*/
