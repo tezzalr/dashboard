@@ -9,15 +9,15 @@
 	</div>
 	<div>
 		<div>
-			<h3>Volume Transaksi <?php echo $prd_name?></h3>
+			<h3>Volume <?php echo $prd_name?></h3>
 			<div style="margin-left:20px">
 				<div style="width:50%; float:left; padding-right:20px;">
-					<h4>Top Volume</h4>
+					<h4>Top Volume (Rp M)</h4>
 					<table class="table table-bordered" style="font-size:10px;">
 						<thead><tr>
-							<th rowspan=2><center>Nama Anchor</center></th><th>2013</th><th colspan=4><center>2014</center></th>
+							<th rowspan=2><center>Nama Anchor</center></th><th>2013</th><th colspan=3><center>2014</center></th>
 						</tr><tr>
-							<th>Actual</th><th>Target</th><th>Mei</th><th>YTD 2014</th><th>%</th>
+							<th>Actual</th><th>Juni</th><th>YTD 2014</th><th>Kontribusi (%)</th>
 						</tr></thead><tbody>
 						<?php 
 							$vol = $product."_vol"; $temp_tot=0; $ly = $vol.'_ly'; $ly_tot=0; $sum_cmpny=1; $trgt = $vol."_target"; $trgt_tot=0;
@@ -26,7 +26,7 @@
 							<tr>
 								<td><?php echo $anchor->name?></td>
 								<td><?php echo number_format($anchor->$ly/pow(10,$bagi),0,',','.')?></td>
-								<td><?php echo number_format($anchor->$trgt,0,',','.')?></td>
+								
 								<td><?php echo number_format($anchor->$vol/pow(10,$bagi),0,',','.')?></td>
 								<td><?php echo number_format($ytd/pow(10,$bagi),0,',','.')?></td>
 								<td><?php echo number_format($anchor->$vol/$total_prd->$vol*100,1,',','.')?> %</td>
@@ -41,7 +41,7 @@
 						 	}?>
 						 <tr>
 							 <td><b>Sub-total</b></td><td><?php echo number_format($ly_tot/pow(10,$bagi),0,',','.')?></td>
-							 <td><?php echo number_format($trgt_tot,0,',','.')?></td>
+							 
 							 <td><?php echo number_format($temp_tot/pow(10,$bagi),0,',','.')?></td>
 							 <td><?php echo number_format($temp_tot/$anchor->month*12/pow(10,$bagi),0,',','.')?></td>
 							 <td><?php echo number_format($temp_tot/$total_prd->$vol*100,0,',','.')?> %</td>
@@ -50,12 +50,12 @@
 					</table>
 				</div>
 				<div style="width:50%;  float:left">
-					<h4>Top Nominal Growth</h4>
+					<h4>Top Nominal Growth (Rp M)</h4>
 					<table class="table table-bordered" style="font-size:10px;">
 						<thead><tr>
-							<th rowspan=2><center>Nama Anchor</center></th><th>2013</th><th colspan=4><center>2014</center></th>
+							<th rowspan=2><center>Nama Anchor</center></th><th>2013</th><th colspan=3><center>2014</center></th>
 						</tr><tr>
-							<th>Actual</th><th>Target</th><th>Mei</th><th>YTD 2014</th><th>Nominal Growth</th>
+							<th>Actual</th><th>Juni</th><th>YTD 2014</th><th>Nominal Growth</th>
 						</tr></thead><tbody>
 						<?php 
 							$vol = $product."_vol"; $temp_tot=0; $ly = $vol.'_ly'; $ly_tot=0; $nomgrowtot=0; $trgt_tot=0;
@@ -64,7 +64,7 @@
 							<tr>
 								<td><?php echo $anchor->name?></td>
 								<td><?php echo number_format($anchor->$ly/pow(10,$bagi),0,',','.')?></td>
-								<td><?php echo number_format($anchor->$trgt,0,',','.')?></td>
+								
 								<td><?php echo number_format($anchor->$vol/pow(10,$bagi),0,',','.')?></td>
 								<td><?php echo number_format($ytd/pow(10,$bagi),0,',','.')?></td>
 								<td><?php echo number_format($anchor->nom_grow/pow(10,$bagi),0,',','.')?></td>
@@ -78,7 +78,7 @@
 						 	}?>
 						 <tr>
 							 <td><b>Sub-total</b></td><td><?php echo number_format($ly_tot/pow(10,$bagi),0,',','.')?></td>
-							 <td><?php echo number_format($trgt_tot,0,',','.')?></td>
+							 
 							 <td><?php echo number_format($temp_tot/pow(10,$bagi),0,',','.')?></td>
 							 <td><?php echo number_format($temp_tot/$anchor->month*12/pow(10,$bagi),0,',','.')?></td>
 							 <td><?php echo number_format($nomgrowtot/pow(10,$bagi),0,',','.')?></td>
@@ -93,12 +93,12 @@
 					</table>
 				</div>
 				<div style="width:50%;  float:left; padding-right:20px;">
-					<h4>Top Growth</h4>
+					<h4>Top Growth (%)</h4>
 					<table class="table table-bordered" style="font-size:10px;">
 						<thead><tr>
 							<th rowspan=2><center>Nama Anchor</center></th><th>2013</th><th colspan=4><center>2014</center></th>
 						</tr><tr>
-							<th>Actual</th><th>Target</th><th>Mei</th><th>YTD 2014</th><th>Growth</th>
+							<th>Actual</th><th>Target</th><th>Juni</th><th>YTD 2014</th><th>Growth</th>
 						</tr></thead><tbody>
 						<?php 
 							$vol = $product."_vol"; $temp_tot=0; $ly = $vol.'_ly'; $ly_tot=0;

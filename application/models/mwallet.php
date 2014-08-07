@@ -48,18 +48,6 @@ class Mwallet extends CI_Model {
     }
     
     /*Directorate Function*/
-    function get_directorate_realization($direktorat, $month, $year, $type){
-    	$db = $type.'_realization';
-    	$this->get_type_select($type);
-    	$this->get_direktorat_where($direktorat);
-    	$this->db->join('anchor', 'anchor.id = '.$db.'.anchor_id');
-    	$this->db->where('month',$month);
-    	$this->db->where('year',$year);
-    	$result = $this->db->get($db);
-    	$query = $result->result();
-        return $query[0];
-    }
-    
     function get_directorate_wallet($direktorat, $year, $type){
     	$db = $type.'_wallet_size';
     	get_type_select($type,$this);
@@ -69,6 +57,13 @@ class Mwallet extends CI_Model {
     	$result = $this->db->get($db);
     	$query = $result->result();
         return $query[0];
+    }
+    
+    function get_directorate_total_wallet($direktorat, $year){
+    	$ws_wallet = $this->get_directorate_wallet($direktorat, $year, "wholesale");
+    	$al_wallet = $this->get_directorate_wallet($direktorat, $year, "alliance");
+
+		return get_tot_income($ws_wallet, $al_wallet,12,0);
     }
     
     function get_sow($wallet, $realization, $type){

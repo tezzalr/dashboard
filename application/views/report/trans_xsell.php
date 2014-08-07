@@ -48,7 +48,7 @@
 <div id="" class="container no_pad">
 	<?php echo $header?>
 	<div>
-		<a href="<?php echo base_url()?>report/alliance_income/anchor/<?php echo $anchor->id;?>"><span style="float:right">Alliance Income --></span></a>
+		<a href="<?php echo base_url()?>report/alliance_income/<?php echo $info_page['type'];?>/<?php echo $info_page['id'];?>"><span style="float:right">Alliance Income --></span></a>
 		<h2>Transaction Cross Sell*</h2>
 		<h4 style="color:grey;">Transaction Cross Sell* Tahun <?php echo date('Y')-1?> sebesar <?php echo number_format($castrxres['sw_ly']/$loanres['sw_ly'],1)?>
 		dan menjadi <?php echo number_format($castrxres['sw']/$loanres['sw'],1)?> tahun <?php echo date('Y')?>
@@ -56,8 +56,8 @@
 		<span style="font-size:11px;">*Transaction Cross Sell adalah SOW(CASA + Trx)/SOW Loan</span><br><br>
 		
 		<div style="width: 100%; margin: 0 auto;">
-			<table class="table table-bordered" style="font-size:11px">
-				<tr style="background-color:#08088A; color:white;"><th rowspan=2></th><th colspan=3>2013</th><th colspan=3>YTD Annualized 2014</th></tr>
+			<table class="table table-bordered" style="font-size:12px">
+				<tr style="background-color:#08088A; color:white;"><th rowspan=2></th><center><th colspan=3>2013</th><th colspan=3>YTD Annualized 2014</th></center></tr>
 				<tr style="background-color:#08088A; color:white;"><th>Wallet</th><th>Real</th><th>SOW</th><th>Wallet</th><th>Real</th><th>SOW</th>
 				<tr style="background-color:#9FF781;"><td>Loan :</td><td><?php echo number_format($loanres['wl_ly'],1)?></td><td><?php echo number_format($loanres['in_ly'],1)?></td><td><?php echo number_format($loanres['sw_ly'],1)?> %</td><td><?php echo number_format($loanres['wl'],1)?></td><td><?php echo number_format($loanres['in'],1)?></td><td><?php echo number_format($loanres['sw'],1)?> %</td></tr>
 				<?php write_prod($loanarr, 'nii', $xsell);?>

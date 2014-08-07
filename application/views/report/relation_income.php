@@ -135,9 +135,11 @@
 <div id="" class="container no_pad">
 	<?php echo $header?>
 	<div>
-		<a href="<?php echo base_url()?>report/wholesale_income/anchor/<?php echo $anchor->id;?>"><span style="float:right">Komposisi Income --></span></a>
+		<a href="<?php echo base_url()?>report/wholesale_income/<?php echo $info_page['type'];?>/<?php echo $info_page['id'];?>"><span style="float:right">Komposisi Income --></span></a>
 		<h2>Relationship Income</h2>
-		<h4 style="color:grey;">Potensi Relationship Income Tahun <?php echo ($year-1)?> sebesar Rp <?php echo number_format($rl_inc['inc_wal_ly']['tot'],1)?> T. Share of Wallet BMRI <?php echo number_format($rl_inc['inc_ly']['tot']/$rl_inc['inc_wal_ly']['tot']*100,0)?>%</h4><br><br>
+		<h4 style="color:grey;">Relationship Income Tahun <?php echo ($year-1)?> sebesar Rp <?php echo number_format($rl_inc['inc_wal_ly']['tot'],1)?> T. Share of Wallet BMRI <?php echo number_format($rl_inc['inc_ly']['tot']/$rl_inc['inc_wal_ly']['tot']*100,0)?>%
+		Sedangkan 2014 
+		</h4><br><br>
 		
 		<div id="container_potensi" style="width: 510px; height: 300px; margin: 0 auto"></div><hr>
 		<div>

@@ -6,6 +6,7 @@ class Bankwide extends CI_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->model('manchor');
+        $this->load->model('mrealization');
         
     }
     /**
@@ -37,11 +38,12 @@ class Bankwide extends CI_Controller {
     public function top_transaksi(){
     	$data['title'] = "Top Anchor Product";
     	$product = $this->uri->segment(3);
-    	
-    	$total_prd = $this->manchor->get_total_vol_prd($product, 5, 2014);
-    	$top_anchor_vol = $this->manchor->get_top_anchor_prd($product, 5, 2014);
-    	$top_anchor_nom_grow = $this->manchor->get_top_anchor_prd_nml_grw($product, 5, 2014);
-    	$top_anchor_grow = $this->manchor->get_top_anchor_prd_grw($product, 5, 2014);
+    	$year = date('Y');
+    	$month = $this->mrealization->get_last_month($year);
+    	$total_prd = $this->manchor->get_total_vol_prd($product, $month, $year);
+    	$top_anchor_vol = $this->manchor->get_top_anchor_prd($product, $month, $year);
+    	$top_anchor_nom_grow = $this->manchor->get_top_anchor_prd_nml_grw($product, $month, $year);
+    	$top_anchor_grow = $this->manchor->get_top_anchor_prd_grw($product, $month, $year);
     	
     	$prd_name = $this->manchor->get_product_name_by_inisial($product);
 		

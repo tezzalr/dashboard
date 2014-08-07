@@ -1,6 +1,6 @@
 <div id="" class="container no_pad">
 	<div class="no_pad" style="border-bottom: 1px solid #ccc; margin-bottom: 20px;">
-		<h2>Anchor Client Bank Mandiri</h2>
+		<h2>Anchor Client <a href="<?php echo base_url()?>realization/show/directorate/">Bank Mandiri</a></h2>
 		<span style="font-size:20px"><?php echo count($anchor['cor'])+count($anchor['ib'])+count($anchor['com']);?> Anchor <div style="clear:both"></span></div>
 	</div>
 	<!--<div id="container_all" style="min-width: 310px; width: 100%; height: 500px; margin: 0;"></div><br><br>-->

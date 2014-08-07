@@ -1,23 +1,24 @@
-<?php 
-	$year = date('Y');
-	$loan_ty = ($ws_inc['ty']->WCL_nii +  $ws_inc['ty']->IL_nii +  $ws_inc['ty']->SL_nii + $ws_inc['ty']->TR_nii)/$month*12/pow(10,9);
-	$trx_ty = ((($ws_inc['ty']->FX_fbi + $ws_inc['ty']->Trade_fbi + $ws_inc['ty']->PWE_fbi + $ws_inc['ty']->BG_fbi + $ws_inc['ty']->OIR_fbi + $ws_inc['ty']->OW_fbi + $ws_inc['ty']->CASA_fbi)/$month*12) + $ws_inc['ty']->IL_fbi + $ws_inc['ty']->WCL_fbi + $ws_inc['ty']->SL_fbi)/pow(10,9);
-	$casa_ty = ($ws_inc['ty']->CASA_nii/$month*12/pow(10,9));
-	$other_ty = ($ws_inc['ty']->TD_nii +  $ws_inc['ty']->OW_nii +  $ws_inc['ty']->SCF_fbi + $ws_inc['ty']->ECM_fbi + $ws_inc['ty']->DCM_fbi + $ws_inc['ty']->MA_fbi)/$month*12/pow(10,9);
-	$nonloan_ty = $trx_ty + $casa_ty + $other_ty;
-	$loan_pct_ty = $loan_ty/($loan_ty+$nonloan_ty)*100;
-	$nonloan_pct_ty = $nonloan_ty/($loan_ty+$nonloan_ty)*100;
+<?php
+	$arrprodal = array('WM','DPLK','PCD','VCCD','VCL','Micro_Loan','MKM','KPR','Auto','CC','EDC','ATM','AXA','MAGI','retail','cicil_Emas');
+	$arrprodname = array('Wealth Management','DPLK','Payroll Casa Deposit','Value Chain Casa Deposit','Value Chain Lending','Micro Loan','MKM & KTA','KPR & MGM','AUTO & 2W Loan','Credit Cards','EDC','ATM','Life Insurance - AXA','General Insurance - MAGI','Retail Trading - MANSEK','Cicil Emas - BSM');
 	
-	$loan_ly = ($ws_inc['ly']->WCL_nii +  $ws_inc['ly']->IL_nii +  $ws_inc['ly']->SL_nii + $ws_inc['ly']->TR_nii)/pow(10,9);
-	$trx_ly = ($ws_inc['ly']->FX_fbi + $ws_inc['ly']->Trade_fbi + $ws_inc['ly']->PWE_fbi + $ws_inc['ly']->BG_fbi + $ws_inc['ly']->OIR_fbi + $ws_inc['ly']->OW_fbi + $ws_inc['ty']->CASA_fbi + $ws_inc['ly']->IL_fbi + $ws_inc['ly']->WCL_fbi + $ws_inc['ly']->SL_fbi)/pow(10,9);
-	$casa_ly = ($ws_inc['ly']->CASA_nii/pow(10,9));
-	$other_ly = ($ws_inc['ly']->TD_nii +  $ws_inc['ly']->OW_nii +  $ws_inc['ly']->SCF_fbi + $ws_inc['ly']->ECM_fbi + $ws_inc['ly']->DCM_fbi + $ws_inc['ly']->MA_fbi)/pow(10,9);
-	$nonloan_ly = $trx_ly + $casa_ly + $other_ly;
-	$loan_pct_ly = $loan_ly/($loan_ly+$nonloan_ly)*100;
-	$nonloan_pct_ly = $nonloan_ly/($loan_ly+$nonloan_ly)*100;
+	function get_inc($prod){
+		$arrfbial = array('DPLK','EDC','ATM','AXA','MAGI','retail','cicil_Emas');
+		$arrniial = array('WM','PCD','VCCD','VCL','Micro_Loan','MKM','KPR','Auto','CC');
+	
+		if(in_array($prod,$arrfbial)){return "fbi";}
+		elseif(in_array($prod,$arrniial)){return "nii";}
+	}
+	
+	$tot = 0;
+	foreach($arrprodal as $alprod){ 
+		$typeinc = get_inc($alprod); 
+		$prodinc = $alprod."_".$typeinc;
+				
+		$tot = $tot + $al_inc['ty']->$prodinc/pow(10,9);				
+	}
+	$tot = $tot + (($al_inc['ty']->VCL_fbi + $al_inc['ty']->VCCD_fbi + $al_inc['ty']->VCLnDF_nii + $al_inc['ty']->VCLnDF_fbi)/pow(10,9));
 ?>
-
-
 <script type="text/javascript">
 	$(function () {
 		var chart;
@@ -25,14 +26,14 @@
 		$(document).ready(function () {
 		
 			// Build the chart
-			$('#container_ly').highcharts({
+			$('#container_al').highcharts({
 				chart: {
 					plotBackgroundColor: null,
 					plotBorderWidth: null,
 					plotShadow: false
 				},
 				title: {
-					text: 'Komposisi Income 2013'
+					text: 'Komposisi Pendapatan Alliance'
 				},
 				tooltip: {
 					pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -42,62 +43,32 @@
 						allowPointSelect: true,
 						cursor: 'pointer',
 						dataLabels: {
-							enabled: true,
-							format: '<b>{point.name}</b>:<br> {point.percentage:.1f} %',
+							enabled: false,
+							format: '<b>{point.name}</b>: {point.percentage:.1f} %',
 						},
-						showInLegend: false
+						showInLegend: true
 					}
 				},
 				series: [{
 					type: 'pie',
 					name: 'Income share',
 					data: [
-						['Non Loan',   <?php echo $nonloan_ly?>],
-						['Loan',   <?php echo $loan_ly?>]
-					]
-				}]
-			});
-		});
-	
-	});
-</script>
-
-<script type="text/javascript">
-	$(function () {
-		var chart;
-	
-		$(document).ready(function () {
-		
-			// Build the chart
-			$('#container_ty').highcharts({
-				chart: {
-					plotBackgroundColor: null,
-					plotBorderWidth: null,
-					plotShadow: false
-				},
-				title: {
-					text: 'Komposisi Income 2014 (Ann.)'
-				},
-				tooltip: {
-					pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-				},
-				plotOptions: {
-					pie: {
-						allowPointSelect: true,
-						cursor: 'pointer',
-						dataLabels: {
-							enabled: true,
-							format: '<b>{point.name}</b>:<br> {point.percentage:.1f} %',
-						},
-						showInLegend: false
-					}
-				},
-				series: [{
-					type: 'pie',
-					name: 'Income share',
-					data: [
-						['Non Loan',   <?php echo $nonloan_ty?>],
-						['Loan',   <?php echo $loan_ty?>]
+						<?php if($al_inc['ty']->WM_nii){?> ['Wealth Management', <?php echo ($al_inc['ty']->WM_nii);?>],<?php }?>
+						<?php if($al_inc['ty']->DPLK_fbi){?> ['DPLK', <?php echo ($al_inc['ty']->DPLK_fbi);?>],<?php }?>
+						<?php if($al_inc['ty']->PCD_nii){?> ['Payroll Casa Deposit', <?php echo ($al_inc['ty']->PCD_nii);?>],<?php }?>
+						<?php if($al_inc['ty']->VCCD_nii + $al_inc['ty']->VCCD_fbi){?> ['Value Chain Casa Deposit', <?php echo ($al_inc['ty']->VCCD_nii + $al_inc['ty']->VCCD_fbi);?>],<?php }?>
+						<?php if($al_inc['ty']->VCL_nii + $al_inc['ty']->VCL_fbi + $al_inc['ty']->VCLnDF_nii + $al_inc['ty']->VCLnDF_fbi){?> ['Value Chain Lending', <?php echo ($al_inc['ty']->VCLnDF_nii + $al_inc['ty']->VCLnDF_fbi);?>],<?php }?>
+						<?php if($al_inc['ty']->Micro_Loan_nii + $al_inc['ty']->Micro_Loan_fbi){?> ['Micro Loan', <?php echo ($al_inc['ty']->Micro_Loan_nii + $al_inc['ty']->Micro_Loan_fbi);?>],<?php }?>
+						<?php if($al_inc['ty']->MKM_nii){?> ['MKM & KTA', <?php echo ($al_inc['ty']->MKM_nii);?>],<?php }?>
+						<?php if($al_inc['ty']->KPR_nii){?> ['KPR & MGM', <?php echo ($al_inc['ty']->KPR_nii);?>],<?php }?>
+						<?php if($al_inc['ty']->Auto_nii){?> ['AUTO & 2W Loan', <?php echo ($al_inc['ty']->Auto_nii);?>],<?php }?>
+						<?php if($al_inc['ty']->CC_nii){?> ['Credit Cards', <?php echo ($al_inc['ty']->CC_nii);?>],<?php }?>
+						<?php if($al_inc['ty']->EDC_fbi){?> ['EDC', <?php echo ($al_inc['ty']->EDC_fbi);?>],<?php }?>
+						<?php if($al_inc['ty']->ATM_fbi){?> ['ATM', <?php echo ($al_inc['ty']->ATM_fbi);?>],<?php }?>
+						<?php if($al_inc['ty']->AXA_fbi){?> ['Life Insurance - AXA', <?php echo ($al_inc['ty']->AXA_fbi);?>],<?php }?>
+						<?php if($al_inc['ty']->MAGI_fbi){?> ['General Insurance - MAGI', <?php echo ($al_inc['ty']->MAGI_fbi);?>],<?php }?>
+						<?php if($al_inc['ty']->retail_fbi){?> ['Retail Trading - MANSEK', <?php echo ($al_inc['ty']->retail_fbi);?>],<?php }?>
+						<?php if($al_inc['ty']->cicil_Emas_fbi){?> ['Cicil Emas - BSM', <?php echo ($al_inc['ty']->cicil_Emas_fbi);?>],<?php }?>
 					]
 				}]
 			});
@@ -109,41 +80,40 @@
 <div id="" class="container no_pad">
 	<?php echo $header?>
 	<div>
-		<a href="<?php echo base_url()?>report/trans_xsell/anchor/<?php echo $anchor->id;?>"><span style="float:right">Transaction Cross Sell --></span></a>
+		<!--<a href="<?php echo base_url()?>report/trans_xsell/<?php echo $info_page['type'];?>/<?php echo $info_page['id'];?>"><span style="float:right">Transaction Cross Sell </span></a>-->
 		<h2>Komposisi Alliance Income</h2>
-		<h4 style="color:grey;">Komposisi Income Loan : Non Loan adalah <?php echo number_format($loan_pct_ly,1)." % : ".number_format($nonloan_pct_ly,1)." % (2013)";?> menjadi <?php echo number_format($loan_pct_ty,1)." % : ".number_format($nonloan_pct_ty,1)." % (2014)";?>
+		<h4 style="color:grey;">
 		</h4><br><br>
 		
-		<div style="width: 50%; margin: 0 auto; float:left;">
+		<div style="width: 65%; margin: 0 auto; float:left;">
 			<table class="table table-bordered" style="font-size:11px">
-				<tr style="background-color:#08088A; color:white;"><th></th><th>2013<br>Real</th><th>2014<br>Annualized</th></tr>
-				<tr style="background-color:#BDBDBD;"><td>Loan :</td><td><?php echo number_format($loan_ly,1)?></td><td><?php echo number_format($loan_ty,1)?></td></tr>
-				<tr><td>Working Capital Loan</td><td><?php echo number_format($ws_inc['ly']->WCL_nii/pow(10,9),2)?></td><td><?php echo number_format($ws_inc['ty']->WCL_nii/pow(10,9)/$month*12,2)?></td></tr>
-				<tr><td>Investment Loan</td><td><?php echo number_format($ws_inc['ly']->IL_nii/pow(10,9),2)?></td><td><?php echo number_format($ws_inc['ty']->IL_nii/pow(10,9)/$month*12,2)?></td></tr>
-				<tr><td>Structured Loan</td><td><?php echo number_format($ws_inc['ly']->SL_nii/pow(10,9),2)?></td><td><?php echo number_format($ws_inc['ty']->SL_nii/pow(10,9)/$month*12,2)?></td></tr>
-				<tr><td>Trust Receipt</td><td><?php echo number_format($ws_inc['ly']->TR_nii/pow(10,9),2)?></td><td><?php echo number_format($ws_inc['ty']->TR_nii/pow(10,9)/$month*12,2)?></td></tr>
-				<tr style="background-color:#BDBDBD;"><td>Non Loan :</td><td><?php echo number_format($nonloan_ly,1)?></td><td><?php echo number_format($nonloan_ty,1)?></td></tr>
-				<tr style="background-color:#A9D0F5;"><td>CASA</td><td><?php echo number_format($casa_ly,1)?></td><td><?php echo number_format($casa_ty,1)?></td></tr>
-				<tr style="background-color:#A9D0F5;"><td>Transaction</td><td><?php echo number_format($trx_ly,1)?></td><td><?php echo number_format($trx_ty,1)?></td></tr>
-				<tr><td>FX & Derivatives</td><td><?php echo number_format($ws_inc['ly']->FX_fbi/pow(10,9),2)?></td><td><?php echo number_format($ws_inc['ty']->FX_fbi/pow(10,9)/$month*12,2)?></td></tr>
-				<tr><td>Trade Services</td><td><?php echo number_format($ws_inc['ly']->Trade_fbi/pow(10,9),2)?></td><td><?php echo number_format($ws_inc['ty']->Trade_fbi/pow(10,9)/$month*12,2)?></td></tr>
-				<tr><td>Bank Guarantee</td><td><?php echo number_format($ws_inc['ly']->BG_fbi/pow(10,9),2)?></td><td><?php echo number_format($ws_inc['ty']->BG_fbi/pow(10,9)/$month*12,2)?></td></tr>
-				<tr><td>Outgoing Int'l Remittance</td><td><?php echo number_format($ws_inc['ly']->OIR_fbi/pow(10,9),2)?></td><td><?php echo number_format($ws_inc['ty']->OIR_fbi/pow(10,9)/$month*12,2)?></td></tr>
-				<tr><td>PWE Non L/C</td><td><?php echo number_format($ws_inc['ly']->PWE_fbi/pow(10,9),2)?></td><td><?php echo number_format($ws_inc['ty']->PWE_fbi/pow(10,9)/$month*12,2)?></td></tr>
-				<tr><td>Loan Maintenance Fee</td><td><?php echo number_format(($ws_inc['ly']->WCL_fbi+$ws_inc['ly']->IL_fbi)/pow(10,9),2)?></td><td><?php echo number_format(($ws_inc['ty']->WCL_fbi+$ws_inc['ty']->IL_fbi)/pow(10,9)/$month*12,2)?></td></tr>
-				<tr><td>Syndication Fee</td><td><?php echo number_format($ws_inc['ly']->SL_fbi/pow(10,9),2)?></td><td><?php echo number_format($ws_inc['ty']->SL_fbi/pow(10,9)/$month*12,2)?></td></tr>
-				<tr><td>FBI Others</td><td><?php echo number_format(($ws_inc['ly']->OW_fbi + $ws_inc['ly']->CASA_fbi)/pow(10,9),2)?></td><td><?php echo number_format(($ws_inc['ty']->OW_fbi + $ws_inc['ty']->CASA_fbi)/pow(10,9)/$month*12,2)?></td></tr>
-				<tr style="background-color:#A9D0F5;"><td>Others</td><td><?php echo number_format($other_ly,1)?></td><td><?php echo number_format($other_ty,1)?></td></tr>
-				<tr><td>Time Deposit</td><td><?php echo number_format($ws_inc['ly']->TD_nii/pow(10,9),2)?></td><td><?php echo number_format($ws_inc['ty']->TD_nii/pow(10,9)/$month*12,2)?></td></tr>
-				<tr><td>NII Others</td><td><?php echo number_format($ws_inc['ly']->OW_nii/pow(10,9),2)?></td><td><?php echo number_format($ws_inc['ty']->OW_nii/pow(10,9)/$month*12,2)?></td></tr>
-				<tr><td>Supply Chain Financing</td><td><?php echo number_format($ws_inc['ly']->SCF_fbi/pow(10,9),2)?></td><td><?php echo number_format($ws_inc['ty']->SCF_fbi/pow(10,9)/$month*12,2)?></td></tr>
-				<tr><td>ECM</td><td><?php echo number_format($ws_inc['ly']->ECM_fbi/pow(10,9),2)?></td><td><?php echo number_format($ws_inc['ty']->ECM_fbi/pow(10,9)/$month*12,2)?></td></tr>
-				<tr><td>DCM</td><td><?php echo number_format($ws_inc['ly']->DCM_fbi/pow(10,9),2)?></td><td><?php echo number_format($ws_inc['ty']->DCM_fbi/pow(10,9)/$month*12,2)?></td></tr>
-				<tr><td>M&A</td><td><?php echo number_format($ws_inc['ly']->MA_fbi/pow(10,9),2)?></td><td><?php echo number_format($ws_inc['ty']->MA_fbi/pow(10,9)/$month*12,2)?></td></tr>
+				<tr style="background-color:#08088A; color:white;"><th rowspan=2></th><th>2013<th colspan=4>2014</th></tr>
+				<tr style="background-color:#08088A; color:white;"><th>Real<th>Real Juni 2014</th><th>Annualized</th><th>Kontributsi</th></tr>
+				<?php $i = 0; foreach($arrprodal as $alprod){ $typeinc = get_inc($alprod); $prodinc = $alprod."_".$typeinc;?>
+					<tr>
+						<td><?php echo $arrprodname[$i]?></td>
+						<?php 
+							if($alprod == "VCCD"){$incymt_ty = $al_inc['ty']->VCCD_nii + $al_inc['ty']->VCCD_fbi; $incymt_ly = $al_inc['ly']->VCCD_nii + $al_inc['ly']->VCCD_fbi;} 
+							elseif($alprod == "VCL"){
+								$incymt_ty = $al_inc['ty']->VCL_nii + $al_inc['ty']->VCL_fbi + $al_inc['ty']->VCLnDF_nii + $al_inc['ty']->VCLnDF_fbi; 
+								$incymt_ly = $al_inc['ly']->VCL_nii + $al_inc['ly']->VCL_fbi + $al_inc['ly']->VCLnDF_nii + $al_inc['ly']->VCLnDF_fbi;
+							}
+							else{
+								$incymt_ty = $al_inc['ty']->$prodinc;
+								$incymt_ly = $al_inc['ly']->$prodinc;
+								
+							}
+						?>
+						<td><?php echo number_format($incymt_ly/pow(10,9),1)?></td>
+						<td><?php echo number_format($incymt_ty/pow(10,9),1)?></td>
+						<td><?php echo number_format($incymt_ty/pow(10,9)/$month*12,1)?></td>
+						<td><?php echo number_format($incymt_ty/pow(10,9)/$tot*100,1)?> %</td>
+					</tr>
+				<?php $i++;}?>
 			</table>
 		</div>
-		<div  style="width: 50%; float:left" >
-			<div id="container_ly" style="width: 100%; height: 280px; margin: 0; float:left;"></div>
+		<div  style="width: 35%; float:left" >
+			<div id="container_al" style="width: 100%; height: 500px; margin: 0; float:left;"></div>
 		</div><div style="clear:both"></div>
 		<br>
 	</div>
