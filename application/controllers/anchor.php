@@ -260,7 +260,7 @@ class Anchor extends CI_Controller {
     			$anchor['name'] = $target[0];
 				$anchor['group'] = $target[1];
 				
-    			$anchor_id = $this->manchor->insert_anchor($anchor)
+    			$anchor_id = $this->manchor->insert_anchor($anchor);
     		}
     		
     		if($anchor_id){			
