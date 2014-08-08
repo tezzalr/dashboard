@@ -2,7 +2,7 @@
 	$arrprod = array();
 	for($i=1;$i<=15;$i++){
 		$prd_name = $prod[$i]."_vol";
-		if($prod[$i]=="FX" || $prod[$i]=="Trade"){$unit_mes = "Mn USD";}elseif($prod[$i]=="OIR"){$unit_mes="# Trx";}else{$unit_mes="Bn IDR";}
+		if($prod[$i]=="FX" || $prod[$i]=="Trade" || $prod[$i]=="PWE"){$unit_mes = "Mn USD";}elseif($prod[$i]=="OIR"){$unit_mes="# Trx";}else{$unit_mes="Bn IDR";}
 		if($pct[$prd_name] || $tgt->$prd_name){
 			$arrprod[$i]['name'] = $arr_name[$i];
 			$arrprod[$i]['tgt'] = $tgt->$prd_name;  
@@ -43,7 +43,7 @@
 <div style="margin-top:20px;">
 <h3>Volume Realization</h3>
 <table class="table table-striped">
-	<thead><tr><th>Product</th><th>Unit</th><th  style="text-align:right">Mei 2014</th><th  style="text-align:right">Target 2014</th><th  style="text-align:right">YTD 2014</th><th  style="text-align:right">% Target</th></tr></thead>
+	<thead><tr><th>Product</th><th>Unit</th><th  style="text-align:right">Juni 2014</th><th  style="text-align:right">Target 2014</th><th  style="text-align:right">YTD 2014</th><th  style="text-align:right">% Target</th></tr></thead>
 	<tbody>
 		<?php foreach($arrprod as $prod){
 			echo "<tr><td>".$prod['name']."</td>
@@ -64,7 +64,7 @@
 <table class="table table-striped">
 	<thead><tr>
 		<th>Product</th>
-		<th  style="text-align:right">Mei 2014</th><th  style="text-align:right">Target 2014</th><th  style="text-align:right">YTD 2014</th><th  style="text-align:right">% Target</th>
+		<th  style="text-align:right">Juni 2014</th><th  style="text-align:right">Target 2014</th><th  style="text-align:right">YTD 2014</th><th  style="text-align:right">% Target</th>
 	</tr></thead>
 	<tbody>
 		<?php foreach($arrprod_inc as $prod){

@@ -256,12 +256,12 @@ class Anchor extends CI_Controller {
     	
     	foreach($arr_target as $target){
     		$anchor_id = $this->manchor->get_anchor_id($target[0],$target[1]);
-    		if(!$anchor_id){
+    		/*if(!$anchor_id){
     			$anchor['name'] = $target[0];
 				$anchor['group'] = $target[1];
 				
     			$anchor_id = $this->manchor->insert_anchor($anchor);
-    		}
+    		}*/
     		
     		if($anchor_id){			
 				$iptdata['CASA_vol']= $target[4];
