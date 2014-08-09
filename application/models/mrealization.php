@@ -268,4 +268,40 @@ class Mrealization extends CI_Model {
 		
 		return $iptdata;
     }
+    
+    function count_realization_al($target_al, $realization_al){
+		$iptdata['WM_vol']= $this->count_avgbal($target_al->WM_vol,$realization_al->WM_vol);
+		$iptdata['WM_inc']=  $this->count_sum($target_al->WM_nii,$realization_al->WM_nii, $realization_al->month);
+		$iptdata['DPLK_vol']= $this->count_avgbal($target_al->DPLK_vol,$realization_al->DPLK_vol);
+		$iptdata['DPLK_inc']= $this->count_sum($target_al->DPLK_nii,$realization_al->DPLK_nii, $realization_al->month);
+		$iptdata['PCD_vol']= $this->count_avgbal($target_al->PCD_vol,$realization_al->PCD_vol);
+		$iptdata['PCD_inc']= $this->count_sum($target_al->PCD_nii,$realization_al->PCD_nii, $realization_al->month);
+		$iptdata['VCCD_vol']= $this->count_avgbal($target_al->VCCD_vol,$realization_al->VCCD_vol);
+		$iptdata['VCCD_inc']= $this->count_sum($target_al->VCCD_nii,$realization_al->VCCD_nii, $realization_al->month);
+		$iptdata['VCL_vol']= $this->count_avgbal($target_al->VCL_vol,$realization_al->VCL_vol);
+		$iptdata['VCL_inc']= $this->count_sum($target_al->VCL_nii,$realization_al->VCL_nii, $realization_al->month);
+		$iptdata['Micro_Loan_vol']= $this->count_sum($target_al->Micro_Loan_vol,$realization_al->Micro_Loan_vol,$realization_al->month)*1000; if(!$target_al->Micro_Loan_vol){$iptdata['Micro_Loan_vol']=$iptdata['Micro_Loan_vol']/1000;}
+		$iptdata['Micro_Loan_inc']= $this->count_sum($target_al->Micro_Loan_fbi,$realization_al->Micro_Loan_fbi,$realization_al->month);
+		$iptdata['MKM_vol']= $this->count_sum($target_al->MKM_vol,$realization_al->MKM_vol,$realization_al->month);
+		$iptdata['MKM_inc']= $this->count_sum($target_al->MKM_fbi,$realization_al->MKM_fbi,$realization_al->month);
+		$iptdata['KPR_vol']= $this->count_sum($target_al->KPR_vol,$realization_al->KPR_vol,$realization_al->month)*1000; if(!$target_al->KPR_vol){$iptdata['KPR_vol']=$iptdata['KPR_vol']/1000;}
+		$iptdata['KPR_inc']= $this->count_sum($target_al->KPR_fbi,$realization_al->KPR_fbi,$realization_al->month);
+		$iptdata['Auto_vol']= $this->count_sum($target_al->Auto_vol,$realization_al->Auto_vol,$realization_al->month)*1000; if(!$target_al->Auto_vol){$iptdata['Auto_vol']=$iptdata['Auto_vol']/1000;}
+		$iptdata['Auto_inc']= $this->count_sum($target_al->Auto_fbi,$realization_al->Auto_fbi,$realization_al->month);
+		$iptdata['CC_vol']= $this->count_sum($target_al->CC_vol,$realization_al->CC_vol,$realization_al->month);
+		$iptdata['CC_inc']= $this->count_sum($target_al->CC_nii,$realization_al->CC_nii,$realization_al->month);
+		$iptdata['EDC_vol']= $this->count_sum($target_al->EDC_vol,$realization_al->EDC_vol,$realization_al->month);
+		$iptdata['EDC_inc']= $this->count_sum($target_al->EDC_fbi,$realization_al->EDC_fbi,$realization_al->month);
+		$iptdata['ATM_vol']= $this->count_sum($target_al->ATM_vol,$realization_al->ATM_vol,$realization_al->month)*pow(10,9); if(!$target_al->ATM_vol){$iptdata['ATM_vol']=$iptdata['ATM_vol']/pow(10,9);}
+		$iptdata['ATM_inc']= $this->count_sum($target_al->ATM_fbi,$realization_al->ATM_fbi,$realization_al->month);
+		$iptdata['AXA_vol']= $this->count_avgbal($target_al->AXA_vol,$realization_al->AXA_vol,$realization_al->month);
+		$iptdata['AXA_inc']= $this->count_sum($target_al->AXA_fbi,$realization_al->AXA_fbi,$realization_al->month)/12*$realization_al->month;
+		$iptdata['MAGI_vol']= $this->count_avgbal($target_al->retailGI_vol,$realization_al->retailGI_vol,$realization_al->month);
+		$iptdata['MAGI_inc']= $this->count_sum($target_al->retailGI_fbi,$realization_al->retailGI_fbi,$realization_al->month)/12*$realization_al->month;
+		$iptdata['retail_vol']= $this->count_sum($target_al->retail_vol,$realization_al->retail_vol,$realization_al->month);
+		$iptdata['retail_inc']= $this->count_sum($target_al->retail_fbi,$realization_al->retail_fbi,$realization_al->month)/12*$realization_al->month;
+		$iptdata['cicil_Emas_vol']= $this->count_sum($target_al->retail_vol,$realization_al->retail_vol,$realization_al->month);
+		$iptdata['cicil_Emas_inc']= $this->count_sum($target_al->retail_fbi,$realization_al->retail_fbi,$realization_al->month)/12*$realization_al->month;
+		return $iptdata;
+    }
 }

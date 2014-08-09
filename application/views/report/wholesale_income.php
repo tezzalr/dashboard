@@ -147,7 +147,7 @@
 			<div id="container_ty" style="width: 100%; height: 280px; margin: 0; float:left;"></div>
 			<div id="" style="width: 100%; height: 170px; margin: 0 auto; padding:10px; float:left; margin-top:54px;">
 				<span style="float:right; font-size:11px;">(Rp Miliar)</span>
-				<table class="table table-bordered">
+				<table class="table table-bordered" style="font-size:11px">
 					<tr style="background-color:#08088A; color:white;"><th></th><th>2013</th><th>2014 (Ann.)</th></tr>
 					<tr><td>Loan</td><td><?php echo number_format($loan_ly,1)?></td><td><?php echo number_format($loan_ty,1)?></td></tr>
 					<tr><td>Non Loan</td><td><?php echo number_format($nonloan_ly,1)?></td><td><?php echo number_format($nonloan_ty,1)?></td></tr>

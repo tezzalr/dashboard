@@ -370,10 +370,10 @@
 		<div>
 			<div id="container_wsa" style="min-width: 310px; width: 50%; height: 300px; margin: 0; float:left; margin-bottom:50px;"></div>
 			<div id="" style="min-width: 310px; width: 50%; height: 300px; margin: 0; float:left; margin-bottom:50px; padding-left:100px;">
-				<span style="font-size:25px">Total Relationship Income : <?php echo number_format($tot_income/pow(10,9),1,'.',',')?></span><br>
+				<span style="font-size:25px">Total Relationship Income : <?php echo "Rp ".number_format($tot_income/pow(10,9),1,'.',',')." Miliar"?></span><br>
 				<div>
-					<span style="font-size:16px">Total Wholesale : <?php echo number_format($ws_income/pow(10,9),1,'.',',')?></span><br>
-					<span style="font-size:16px">Total Alliance : <?php echo number_format($al_income/pow(10,9),1,'.',',')?></span>
+					<span style="font-size:16px">Total Wholesale : <?php echo "Rp ".number_format($ws_income/pow(10,9),1,'.',',')." Miliar"?></span><br>
+					<span style="font-size:16px">Total Alliance : <?php echo "Rp ".number_format($al_income/pow(10,9),1,'.',',')." Miliar"?></span>
 				</div><hr>
 				<table>
 					<tr><td style="width:200px">TRX X-SELL</td><td><?php echo number_format($trx_sow/$loan_sow,2,'.',',');?></td></tr>

@@ -38,8 +38,8 @@ class Realization extends CI_Controller {
 			$data['title'] = "Realisasi";
 		}
 		$realization = $this->mrealization->count_realization($target_ws, $realization_ws);
-		$arr_prod = array(); for($i=1;$i<=19;$i++){$arr_prod[$i] = $this->mwallet->return_prod_name($i);}
-		$arr_name = array(); for($i=1;$i<=19;$i++){$arr_name[$i] = $this->mwallet->change_real_name($arr_prod[$i]);}
+		$arr_prod = array(); for($i=1;$i<=19;$i++){$arr_prod[$i] = return_prod_name($i);}
+		$arr_name = array(); for($i=1;$i<=19;$i++){$arr_name[$i] = change_real_name($arr_prod[$i]);}
     	
 		$graphview = $this->load->view('grafik/realisasi/_graph_view',array('rlzn' => $realization, 'tgt' => $target_ws, 'prod' => $arr_prod, 'arr_name' => $arr_name),TRUE);
 

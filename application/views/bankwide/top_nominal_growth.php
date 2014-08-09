@@ -10,31 +10,6 @@
 	<div>
 		<div>
 			<h3>Volume <?php echo $prd_name?></h3>
-			<!--<div style="margin-left:20px">
-				<h4>Top 5 Volume</h4>
-				<div style="width:50%">
-					<table class="table table-striped">
-						<thead><tr>
-							<th>Nama Anchor</th><th>Real 2013</th><th>Real YTD 2014</th>
-						</tr></thead><tbody>
-						<tr>
-							<td>Pertamina</td><td>14.289</td><td>16.032</td>
-						</tr>
-						<tr>
-							<td>PLN Group</td><td>14.289</td><td>16.032</td>
-						</tr>
-						<tr>
-							<td>Wilmar Group</td><td>14.289</td><td>16.032</td>
-						</tr>
-						<tr>
-							<td>Permata Hijau Sawit Group</td><td>14.289</td><td>16.032</td>
-						</tr>
-						<tr>
-							<td>Sinar Mas Group</td><td>14.289</td><td>16.032</td>
-						</tr></tbody>
-					</table>
-				</div>
-			</div><hr>-->
 			<div style="margin-left:20px">
 				<h4>Top 5 Volume</h4>
 				<div style="width:100%">
