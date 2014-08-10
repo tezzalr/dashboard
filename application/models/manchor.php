@@ -112,7 +112,7 @@ class Manchor extends CI_Model {
     }
     
     function get_top_anchor_prd_grw($product, $month, $year, $ly_month, $sort){
-    	$this->db->select('(ws_main.'.$product.'_vol - ws_ly.'.$product.'_vol)/ ws_ly.'.$product.'_vol as grow, ws_main.'.$product.'_vol as '.$product.'_vol, ws_main.month as month, ws_main.year as year, anchor.name, ws_ly.'.$product.'_vol as '.$product.'_vol_ly, wholesale_target.'.$product.'_vol as '.$product.'_vol_target');
+    	$this->db->select('((ws_main.'.$product.'_vol/'.$month.'*12) - (ws_ly.'.$product.'_vol/'.$ly_month.'*12))/ (ws_ly.'.$product.'_vol/'.$ly_month.'*12) as grow,  (ws_main.'.$product.'_vol/'.$month.'*12) - (ws_ly.'.$product.'_vol/'.$ly_month.'*12) as nom_grow, ws_main.'.$product.'_vol as '.$product.'_vol, ws_main.month as month, ws_main.year as year, anchor.name, ws_ly.'.$product.'_vol as '.$product.'_vol_ly, wholesale_target.'.$product.'_vol as '.$product.'_vol_target');
     	$this->db->join('anchor', 'anchor.id = ws_main.anchor_id');
     	$this->db->join('wholesale_realization as ws_ly', 'anchor.id = ws_ly.anchor_id');
     	$this->db->join('wholesale_target', 'anchor.id = wholesale_target.anchor_id');
@@ -120,9 +120,11 @@ class Manchor extends CI_Model {
     	$this->db->where('ws_main.year',$year);
     	$this->db->where('wholesale_target.year',$year);
     	$this->db->where('ws_ly.month',$ly_month);
+    	$this->db->where('ws_ly.'.$product.'_vol <>',0);
     	$this->db->where('ws_ly.year',2013);
     	$this->db->order_by('grow', $sort);
-    	//$this->db->limit(5);
+    	$this->db->order_by('nom_grow', 'asc');
+    	$this->db->limit(5);
     	$result = $this->db->get('wholesale_realization as ws_main');
     	return $result->result();
     }

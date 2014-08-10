@@ -25,11 +25,13 @@
 							foreach($top_anchor_vol as $anchor){ $ytd = $anchor->$vol/$anchor->month*12;?>
 							<tr>
 								<td><?php echo $anchor->name?></td>
-								<td><?php echo number_format($anchor->$ly/pow(10,$bagi),0,',','.')?></td>
+								<td><?php echo number_format($anchor->$vol/pow(10,$bagi),0,',','.')?></td>
+								<td><?php echo number_format($anchor->$vol/$total_prd->$vol*100,1,',','.')?> %</td>
+								<!--<td><?php echo number_format($anchor->$ly/pow(10,$bagi),0,',','.')?></td>
 								
 								<td><?php echo number_format($anchor->$vol/pow(10,$bagi),0,',','.')?></td>
 								<td><?php echo number_format($ytd/pow(10,$bagi),0,',','.')?></td>
-								<td><?php echo number_format($anchor->$vol/$total_prd->$vol*100,1,',','.')?> %</td>
+								<td><?php echo number_format($anchor->$vol/$total_prd->$vol*100,1,',','.')?> %</td>-->
 							</tr>
 						<?php
 								
