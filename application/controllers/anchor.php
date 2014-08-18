@@ -247,12 +247,41 @@ class Anchor extends CI_Controller {
     	}
     }*/
     
+    public function input_detail(){
+    	$year = $this->uri->segment(3);
+    	$month = $this->uri->segment(4);
+    	$arr_target = $this->get_excel('datadashboard/detail_realization/'.$year.'/detail_realization_'.$year.$month.'.xlsx',"detail");
+    	foreach($arr_target as $target){
+    		$anchor_id = $this->manchor->get_anchor_id($target[0],$target[1]);
+    		if($anchor_id){
+    			$iptdata['CASA_trans']= $target[4];
+    			$iptdata['CASA_idr']= $target[5];
+				$iptdata['CASA_val']= $target[6];
+				$iptdata['Trade_eks']= $target[7];
+				$iptdata['Trade_imp']= $target[8];
+				$iptdata['Trade_skbdn']= $target[9];
+				$iptdata['OIR_amt']= $target[10];
+				$iptdata['WM_CASA']= $target[11];
+				$iptdata['WM_Dep']= $target[12];
+				$iptdata['WM_AUM']= $target[13];
+				$iptdata['CC_PB']= $target[14];
+				$iptdata['CC_TA']= $target[15];
+				
+				$iptdata['year']= $year;
+				$iptdata['anchor_id']= $anchor_id;
+				$iptdata['month']= $month;
+				
+				$this->manchor->insert_detail($iptdata);
+    		}
+    	}
+    }
+    
     public function input_ws_al(){
     	$kind = $this->uri->segment(3);
     	$year = $this->uri->segment(4); $iter=1;
     	$month = ''; $year_fldr = '';
     	if($kind == 'realization'){$month = $this->uri->segment(5); $year_fldr= $year."/"; $iptdata['month']= $month; $iptdata2['month']= $month;}
-    	$arr_target = $this->get_excel('datadashboard/'.$kind.'/'.$year_fldr.$kind.'_'.$year.$month.'.xlsx');
+    	$arr_target = $this->get_excel('datadashboard/'.$kind.'/'.$year_fldr.$kind.'_'.$year.$month.'.xlsx',"realisasi");
     	
     	foreach($arr_target as $target){
     		$anchor_id = $this->manchor->get_anchor_id($target[0],$target[1]);
@@ -359,7 +388,9 @@ class Anchor extends CI_Controller {
     	}
     }
     
-    public function get_excel($filename){
+    public function get_excel($filename, $kind){
+    	if($kind == "realisasi"){$jumcol = 40;}
+    	elseif($kind == "detail"){$jumcol = 15;}
     	$objReader = PHPExcel_IOFactory::createReader('Excel2007');
 		$objReader->setReadDataOnly(TRUE);
 		$objPHPExcel = $objReader->load("assets/".$filename);
@@ -383,7 +414,7 @@ class Anchor extends CI_Controller {
 				$i++;
 			}
 			else{
-				for ($ar=4;$ar<=40;$ar++){
+				for ($ar=4;$ar<=$jumcol;$ar++){
 					$rachel[$i-1][$ar] = $rachel[$i-1][$ar]+$objWorksheet->getCellByColumnAndRow($ar, $row)->getValue();	
 				}
 			}

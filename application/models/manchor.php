@@ -43,6 +43,10 @@ class Manchor extends CI_Model {
     	return $this->db->insert('alliance_'.$kind, $iptdata);
     }
     
+    function insert_detail($iptdata){
+    	return $this->db->insert('detail_realization', $iptdata);
+    }
+    
     
     //GET FUNCTION
     
