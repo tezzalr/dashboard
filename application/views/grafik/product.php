@@ -52,6 +52,7 @@
 						<option value="income" <?php if($this->uri->segment(5)=="income"){echo "selected";}?>>Income</option>
 					</select><hr>
 					<button type="submit" class="btn btn-default btn-md">Cari</button>
+					</form>
 			</div>
 			<!--<div style="float: right"><h3>YTD (%Target) : <span style="color: red">90%</span></h3></div>--><div style="clear:both"></div>
 		</div>

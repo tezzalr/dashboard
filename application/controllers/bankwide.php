@@ -42,7 +42,9 @@ class Bankwide extends CI_Controller {
     	$month = $this->mrealization->get_last_month($year);
     	$total_prd = $this->manchor->get_total_vol_prd($product, $month, $year);
     	$top_anchor_vol = $this->manchor->get_top_anchor_prd($product, $month, $year);
-    	$top_anchor_nom_grow = $this->manchor->get_top_anchor_prd_nml_grw($product, $month, $year);
+    	$top_anchor_nom_grow = $this->manchor->get_top_anchor_prd_nml_grw($product, $month, $year, 12, 'desc');
+    	$top_anchor_nom_grow_tm = $this->manchor->get_top_anchor_prd_nml_grw($product, $month, $year, $month, 'desc');
+    	$top_anchor_nom_grow_tm_min = $this->manchor->get_top_anchor_prd_nml_grw($product, $month, $year, $month, 'asc');
     	$top_anchor_grow = $this->manchor->get_top_anchor_prd_grw($product, $month, $year, 12, 'desc');
     	$top_anchor_grow_tm = $this->manchor->get_top_anchor_prd_grw($product, $month, $year, $month, 'desc');
     	$top_anchor_grow_tm_min = $this->manchor->get_top_anchor_prd_grw($product, $month, $year, $month, 'asc');
@@ -51,7 +53,7 @@ class Bankwide extends CI_Controller {
 		
 		$data['header'] = $this->load->view('shared/header','',TRUE);	
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-		$data['content'] = $this->load->view('bankwide/top_transaksi',array('top_anchor_vol' => $top_anchor_vol, 'top_anchor_nom_grow' => $top_anchor_nom_grow, 'top_anchor_grow' => $top_anchor_grow, 'top_anchor_grow_tm' => $top_anchor_grow_tm, 'top_anchor_grow_tm_min' => $top_anchor_grow_tm_min, 'product' => $product, 'total_prd' => $total_prd, 'prd_name' => $prd_name),TRUE);
+		$data['content'] = $this->load->view('bankwide/top_transaksi',array('top_anchor_vol' => $top_anchor_vol, 'top_anchor_nom_grow' => $top_anchor_nom_grow, 'top_anchor_grow' => $top_anchor_grow, 'top_anchor_grow_tm' => $top_anchor_grow_tm, 'top_anchor_grow_tm_min' => $top_anchor_grow_tm_min,'top_anchor_nom_grow_tm' => $top_anchor_nom_grow_tm, 'top_anchor_nom_grow_tm_min' => $top_anchor_nom_grow_tm_min, 'product' => $product, 'total_prd' => $total_prd, 'prd_name' => $prd_name),TRUE);
 
 		$this->load->view('front',$data);
     }
