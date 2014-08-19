@@ -91,10 +91,12 @@ class Manchor extends CI_Model {
     }
     
     /*Bank Wide Function*/
-    function get_total_vol_prd($product, $month, $year, $db){
+    function get_total_vol_prd($product, $month, $year, $db,$dir){
     	$this->db->select_sum($product.'_vol');
     	if($month!=0){$this->db->where('month',$month);}
     	$this->db->where('year',$year);
+    	get_direktorat_where($dir,$this);
+    	$this->db->join('anchor', 'anchor.id ='.$db.'.anchor_id');
     	$result = $this->db->get($db);
     	$query = $result->result();
         return $query[0];
@@ -143,6 +145,7 @@ class Manchor extends CI_Model {
     	$this->db->join('wholesale_target', 'anchor.id = wholesale_target.anchor_id');
     	$this->db->where('ws_main.month',$month);
     	$this->db->where('ws_main.year',$year);
+    	$this->db->where('ws_ly.'.$product.'_vol <>',0);
     	$this->db->where('wholesale_target.year',$year);
     	//$this->db->where("(`group` = 'CORPORATE BANKING AGRO BASED' OR `group` = 'CORPORATE BANKING I' OR `group` = 'CORPORATE BANKING II' OR `group` = 'CORPORATE BANKING III' OR `group` = 'SYNDICATION, OIL & GAS')");
     	$this->db->where('ws_ly.month',$ly_month);

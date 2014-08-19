@@ -85,6 +85,23 @@
 							 <td><?php echo number_format($temp_tot/$anchor->month*12/pow(10,$bagi),0,',','.')?></td>
 							 <td><?php echo number_format($nomgrowtot/pow(10,$bagi),0,',','.')?></td>
 						 </tr>
+						 <tr><td></td><td></td><td></td><td></td><td></td></tr>
+						 	<?php 
+							$vol = $product."_vol"; $temp_tot=0; $ly = $vol.'_ly'; $ly_tot=0;
+							$bagi=9; if($product == 'FX' || $product == 'Trade'){$bagi=6;}elseif($product == 'OIR'){$bagi=0;}
+							foreach($top_anchor_nom_grow_min as $anchor){ $ytd = $anchor->$vol/$anchor->month*12;?>
+							<tr>
+								<td><?php echo $anchor->name?></td>
+								<td><?php echo number_format($anchor->$ly/pow(10,$bagi),1,',','.')?></td>
+								<td><?php echo number_format($anchor->$vol/pow(10,$bagi),1,',','.')?></td>
+								<td><?php echo number_format($ytd/pow(10,$bagi),0,',','.')?></td>
+								<td><?php echo number_format($anchor->nom_grow/pow(10,$bagi),2,',','.')?></td>
+							</tr>
+						<?php
+								
+								$temp_tot = $temp_tot + $anchor->$vol;
+								$ly_tot = $ly_tot + $anchor->$ly;
+						 	}?>
 						</tbody>
 					</table>
 				</div>
@@ -113,6 +130,24 @@
 								$temp_tot = $temp_tot + $anchor->$vol;
 								$ly_tot = $ly_tot + $anchor->$ly;
 						 	}?>
+						 	<tr><td></td><td></td><td></td><td></td><td></td></tr>
+						 	<?php 
+								$vol = $product."_vol"; $temp_tot=0; $ly = $vol.'_ly'; $ly_tot=0;
+								$bagi=9; if($product == 'FX' || $product == 'Trade'){$bagi=6;}elseif($product == 'OIR'){$bagi=0;}
+								foreach($top_anchor_grow_min as $anchor){ $ytd = $anchor->$vol/$anchor->month*12;?>
+								<tr>
+									<td><?php echo $anchor->name?></td>
+									<td><?php echo number_format($anchor->$ly/pow(10,$bagi),1,',','.')?></td>
+									<td><?php echo number_format($anchor->$trgt,1,',','.')?></td>
+									<td><?php echo number_format($anchor->$vol/pow(10,$bagi),1,',','.')?></td>
+									<td><?php echo number_format($ytd/pow(10,$bagi),1,',','.')?></td>
+									<td><?php echo number_format($anchor->grow*100,2,',','.')?> %</td>
+								</tr>
+							<?php
+								
+									$temp_tot = $temp_tot + $anchor->$vol;
+									$ly_tot = $ly_tot + $anchor->$ly;
+								}?>
 						</tbody>
 					</table>
 				</div>

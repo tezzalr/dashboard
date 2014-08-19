@@ -114,6 +114,18 @@ class Mrealization extends CI_Model {
         return $query[0];
     }
     
+    function get_directorate_realization_w_month($direktorat, $year, $type,$month){
+    	$db = $type.'_realization';
+    	get_type_select_month($type,$this);
+    	get_direktorat_where($direktorat,$this);
+    	$this->db->join('anchor', 'anchor.id = '.$db.'.anchor_id');
+    	$this->db->where('month',$month);
+    	$this->db->where('year',$year);
+    	$result = $this->db->get($db);
+    	$query = $result->result();
+        return $query[0];
+    }
+    
     function get_directorate_total_income($direktorat, $year){
     	$month = $this->get_last_month($year);
     	$ws_realization = $this->get_directorate_realization($direktorat, $year, 'wholesale');
@@ -263,8 +275,8 @@ class Mrealization extends CI_Model {
 		$iptdata['MA_vol']= $this->count_sum_value($realization_ws->MA_vol,$realization_ws->month);
 		$iptdata['MA_inc']= $this->count_sum_value($realization_ws->MA_fbi,$realization_ws->month);
 		
-		$iptdata['LMF_inc'] = $this->count_sum_value($realization_ws->IL_fbi+$realization_ws->WCL_fbi, $realization_ws->month);
-		$iptdata['SF_inc'] = $this->count_sum_value($realization_ws->SL_fbi, $realization_ws->month);
+		$iptdata['LMF_inc'] = $this->count_avgbal_value($realization_ws->IL_fbi+$realization_ws->WCL_fbi, $realization_ws->month);
+		$iptdata['SF_inc'] = $this->count_avgbal_value($realization_ws->SL_fbi, $realization_ws->month);
 		
 		return $iptdata;
     }

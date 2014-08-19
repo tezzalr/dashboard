@@ -388,6 +388,119 @@ class Anchor extends CI_Controller {
     	}
     }
     
+    public function input_ws_al_company(){
+    	$kind = $this->uri->segment(3);
+    	$year = $this->uri->segment(4); $iter=1;
+    	$month = ''; $year_fldr = '';
+    	if($kind == 'realization'){$month = $this->uri->segment(5); $year_fldr= $year."/"; $iptdata['month']= $month; $iptdata2['month']= $month;}
+    	$arr_target = $this->get_excel_company('datadashboard/company_'.$kind.'/'.$year_fldr.$kind.'_'.$year.$month.'.xlsx',"realisasi");
+    	
+    	foreach($arr_target as $target){
+    		$company_id = $this->manchor->get_anchor_id($target[2],$target[1]);
+    		if(!$anchor_id){
+    			$anchor['anchor_id'] = $this->manchor->get_anchor_id($target[0],$target[1]);
+    			$anchor['name'] = $target[2];
+				$anchor['group'] = $target[1];
+				
+    			$company_id = $this->manchor->insert_anchor($anchor);
+    		}
+    		
+    		if($anchor_id){			
+				$iptdata['CASA_vol']= $target[4];
+				$iptdata['CASA_nii']= $target[5];
+				$iptdata['CASA_fbi']= $target[6];
+				$iptdata['CASA_trans']= $target[7];
+				$iptdata['TD_vol']= $target[8];
+				$iptdata['TD_nii']= $target[9];
+				$iptdata['WCL_vol']= $target[10];
+				$iptdata['WCL_nii']= $target[11];
+				$iptdata['WCL_fbi']= $target[12];
+				$iptdata['IL_vol']= $target[13];
+				$iptdata['IL_nii']= $target[14];
+				$iptdata['IL_fbi']= $target[15]; //salah
+				$iptdata['SL_vol']= $target[16];
+				$iptdata['SL_nii']= $target[17];
+				$iptdata['SL_fbi']= $target[18];
+				$iptdata['FX_vol']= $target[19];
+				$iptdata['FX_fbi']= $target[20];
+				$iptdata['SCF_vol']= $target[21]; //salah
+				$iptdata['SCF_fbi']= $target[22]; //salah
+				$iptdata['Trade_vol']= $target[23];
+				$iptdata['Trade_fbi']= $target[24];//salah
+				$iptdata['PWE_vol']= $target[25];
+				$iptdata['PWE_fbi']= $target[26];
+				$iptdata['TR_vol']= $target[27];
+				$iptdata['TR_nii']= $target[28];
+				$iptdata['BG_vol']= $target[29];
+				$iptdata['BG_fbi']= $target[30];
+				$iptdata['OIR_vol']= $target[31];
+				$iptdata['OIR_fbi']= $target[32];
+				$iptdata['OW_vol']= $target[33];
+				$iptdata['OW_nii']= $target[34];
+				$iptdata['OW_fbi']= $target[35];
+				$iptdata['ECM_vol']= $target[36];
+				$iptdata['ECM_fbi']= $target[37];
+				$iptdata['DCM_vol']= $target[38];
+				$iptdata['DCM_fbi']= $target[39];
+				$iptdata['MA_vol']= $target[40];
+				$iptdata['MA_fbi']= $target[41];
+			
+				$iptdata['year']= $year;
+				$iptdata['anchor_id']= $anchor_id;
+			
+				$this->manchor->insert_ws($iptdata, $kind);
+			
+				$iptdata2['WM_vol']= $target[42];
+				$iptdata2['WM_nii']= $target[43];
+				$iptdata2['DPLK_vol']= $target[44];
+				$iptdata2['DPLK_fbi']= $target[45];
+				$iptdata2['PCD_vol']= $target[46];
+				$iptdata2['PCD_nii']= $target[47];
+				$iptdata2['VCCD_vol']= $target[48];
+				$iptdata2['VCCD_nii']= $target[49];
+				$iptdata2['VCCD_fbi']= $target[50];
+				$iptdata2['VCL_vol']= $target[51];
+				$iptdata2['VCL_nii']= $target[52];
+				$iptdata2['VCL_fbi']= $target[53];
+				$iptdata2['VCLnDF_vol']= $target[54];
+				$iptdata2['VCLnDF_nii']= $target[55];
+				$iptdata2['VCLnDF_fbi']= $target[56];
+				$iptdata2['Micro_Loan_vol']= $target[57];
+				$iptdata2['Micro_Loan_nii']= $target[58];
+				$iptdata2['Micro_Loan_fbi']= $target[59];
+				$iptdata2['MKM_vol']= $target[60];
+				$iptdata2['MKM_nii']= $target[61];
+				$iptdata2['KPR_vol']= $target[62];
+				$iptdata2['KPR_nii']= $target[63];
+				$iptdata2['Auto_vol']= $target[64];
+				$iptdata2['Auto_nii']= $target[65];
+				$iptdata2['CC_vol']= $target[66];
+				$iptdata2['CC_nii']= $target[67];
+				$iptdata2['EDC_vol']= $target[68];
+				$iptdata2['EDC_fbi']= $target[69];
+				$iptdata2['ATM_vol']= $target[70];
+				$iptdata2['ATM_fbi']= $target[71];
+				$iptdata2['AXA_vol']= $target[72];
+				$iptdata2['AXA_fbi']= $target[73];
+				$iptdata2['MAGI_vol']= $target[74];
+				$iptdata2['MAGI_fbi']= $target[75];
+				$iptdata2['retail_vol']= $target[76];
+				$iptdata2['retail_fbi']= $target[77];
+				$iptdata2['cicil_Emas_vol']= $target[78];
+				$iptdata2['cicil_Emas_fbi']= $target[79];
+				$iptdata2['OA_vol']= $target[80];
+				$iptdata2['OA_nii']= $target[81];
+				$iptdata2['OA_fbi']= $target[82];
+			
+				$iptdata2['year']= $year;
+				$iptdata2['anchor_id']= $anchor_id;
+			
+				$this->manchor->insert_al($iptdata2, $kind);
+			}
+    		
+    	}
+    }
+    
     public function get_excel($filename, $kind){
     	if($kind == "realisasi"){$jumcol = 40;}
     	elseif($kind == "detail"){$jumcol = 15;}
@@ -418,6 +531,31 @@ class Anchor extends CI_Controller {
 					$rachel[$i-1][$ar] = $rachel[$i-1][$ar]+$objWorksheet->getCellByColumnAndRow($ar, $row)->getValue();	
 				}
 			}
+		}
+		return $rachel;
+    }
+    
+    public function get_excel_company($filename, $kind){
+    	if($kind == "realisasi"){$jumcol = 40;}
+    	elseif($kind == "detail"){$jumcol = 15;}
+    	$objReader = PHPExcel_IOFactory::createReader('Excel2007');
+		$objReader->setReadDataOnly(TRUE);
+		$objPHPExcel = $objReader->load("assets/".$filename);
+
+		$objWorksheet = $objPHPExcel->getActiveSheet();
+		// Get the highest row and column numbers referenced in the worksheet
+		$highestRow = $objWorksheet->getHighestRow(); // e.g. 10
+		$highestColumn = $objWorksheet->getHighestColumn(); // e.g 'F'
+		$highestColumnIndex = PHPExcel_Cell::columnIndexFromString($highestColumn);
+		
+		$same='';
+		$i=1;
+		$rachel = array();
+		for ($row = 1; $row <= $highestRow; ++$row) {
+			for ($col = 0; $col < $highestColumnIndex; ++$col) {
+				$rachel[$i][$col] = $objWorksheet->getCellByColumnAndRow($col, $row)->getValue();
+			}
+			$i++;
 		}
 		return $rachel;
     }
