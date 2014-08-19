@@ -117,7 +117,7 @@
 					</table>
 				</div>
 				
-				<div style="width:50%;  float:left; padding-right:20px;">
+				<!--<div style="width:50%;  float:left; padding-right:20px;">
 					<h4>Top Growth (%) - Sampai Bulan Ini</h4>
 					<table class="table table-bordered" style="font-size:10px;">
 						<thead><tr>
@@ -197,7 +197,7 @@
 						 	}?>
 						</tbody>
 					</table>
-				</div>
+				</div>-->
 			</div>
 			<div>
 			</div>

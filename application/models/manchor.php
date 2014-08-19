@@ -91,16 +91,17 @@ class Manchor extends CI_Model {
     }
     
     /*Bank Wide Function*/
-    function get_total_vol_prd($product, $month, $year){
+    function get_total_vol_prd($product, $month, $year, $db){
     	$this->db->select_sum($product.'_vol');
-    	$this->db->where('month',$month);
+    	if($month!=0){$this->db->where('month',$month);}
     	$this->db->where('year',$year);
-    	$result = $this->db->get('wholesale_realization');
+    	$result = $this->db->get($db);
     	$query = $result->result();
         return $query[0];
     }
     
     function get_top_anchor_prd($product, $month, $year){
+    	
     	$this->db->select('ws_main.'.$product.'_vol as '.$product.'_vol, ws_main.month as month, ws_main.year as year, anchor.name, ws_ly.'.$product.'_vol as '.$product.'_vol_ly, wholesale_target.'.$product.'_vol as '.$product.'_vol_target');
     	$this->db->join('anchor', 'anchor.id = ws_main.anchor_id');
     	$this->db->join('wholesale_realization as ws_ly', 'anchor.id = ws_ly.anchor_id');
@@ -109,6 +110,7 @@ class Manchor extends CI_Model {
     	$this->db->where('ws_main.year',$year);
     	$this->db->where('wholesale_target.year',$year);
     	$this->db->where('ws_ly.month',12);
+    	//$this->db->where("(`group` = 'CORPORATE BANKING AGRO BASED' OR `group` = 'CORPORATE BANKING I' OR `group` = 'CORPORATE BANKING II' OR `group` = 'CORPORATE BANKING III' OR `group` = 'SYNDICATION, OIL & GAS')");
     	$this->db->where('ws_ly.year',2013);
     	$this->db->order_by('ws_main.'.$product.'_vol', 'desc');
     	$result = $this->db->get('wholesale_realization as ws_main');
@@ -125,6 +127,7 @@ class Manchor extends CI_Model {
     	$this->db->where('wholesale_target.year',$year);
     	$this->db->where('ws_ly.month',$ly_month);
     	$this->db->where('ws_ly.'.$product.'_vol <>',0);
+    	//$this->db->where("(`group` = 'CORPORATE BANKING AGRO BASED' OR `group` = 'CORPORATE BANKING I' OR `group` = 'CORPORATE BANKING II' OR `group` = 'CORPORATE BANKING III' OR `group` = 'SYNDICATION, OIL & GAS')");
     	$this->db->where('ws_ly.year',2013);
     	$this->db->order_by('grow', $sort);
     	$this->db->order_by('nom_grow', 'asc');
@@ -141,6 +144,7 @@ class Manchor extends CI_Model {
     	$this->db->where('ws_main.month',$month);
     	$this->db->where('ws_main.year',$year);
     	$this->db->where('wholesale_target.year',$year);
+    	//$this->db->where("(`group` = 'CORPORATE BANKING AGRO BASED' OR `group` = 'CORPORATE BANKING I' OR `group` = 'CORPORATE BANKING II' OR `group` = 'CORPORATE BANKING III' OR `group` = 'SYNDICATION, OIL & GAS')");
     	$this->db->where('ws_ly.month',$ly_month);
     	$this->db->where('ws_ly.year',2013);
     	$this->db->order_by('nom_grow', $sort);
