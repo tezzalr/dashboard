@@ -117,29 +117,29 @@
 		<div style="width: 50%; margin: 0 auto; float:left;">
 			<table class="table table-bordered" style="">
 				<tr style="background-color:#08088A; color:white;"><th></th><th>2013<br>Real</th><th>2014<br>Annualized</th></tr>
-				<tr style="background-color:#BDBDBD;"><td>Loan :</td><td><?php echo number_format($loan_ly,1)?></td><td><?php echo number_format($loan_ty,1)?></td></tr>
-				<tr><td>Working Capital Loan</td><td><?php echo number_format($ws_inc['ly']->WCL_nii/pow(10,9),2)?></td><td><?php echo number_format($ws_inc['ty']->WCL_nii/pow(10,9)/$month*12,2)?></td></tr>
-				<tr><td>Investment Loan</td><td><?php echo number_format($ws_inc['ly']->IL_nii/pow(10,9),2)?></td><td><?php echo number_format($ws_inc['ty']->IL_nii/pow(10,9)/$month*12,2)?></td></tr>
-				<tr><td>Structured Loan</td><td><?php echo number_format($ws_inc['ly']->SL_nii/pow(10,9),2)?></td><td><?php echo number_format($ws_inc['ty']->SL_nii/pow(10,9)/$month*12,2)?></td></tr>
-				<tr><td>Trust Receipt</td><td><?php echo number_format($ws_inc['ly']->TR_nii/pow(10,9),2)?></td><td><?php echo number_format($ws_inc['ty']->TR_nii/pow(10,9)/$month*12,2)?></td></tr>
-				<tr style="background-color:#BDBDBD;"><td>Non Loan :</td><td><?php echo number_format($nonloan_ly,1)?></td><td><?php echo number_format($nonloan_ty,1)?></td></tr>
-				<tr style="background-color:#A9D0F5;"><td>CASA</td><td><?php echo number_format($casa_ly,1)?></td><td><?php echo number_format($casa_ty,1)?></td></tr>
-				<tr style="background-color:#A9D0F5;"><td>Transaction</td><td><?php echo number_format($trx_ly,1)?></td><td><?php echo number_format($trx_ty,1)?></td></tr>
-				<tr><td>FX & Derivatives</td><td><?php echo number_format($ws_inc['ly']->FX_fbi/pow(10,9),2)?></td><td><?php echo number_format($ws_inc['ty']->FX_fbi/pow(10,9)/$month*12,2)?></td></tr>
-				<tr><td>Trade Services</td><td><?php echo number_format($ws_inc['ly']->Trade_fbi/pow(10,9),2)?></td><td><?php echo number_format($ws_inc['ty']->Trade_fbi/pow(10,9)/$month*12,2)?></td></tr>
-				<tr><td>Bank Guarantee</td><td><?php echo number_format($ws_inc['ly']->BG_fbi/pow(10,9),2)?></td><td><?php echo number_format($ws_inc['ty']->BG_fbi/pow(10,9)/$month*12,2)?></td></tr>
-				<tr><td>Outgoing Int'l Remittance</td><td><?php echo number_format($ws_inc['ly']->OIR_fbi/pow(10,9),2)?></td><td><?php echo number_format($ws_inc['ty']->OIR_fbi/pow(10,9)/$month*12,2)?></td></tr>
-				<tr><td>PWE Non L/C</td><td><?php echo number_format($ws_inc['ly']->PWE_fbi/pow(10,9),2)?></td><td><?php echo number_format($ws_inc['ty']->PWE_fbi/pow(10,9)/$month*12,2)?></td></tr>
-				<tr><td>Loan Maintenance Fee</td><td><?php echo number_format(($ws_inc['ly']->WCL_fbi+$ws_inc['ly']->IL_fbi)/pow(10,9),2)?></td><td><?php echo number_format(($ws_inc['ty']->WCL_fbi+$ws_inc['ty']->IL_fbi)/pow(10,9)/$month*12,2)?></td></tr>
-				<tr><td>Syndication Fee</td><td><?php echo number_format($ws_inc['ly']->SL_fbi/pow(10,9),2)?></td><td><?php echo number_format($ws_inc['ty']->SL_fbi/pow(10,9)/$month*12,2)?></td></tr>
-				<tr><td>FBI Others</td><td><?php echo number_format(($ws_inc['ly']->OW_fbi + $ws_inc['ly']->CASA_fbi)/pow(10,9),2)?></td><td><?php echo number_format(($ws_inc['ty']->OW_fbi + $ws_inc['ty']->CASA_fbi)/pow(10,9)/$month*12,2)?></td></tr>
-				<tr style="background-color:#A9D0F5;"><td>Others</td><td><?php echo number_format($other_ly,1)?></td><td><?php echo number_format($other_ty,1)?></td></tr>
-				<tr><td>Time Deposit</td><td><?php echo number_format($ws_inc['ly']->TD_nii/pow(10,9),2)?></td><td><?php echo number_format($ws_inc['ty']->TD_nii/pow(10,9)/$month*12,2)?></td></tr>
-				<tr><td>NII Others</td><td><?php echo number_format($ws_inc['ly']->OW_nii/pow(10,9),2)?></td><td><?php echo number_format($ws_inc['ty']->OW_nii/pow(10,9)/$month*12,2)?></td></tr>
-				<tr><td>Supply Chain Financing</td><td><?php echo number_format($ws_inc['ly']->SCF_fbi/pow(10,9),2)?></td><td><?php echo number_format($ws_inc['ty']->SCF_fbi/pow(10,9)/$month*12,2)?></td></tr>
-				<tr><td>ECM</td><td><?php echo number_format($ws_inc['ly']->ECM_fbi/pow(10,9),2)?></td><td><?php echo number_format($ws_inc['ty']->ECM_fbi/pow(10,9)/$month*12,2)?></td></tr>
-				<tr><td>DCM</td><td><?php echo number_format($ws_inc['ly']->DCM_fbi/pow(10,9),2)?></td><td><?php echo number_format($ws_inc['ty']->DCM_fbi/pow(10,9)/$month*12,2)?></td></tr>
-				<tr><td>M&A</td><td><?php echo number_format($ws_inc['ly']->MA_fbi/pow(10,9),2)?></td><td><?php echo number_format($ws_inc['ty']->MA_fbi/pow(10,9)/$month*12,2)?></td></tr>
+				<tr style="background-color:#BDBDBD;"><td>Loan :</td><td><?php echo number_format($loan_ly,0)?></td><td><?php echo number_format($loan_ty,0)?></td></tr>
+				<tr><td>Working Capital Loan</td><td><?php echo number_format($ws_inc['ly']->WCL_nii/pow(10,9),0)?></td><td><?php echo number_format($ws_inc['ty']->WCL_nii/pow(10,9)/$month*12,0)?></td></tr>
+				<tr><td>Investment Loan</td><td><?php echo number_format($ws_inc['ly']->IL_nii/pow(10,9),0)?></td><td><?php echo number_format($ws_inc['ty']->IL_nii/pow(10,9)/$month*12,0)?></td></tr>
+				<tr><td>Structured Loan</td><td><?php echo number_format($ws_inc['ly']->SL_nii/pow(10,9),0)?></td><td><?php echo number_format($ws_inc['ty']->SL_nii/pow(10,9)/$month*12,0)?></td></tr>
+				<tr><td>Trust Receipt</td><td><?php echo number_format($ws_inc['ly']->TR_nii/pow(10,9),0)?></td><td><?php echo number_format($ws_inc['ty']->TR_nii/pow(10,9)/$month*12,0)?></td></tr>
+				<tr style="background-color:#BDBDBD;"><td>Non Loan :</td><td><?php echo number_format($nonloan_ly,0)?></td><td><?php echo number_format($nonloan_ty,0)?></td></tr>
+				<tr style="background-color:#A9D0F5;"><td>CASA</td><td><?php echo number_format($casa_ly,0)?></td><td><?php echo number_format($casa_ty,0)?></td></tr>
+				<tr style="background-color:#A9D0F5;"><td>Transaction</td><td><?php echo number_format($trx_ly,0)?></td><td><?php echo number_format($trx_ty,0)?></td></tr>
+				<tr><td>FX & Derivatives</td><td><?php echo number_format($ws_inc['ly']->FX_fbi/pow(10,9),0)?></td><td><?php echo number_format($ws_inc['ty']->FX_fbi/pow(10,9)/$month*12,0)?></td></tr>
+				<tr><td>Trade Services</td><td><?php echo number_format($ws_inc['ly']->Trade_fbi/pow(10,9),0)?></td><td><?php echo number_format($ws_inc['ty']->Trade_fbi/pow(10,9)/$month*12,0)?></td></tr>
+				<tr><td>Bank Guarantee</td><td><?php echo number_format($ws_inc['ly']->BG_fbi/pow(10,9),0)?></td><td><?php echo number_format($ws_inc['ty']->BG_fbi/pow(10,9)/$month*12,0)?></td></tr>
+				<tr><td>Outgoing Int'l Remittance</td><td><?php echo number_format($ws_inc['ly']->OIR_fbi/pow(10,9),0)?></td><td><?php echo number_format($ws_inc['ty']->OIR_fbi/pow(10,9)/$month*12,0)?></td></tr>
+				<tr><td>PWE Non L/C</td><td><?php echo number_format($ws_inc['ly']->PWE_fbi/pow(10,9),0)?></td><td><?php echo number_format($ws_inc['ty']->PWE_fbi/pow(10,9)/$month*12,0)?></td></tr>
+				<tr><td>Loan Maintenance Fee</td><td><?php echo number_format(($ws_inc['ly']->WCL_fbi+$ws_inc['ly']->IL_fbi)/pow(10,9),0)?></td><td><?php echo number_format(($ws_inc['ty']->WCL_fbi+$ws_inc['ty']->IL_fbi)/pow(10,9)/$month*12,0)?></td></tr>
+				<tr><td>Syndication Fee</td><td><?php echo number_format($ws_inc['ly']->SL_fbi/pow(10,9),0)?></td><td><?php echo number_format($ws_inc['ty']->SL_fbi/pow(10,9)/$month*12,0)?></td></tr>
+				<tr><td>FBI Others</td><td><?php echo number_format(($ws_inc['ly']->OW_fbi + $ws_inc['ly']->CASA_fbi)/pow(10,9),0)?></td><td><?php echo number_format(($ws_inc['ty']->OW_fbi + $ws_inc['ty']->CASA_fbi)/pow(10,9)/$month*12,0)?></td></tr>
+				<tr style="background-color:#A9D0F5;"><td>Others</td><td><?php echo number_format($other_ly,0)?></td><td><?php echo number_format($other_ty,0)?></td></tr>
+				<tr><td>Time Deposit</td><td><?php echo number_format($ws_inc['ly']->TD_nii/pow(10,9),0)?></td><td><?php echo number_format($ws_inc['ty']->TD_nii/pow(10,9)/$month*12,0)?></td></tr>
+				<tr><td>NII Others</td><td><?php echo number_format($ws_inc['ly']->OW_nii/pow(10,9),0)?></td><td><?php echo number_format($ws_inc['ty']->OW_nii/pow(10,9)/$month*12,0)?></td></tr>
+				<tr><td>Supply Chain Financing</td><td><?php echo number_format($ws_inc['ly']->SCF_fbi/pow(10,9),0)?></td><td><?php echo number_format($ws_inc['ty']->SCF_fbi/pow(10,9)/$month*12,0)?></td></tr>
+				<tr><td>ECM</td><td><?php echo number_format($ws_inc['ly']->ECM_fbi/pow(10,9),0)?></td><td><?php echo number_format($ws_inc['ty']->ECM_fbi/pow(10,9)/$month*12,0)?></td></tr>
+				<tr><td>DCM</td><td><?php echo number_format($ws_inc['ly']->DCM_fbi/pow(10,9),0)?></td><td><?php echo number_format($ws_inc['ty']->DCM_fbi/pow(10,9)/$month*12,0)?></td></tr>
+				<tr><td>M&A</td><td><?php echo number_format($ws_inc['ly']->MA_fbi/pow(10,9),0)?></td><td><?php echo number_format($ws_inc['ty']->MA_fbi/pow(10,9)/$month*12,0)?></td></tr>
 			</table>
 		</div>
 		<div  style="width: 50%; float:left" >
@@ -147,11 +147,11 @@
 			<div id="container_ty" style="width: 100%; height: 280px; margin: 0; float:left;"></div>
 			<div id="" style="width: 100%; height: 170px; margin: 0 auto; padding:10px; float:left; margin-top:54px;">
 				<span style="float:right; font-size:11px;">(Rp Miliar)</span>
-				<table class="table table-bordered" style="font-size:11px">
+				<table class="table table-bordered"">
 					<tr style="background-color:#08088A; color:white;"><th></th><th>2013</th><th>2014 (Ann.)</th></tr>
-					<tr><td>Loan</td><td><?php echo number_format($loan_ly,1)?></td><td><?php echo number_format($loan_ty,1)?></td></tr>
-					<tr><td>Non Loan</td><td><?php echo number_format($nonloan_ly,1)?></td><td><?php echo number_format($nonloan_ty,1)?></td></tr>
-					<tr><td>Total</td><td><?php echo number_format($loan_ly+$nonloan_ly,1)?></td><td><?php echo number_format($loan_ty+$nonloan_ty,1)?></td></tr>
+					<tr><td>Loan</td><td><?php echo number_format($loan_ly,0)?></td><td><?php echo number_format($loan_ty,0)?></td></tr>
+					<tr><td>Non Loan</td><td><?php echo number_format($nonloan_ly,0)?></td><td><?php echo number_format($nonloan_ty,0)?></td></tr>
+					<tr><td>Total</td><td><?php echo number_format($loan_ly+$nonloan_ly,0)?></td><td><?php echo number_format($loan_ty+$nonloan_ty,0)?></td></tr>
 				</table>
 			</div>
 		</div><div style="clear:both"></div>

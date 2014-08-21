@@ -6,7 +6,7 @@
 				<h3><?php echo $fbi['name']?></h3>
 				<table class="table table-bordered" style="font-size:10px;">
 					<thead><tr class="headertab">
-						<th><center>Nama Anchor</center></th><th>Des 2013</th><th>%-se</th><th><center>Jul 2014</center></th><th>%-se</th>
+						<th><center>Nama Anchor</center></th><th>Des 2013</th><th>%-se</th><th><center>Jun 2014</center></th><th>%-se</th>
 					</tr></thead><tbody>
 					<?php 
 						$vol = $fbi['name']."_vol"; $temp_tot=0; $ly = $vol.'_ly'; $ly_tot=0; $sum_cmpny=1; $trgt = $vol."_target"; $trgt_tot=0;

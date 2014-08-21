@@ -155,11 +155,12 @@
 <div id="" class="container no_pad">
 	<?php echo $header?>
 	<div>
-		Wallet > Realisasi (Potensi CASA masih besar)
+		<a href="<?php echo base_url()?>monthly/top/"><span style="float:right">Next --></span></a><br>
+		<h4>Wallet > Realisasi (Potensi CASA masih besar)</h4>
 		<div id="container_casa" style="height:300px;"></div><hr>
-		Dibanding 2013 Realisasi FBI masih rendah
+		<h4>Dibanding 2013 Realisasi FBI masih rendah</h4>
 		<div id="container_fbi" style="height:300px;"></div>
-		Potensi Loan Besar
+		<h4>Potensi Loan Besar</h4>
 		<div id="container_kredit" style="height:300px;"></div>
 	</div>
 </div>

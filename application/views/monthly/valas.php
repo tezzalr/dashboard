@@ -45,6 +45,7 @@
 
 <div id="" class="container no_pad">
 	<?php echo $header?>
+	<a href="<?php echo base_url()?>monthly/top_fbi"><span style="float:right">Next --></span></a><br>
 	<div id="container_casa" style="height:400px; width:50%"></div>
 	<div style="width:80%;">
 		<div style="padding-right:20px; padding-top:20px;">

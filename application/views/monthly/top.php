@@ -1,11 +1,12 @@
 <div id="" class="container no_pad">
 	<?php echo $header?>
 	<div>
+		<a href="<?php echo base_url()?>monthly/valas/CB"><span style="float:right">Next --></span></a><br>
 		<div style="padding-right:20px; padding-top:20px; width:50%; float:left;">
 			<h3>CASA</h3>
 			<table class="table table-bordered" style="font-size:10px;">
 				<thead><tr class="headertab">
-					<th><center>Nama Anchor</center></th><th>Des 2013</th><th>%-se</th><th><center>Jul 2014</center></th><th>%-se</th>
+					<th><center>Nama Anchor</center></th><th>Des 2013</th><th>%-se</th><th><center>Jun 2014</center></th><th>%-se</th>
 				</tr></thead><tbody>
 				<?php 
 					$vol = "CASA_vol"; $temp_tot=0; $ly = $vol.'_ly'; $ly_tot=0; $sum_cmpny=1; $trgt = $vol."_target"; $trgt_tot=0;

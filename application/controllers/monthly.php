@@ -27,11 +27,22 @@ class Monthly extends CI_Controller {
 		$this->load->view('front',$data);
     }
     
+    public function share_anchor(){
+    	$data['title'] = "Share Anchor";
+        
+        $header = $this->load->view('monthly/monthly_header',array('directorate' => ''),TRUE);
+        
+        $data['header'] = $this->load->view('shared/header','',TRUE);	
+		$data['footer'] = $this->load->view('shared/footer','',TRUE);
+		$data['content'] = $this->load->view('monthly/share_anchor',array('header' => $header),TRUE);
+		
+		$this->load->view('front',$data);
+    }
+    
     public function resume(){
     	$dir = $this->uri->segment(3);
     	$year = date('Y');
     	$month = $this->mrealization->get_last_month($year);
-    	
     	if($dir == "CB"){$groups = array('CB1','CB2','CB3','AGB','SOG');}
     	elseif($dir == "IB"){$groups = array('IB1','IB2');}
     	elseif($dir == "CBB"){$groups = array('JCS','RCS1','RCS2');}
@@ -53,6 +64,7 @@ class Monthly extends CI_Controller {
     		$fbi[$group]["tm"] = $real_tm['Trade_inc']+$real_tm['BG_inc']+$real_tm['SF_inc']+$real_tm['FX_inc']+$real_tm['OIR_inc']+$real_tm['LMF_inc'];
     		$fbi[$group]["wal"] = $wal->Trade_fbi + $wal->BG_fbi + $wal->SL_fbi + $wal->FX_fbi + $wal->OIR_fbi + $wal->WCL_fbi + $wal->IL_fbi;
     		$fbi[$group]["tgt"] = $tgt->Trade_fbi + $tgt->BG_fbi + $tgt->SL_fbi + $tgt->FX_fbi + $tgt->OIR_fbi + $tgt->WCL_fbi + $tgt->IL_fbi;
+    		if($group == "SOG"){$fbi[$group]["wal"] = $fbi[$group]["tgt"];}
 			
 			$kredit[$group]["ly"] = $this->manchor->get_total_vol_prd("WCL", 12, $year-1, 'wholesale_realization',$group)->WCL_vol+$this->manchor->get_total_vol_prd("IL", 12, $year-1, 'wholesale_realization',$group)->IL_vol;
 			$kredit[$group]["tm"] = $this->manchor->get_total_vol_prd("WCL", $month, $year, 'wholesale_realization',$group)->WCL_vol+$this->manchor->get_total_vol_prd("IL", $month, $year, 'wholesale_realization',$group)->IL_vol;
