@@ -15,6 +15,10 @@ body a:hover{
 .right_col{
 	float: right;
 }
+.headertab{
+	background-color:#0B3861;
+	color:white;
+}
 /* Wrapper for page content to push down footer */
 #wrap {
   min-height: 100%;

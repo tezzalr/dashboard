@@ -91,7 +91,7 @@ class Manchor extends CI_Model {
     }
     
     /*Bank Wide Function*/
-    function get_total_vol_prd($product, $month, $year, $db,$dir){
+    function get_total_vol_prd($product, $month, $year, $db, $dir){
     	$this->db->select_sum($product.'_vol');
     	if($month!=0){$this->db->where('month',$month);}
     	$this->db->where('year',$year);
@@ -100,6 +100,53 @@ class Manchor extends CI_Model {
     	$result = $this->db->get($db);
     	$query = $result->result();
         return $query[0];
+    }
+    
+    function get_total_anything($product, $month, $year, $db, $dir){
+    	$this->db->select_sum($product);
+    	if($month!=0){$this->db->where('month',$month);}
+    	$this->db->where('year',$year);
+    	get_direktorat_where($dir,$this);
+    	$this->db->join('anchor', 'anchor.id ='.$db.'.anchor_id');
+    	$result = $this->db->get($db);
+    	$query = $result->result();
+        return $query[0];
+    }
+    
+    function get_top_anchor_kredit($month, $year){
+    	
+    	$this->db->select('(ws_main.IL_vol + ws_main.WCL_vol) as kredit_vol, ws_main.month as month, ws_main.year as year, anchor.name, (ws_ly.IL_vol + ws_ly.WCL_vol) as kredit_vol_ly');
+    	$this->db->join('anchor', 'anchor.id = ws_main.anchor_id');
+    	$this->db->join('wholesale_realization as ws_ly', 'anchor.id = ws_ly.anchor_id');
+    	$this->db->where('ws_main.month',$month);
+    	$this->db->where('ws_main.year',$year);
+    	$this->db->where('ws_ly.month',12);
+    	//$this->db->where("(`group` = 'CORPORATE BANKING AGRO BASED' OR `group` = 'CORPORATE BANKING I' OR `group` = 'CORPORATE BANKING II' OR `group` = 'CORPORATE BANKING III' OR `group` = 'SYNDICATION, OIL & GAS')");
+    	$this->db->where('ws_ly.year',2013);
+    	$this->db->order_by('kredit_vol', 'desc');
+    	$result = $this->db->get('wholesale_realization as ws_main');
+    	return $result->result();
+    }
+    
+    function get_top_anchor_valas($month, $year, $direktorat){
+    	
+    	$this->db->select('ws_main.CASA_vol as CASA_vol, ws_main.month as month, ws_main.year as year, anchor.name, ws_ly.CASA_vol as CASA_vol_ly, dr_main.CASA_idr as idr_tm, dr_main.CASA_val as val_tm, dr_ly.CASA_idr as idr_ly, dr_ly.CASA_val as val_ly');
+    	$this->db->join('anchor', 'anchor.id = ws_main.anchor_id');
+    	$this->db->join('wholesale_realization as ws_ly', 'anchor.id = ws_ly.anchor_id');
+    	$this->db->join('detail_realization as dr_main', 'anchor.id = dr_main.anchor_id');
+    	$this->db->join('detail_realization as dr_ly', 'anchor.id = dr_ly.anchor_id');
+    	$this->db->where('ws_main.month',$month);
+    	$this->db->where('ws_main.year',$year);
+    	$this->db->where('ws_ly.month',12);
+    	$this->db->where('ws_ly.year',2013);
+    	$this->db->where('dr_main.month',$month);
+    	$this->db->where('dr_main.year',$year);
+    	$this->db->where('dr_ly.month',12);
+    	$this->db->where('dr_ly.year',2013);
+    	get_direktorat_where($direktorat,$this);
+    	$this->db->order_by('CASA_vol', 'desc');
+    	$result = $this->db->get('wholesale_realization as ws_main');
+    	return $result->result();
     }
     
     function get_top_anchor_prd($product, $month, $year){

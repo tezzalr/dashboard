@@ -278,3 +278,22 @@
 		$arr_tot_inc['tot'] = $arr_tot_inc['ws'] + $arr_tot_inc['al'];
 		return $arr_tot_inc;
     }
+    
+    function get_direktorat_full_name($directorate){
+    	if($directorate == 'CB'){$title = 'Corporate Banking';}
+		elseif($directorate == 'IB'){$title = 'Institutional Banking';}
+		elseif($directorate == 'CBB'){$title = 'Commercial and Bussines Banking';}
+		elseif($directorate == 'CB1'){$title = 'CORPORATE BANKING I';}
+		elseif($directorate == 'CB2'){$title = 'CORPORATE BANKING II';}
+		elseif($directorate == 'CB3'){$title = 'CORPORATE BANKING III';}
+		elseif($directorate == 'AGB'){$title = 'CORPORATE BANKING AGRO BASED';}
+		elseif($directorate == 'SOG'){$title = 'SYNDICATION, OIL & GAS';}
+		elseif($directorate == 'IB1'){$title = 'INSTITUTIONAL BANKING I';}
+		elseif($directorate == 'IB2'){$title = 'INSTITUTIONAL BANKING II';}
+		elseif($directorate == 'JCS'){$title = 'JAKARTA COMMERCIAL SALES';}
+		elseif($directorate == 'RCS1'){$title = 'REGIONAL COMMERCIAL SALES I';}
+		elseif($directorate == 'RCS2'){$title = 'REGIONAL COMMERCIAL SALES II';}
+		else{$title = 'BANKWIDE BANK MANDIRI';}
+		
+		return $title;
+    }

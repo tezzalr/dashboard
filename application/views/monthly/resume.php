@@ -2,7 +2,6 @@
 	$groups = array('CB1','CB2','CB3','AGB','SOG');
 ?>
 
-
 <script type="text/javascript">
 	$(function () {
         $('#container_casa').highcharts({
@@ -154,11 +153,13 @@
 </script>
 
 <div id="" class="container no_pad">
-	<br>
-	Wallet > Realisasi (Potensi CASA masih besar)
-	<div id="container_casa" style="height:300px;"></div><hr>
-	Dibanding 2013 Realisasi FBI masih rendah
-	<div id="container_fbi" style="height:300px;"></div>
-	Potensi Loan Besar
-	<div id="container_kredit" style="height:300px;"></div>
+	<?php echo $header?>
+	<div>
+		Wallet > Realisasi (Potensi CASA masih besar)
+		<div id="container_casa" style="height:300px;"></div><hr>
+		Dibanding 2013 Realisasi FBI masih rendah
+		<div id="container_fbi" style="height:300px;"></div>
+		Potensi Loan Besar
+		<div id="container_kredit" style="height:300px;"></div>
+	</div>
 </div>

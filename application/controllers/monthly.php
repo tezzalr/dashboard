@@ -28,10 +28,13 @@ class Monthly extends CI_Controller {
     }
     
     public function resume(){
+    	$dir = $this->uri->segment(3);
     	$year = date('Y');
     	$month = $this->mrealization->get_last_month($year);
     	
-    	$groups = array('CB1','CB2','CB3','AGB','SOG');
+    	if($dir == "CB"){$groups = array('CB1','CB2','CB3','AGB','SOG');}
+    	elseif($dir == "IB"){$groups = array('IB1','IB2');}
+    	elseif($dir == "CBB"){$groups = array('JCS','RCS1','RCS2');}
     	
     	foreach($groups as $group){
     		$casa[$group]["ly"] = $this->manchor->get_total_vol_prd("CASA", 12, $year-1, 'wholesale_realization',$group);
@@ -56,16 +59,20 @@ class Monthly extends CI_Controller {
 			$kredit[$group]["wal"] = $this->manchor->get_total_vol_prd("WCL", 0, 2014, 'wholesale_wallet_size',$group)->WCL_vol+$this->manchor->get_total_vol_prd("IL", 0, 2014, 'wholesale_wallet_size',$group)->IL_vol;
 			$kredit[$group]["tgt"] = $this->manchor->get_total_vol_prd("WCL", 0, 2014, 'wholesale_target',$group)->WCL_vol+$this->manchor->get_total_vol_prd("IL", 0, 2014, 'wholesale_target',$group)->IL_vol;
     	}
+    	
+    	$header = $this->load->view('monthly/monthly_header',array('directorate' => $dir),TRUE);
+    	
     	$total['casa'] = $casa; $total['kredit'] = $kredit; $total['fbi'] = $fbi;
     	$data['title'] = "Laporan CASA";
     	$data['header'] = $this->load->view('shared/header','',TRUE);	
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-		$data['content'] = $this->load->view('monthly/resume',array('month'=>$month,'total'=>$total),TRUE);
+		$data['content'] = $this->load->view('monthly/resume',array('month'=>$month,'total'=>$total, 'header' => $header),TRUE);
 
 		$this->load->view('front',$data);
     }
     
     public function CASA(){
+    	$dir = $this->uri->segment(3);
     	$year = date('Y');
     	$month = $this->mrealization->get_last_month($year);
     	$pareto = $this->manchor->get_top_anchor_prd("CASA", $month, $year);
@@ -74,122 +81,80 @@ class Monthly extends CI_Controller {
     	$total["wal"] = $this->manchor->get_total_vol_prd("CASA", 0, 2014, 'wholesale_wallet_size','');
     	$total["tgt"] = $this->manchor->get_total_vol_prd("CASA", 0, 2014, 'wholesale_target','');
     	
+    	$header = $this->load->view('monthly/monthly_header',array('directorate' => $dir),TRUE);
+    	
     	$data['title'] = "Laporan CASA";
     	$data['header'] = $this->load->view('shared/header','',TRUE);	
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-		$data['content'] = $this->load->view('monthly/CASA',array('month'=>$month,'pareto'=>$pareto,'total'=>$total),TRUE);
+		$data['content'] = $this->load->view('monthly/CASA',array('month'=>$month,'pareto'=>$pareto,'total'=>$total, 'header' => $header),TRUE);
 
 		$this->load->view('front',$data);
     }
     
-    public function wholesale_income(){
+    public function top(){
+    	$dir = $this->uri->segment(3);
     	$year = date('Y');
     	$month = $this->mrealization->get_last_month($year);
-    	$data_ws_inc = array();
+    	//casa
+    	$pareto['casa'] = $this->manchor->get_top_anchor_prd("CASA", $month, $year);
+    	$total['casa']["ly"] = $this->manchor->get_total_vol_prd("CASA", 12, $year-1, 'wholesale_realization','');
+    	$total['casa']["tm"] = $this->manchor->get_total_vol_prd("CASA", $month, $year, 'wholesale_realization','');
     	
-    	if($this->uri->segment(3)=='anchor'){
-    		$anchor_id = $this->uri->segment(4);
-    		$data_ws_inc['ty'] = $this->mrealization->get_anchor_ws_realization($anchor_id, $year);
-    		$data_ws_inc['ly'] = $this->mrealization->get_anchor_ws_realization($anchor_id, $year-1);
-    		$anchor = $this->manchor->get_anchor_by_id($anchor_id);
-    		
-    		$data['title'] = "Wholesale Income - $anchor->name";
-    		$info_page['type'] = 'anchor'; $info_page['id'] = $anchor_id;
-    		$header = $this->load->view('anchor/anchor_header',array('anchor' => $anchor, 'id_ybs' => $anchor->id, 'code' => 'anc'),TRUE);
-    	}
-    	elseif($this->uri->segment(3)=='directorate'){
-    		$direktorat = $this->uri->segment(4);
-    		$data_ws_inc['ty'] = $this->mrealization->get_directorate_realization($direktorat, $year, 'wholesale');
-    		$data_ws_inc['ly'] = $this->mrealization->get_directorate_realization($direktorat, $year-1, 'wholesale');
-    		
-    		$data['title'] = "Wholesale Income";
-    		$info_page['type'] = 'directorate'; $info_page['id'] = $direktorat;
-    		$header = $this->load->view('directorate/dir_header',array('directorate' => $direktorat, 'id_ybs' => $direktorat, 'code' => 'dir'),TRUE);
-    	}
-    	
+    	//kredit
+    	$pareto['kredit'] = $this->manchor->get_top_anchor_kredit($month, $year);
+    	$total['kredit']["ly"] = $this->manchor->get_total_vol_prd("WCL", 12, $year-1, 'wholesale_realization','')->WCL_vol+$this->manchor->get_total_vol_prd("IL", 12, $year-1, 'wholesale_realization','')->IL_vol;
+		$total['kredit']["tm"] = $this->manchor->get_total_vol_prd("WCL", $month, $year, 'wholesale_realization','')->WCL_vol+$this->manchor->get_total_vol_prd("IL", $month, $year, 'wholesale_realization','')->IL_vol;
+		
+		$header = $this->load->view('monthly/monthly_header',array('directorate' => $dir),TRUE);
+			
+    	$data['title'] = "Laporan CASA";
     	$data['header'] = $this->load->view('shared/header','',TRUE);	
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-		$data['content'] = $this->load->view('report/wholesale_income',array('ws_inc' => $data_ws_inc, 'header' => $header, 'month' => $month, 'info_page' => $info_page),TRUE);
+		$data['content'] = $this->load->view('monthly/top',array('month'=>$month,'pareto'=>$pareto,'total'=>$total, 'header' => $header),TRUE);
 
 		$this->load->view('front',$data);
     }
     
-    public function trans_xsell(){
-    	$year = date('Y');
-    	$data_xsell = array();
-    		
-    	if($this->uri->segment(3)=='anchor'){
-    		$anchor_id = $this->uri->segment(4);
-    		
-    		$inc = $this->mrealization->get_anchor_ws_realization($anchor_id, $year);
-    		$data_xsell['wal'] = $this->mwallet->get_anchor_ws_wallet($anchor_id, $year);		
-    		$data_xsell['inc'] = $this->mrealization->count_realization_value($inc, $inc->month);
-    		$data_xsell['sow'] = $this->mwallet->get_sow($data_xsell['wal'], $data_xsell['inc'], 'wholesale');
-    		
-    		$inc_ly = $this->mrealization->get_anchor_ws_realization($anchor_id, ($year-1));
-    		$data_xsell['wal_ly'] = $this->mwallet->get_anchor_ws_wallet($anchor_id, ($year-1));
-    		$data_xsell['inc_ly'] = $this->mrealization->count_realization_value($inc_ly, $inc_ly->month);
-    		$data_xsell['sow_ly'] = $this->mwallet->get_sow($data_xsell['wal_ly'], $data_xsell['inc_ly'], 'wholesale');
-    		
-    		$anchor = $this->manchor->get_anchor_by_id($anchor_id);
-    		
-    		$data['title'] = "Transaction Cross Sell - $anchor->name";
-    		$info_page['type'] = 'anchor'; $info_page['id'] = $anchor_id;
-    		$header = $this->load->view('anchor/anchor_header',array('anchor' => $anchor, 'id_ybs' => $anchor->id, 'code' => 'anc'),TRUE);
-    	}
-    	elseif($this->uri->segment(3)=='directorate'){
-    		$direktorat = $this->uri->segment(4);
-    		
-    		$inc = $this->mrealization->get_directorate_realization($direktorat, $year, 'wholesale');
-    		$data_xsell['wal'] = $this->mwallet->get_directorate_wallet($direktorat, $year, 'wholesale');		
-    		$data_xsell['inc'] = $this->mrealization->count_realization_value($inc, $inc->month);
-    		$data_xsell['sow'] = $this->mwallet->get_sow($data_xsell['wal'], $data_xsell['inc'], 'wholesale');
-    		
-    		$inc_ly = $this->mrealization->get_directorate_realization($direktorat, $year-1, 'wholesale');
-    		$data_xsell['wal_ly'] = $this->mwallet->get_directorate_wallet($direktorat, $year-1, 'wholesale');
-    		$data_xsell['inc_ly'] = $this->mrealization->count_realization_value($inc_ly, $inc_ly->month);
-    		$data_xsell['sow_ly'] = $this->mwallet->get_sow($data_xsell['wal_ly'], $data_xsell['inc_ly'], 'wholesale');
-    		
-    		$data['title'] = "Transaction Cross Sell";
-    		$info_page['type'] = 'directorate'; $info_page['id'] = $direktorat;
-    		$header = $this->load->view('directorate/dir_header',array('directorate' => $direktorat, 'id_ybs' => $direktorat, 'code' => 'dir'),TRUE);
-    	}
-    	
-    	$data['header'] = $this->load->view('shared/header','',TRUE);	
-		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-		$data['content'] = $this->load->view('report/trans_xsell',array('xsell' => $data_xsell, 'header' => $header, 'info_page' => $info_page),TRUE);
-
-		$this->load->view('front',$data);
-    }
-    
-    public function alliance_income(){
+    public function top_fbi(){
+    	$dir = $this->uri->segment(3);
     	$year = date('Y');
     	$month = $this->mrealization->get_last_month($year);
-    	$data_al_inc = array();
-    	
-    	if($this->uri->segment(3)=='anchor'){
-    		$anchor_id = $this->uri->segment(4);
-    		$data_al_inc['ty'] = $this->mrealization->get_anchor_al_realization($anchor_id, $year);
-    		$data_al_inc['ly'] = $this->mrealization->get_anchor_al_realization($anchor_id, $year-1);
-    		$anchor = $this->manchor->get_anchor_by_id($anchor_id);
-    		
-    		$data['title'] = "Wholesale Income - $anchor->name";
-    		$info_page['type'] = 'anchor'; $info_page['id'] = $anchor_id;
-    		$header = $this->load->view('anchor/anchor_header',array('anchor' => $anchor, 'id_ybs' => $anchor->id, 'code' => 'anc'),TRUE);
-    	}
-    	elseif($this->uri->segment(3)=='directorate'){
-    		$direktorat = $this->uri->segment(4);
-    		$data_al_inc['ty'] = $this->mrealization->get_directorate_realization($direktorat, $year, 'alliance');
-    		$data_al_inc['ly'] = $this->mrealization->get_directorate_realization($direktorat, $year-1, 'alliance');
-    		
-    		$data['title'] = "Wholesale Income";
-    		$info_page['type'] = 'directorate'; $info_page['id'] = $direktorat;
-    		$header = $this->load->view('directorate/dir_header',array('directorate' => $direktorat, 'id_ybs' => $direktorat, 'code' => 'dir'),TRUE);
+    	$fbis = array('Trade','FX','BG','OIR');
+    	$i=0;
+    	foreach($fbis as $fbi){
+    		$pareto[$i]['prod'] = $this->manchor->get_top_anchor_prd($fbi, $month, $year);
+    		$pareto[$i]['name'] = $fbi;
+    		$pareto[$i]["ly"] = $this->manchor->get_total_vol_prd($fbi, 12, $year-1, 'wholesale_realization','CB');
+    		$pareto[$i]["tm"] = $this->manchor->get_total_vol_prd($fbi, $month, $year, 'wholesale_realization','CB');
+    		$i++;
     	}
     	
+    	$header = $this->load->view('monthly/monthly_header',array('directorate' => $dir),TRUE);
+    		
+    	$data['title'] = "Laporan Top FBI";
     	$data['header'] = $this->load->view('shared/header','',TRUE);	
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-		$data['content'] = $this->load->view('report/alliance_income',array('al_inc' => $data_al_inc, 'header' => $header, 'month' => $month, 'info_page' => $info_page),TRUE);
+		$data['content'] = $this->load->view('monthly/top_fbi',array('month'=>$month,'pareto'=>$pareto, 'header' => $header),TRUE);
+
+		$this->load->view('front',$data);
+    }
+    
+    public function valas(){
+    	$year = date('Y');
+    	$dir = $this->uri->segment(3);
+    	$month = $this->mrealization->get_last_month($year);
+    	$pareto = $this->manchor->get_top_anchor_valas($month, $year,$dir);
+    	$total["ly"]["idr"] = $this->manchor->get_total_anything("CASA_idr", 12, $year-1, "detail_realization", $dir);
+    	$total["ly"]["val"] = $this->manchor->get_total_anything("CASA_val", 12, $year-1, "detail_realization", $dir);
+    	$total["tm"]["idr"] = $this->manchor->get_total_anything("CASA_idr", $month, $year, "detail_realization", $dir);
+    	$total["tm"]["val"] = $this->manchor->get_total_anything("CASA_val", $month, $year, "detail_realization", $dir);
+    	
+    	$header = $this->load->view('monthly/monthly_header',array('directorate' => $dir),TRUE);
+    	
+    	$data['title'] = "komposisi CASA";
+    	$data['header'] = $this->load->view('shared/header','',TRUE);	
+		$data['footer'] = $this->load->view('shared/footer','',TRUE);
+		$data['content'] = $this->load->view('monthly/valas',array('month'=>$month,'pareto'=>$pareto,'total'=>$total, 'header' => $header),TRUE);
 
 		$this->load->view('front',$data);
     }
