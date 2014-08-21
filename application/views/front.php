@@ -34,6 +34,8 @@
         <script type="text/javascript" src="<?php echo base_url();?>assets/ckeditor/ckeditor.js"></script>
         
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/grafik.js"></script>
+        
+        <link href="<?php echo base_url();?>assets/css/shared.css" rel="stylesheet"/>
     </head>
     
     <body>

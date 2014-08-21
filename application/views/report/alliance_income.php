@@ -86,7 +86,7 @@
 		</h4><br><br>
 		
 		<div style="width: 65%; margin: 0 auto; float:left;">
-			<table class="table table-bordered" style="font-size:11px">
+			<table class="table table-bordered">
 				<tr style="background-color:#08088A; color:white;"><th rowspan=2></th><th>2013<th colspan=4>2014</th></tr>
 				<tr style="background-color:#08088A; color:white;"><th>Real<th>Real Juni 2014</th><th>Annualized</th><th>Kontributsi</th></tr>
 				<?php $i = 0; foreach($arrprodal as $alprod){ $typeinc = get_inc($alprod); $prodinc = $alprod."_".$typeinc;?>

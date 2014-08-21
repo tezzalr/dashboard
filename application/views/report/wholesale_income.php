@@ -115,7 +115,7 @@
 		</h4><br><br>
 		
 		<div style="width: 50%; margin: 0 auto; float:left;">
-			<table class="table table-bordered" style="font-size:11px">
+			<table class="table table-bordered" style="">
 				<tr style="background-color:#08088A; color:white;"><th></th><th>2013<br>Real</th><th>2014<br>Annualized</th></tr>
 				<tr style="background-color:#BDBDBD;"><td>Loan :</td><td><?php echo number_format($loan_ly,1)?></td><td><?php echo number_format($loan_ty,1)?></td></tr>
 				<tr><td>Working Capital Loan</td><td><?php echo number_format($ws_inc['ly']->WCL_nii/pow(10,9),2)?></td><td><?php echo number_format($ws_inc['ty']->WCL_nii/pow(10,9)/$month*12,2)?></td></tr>
