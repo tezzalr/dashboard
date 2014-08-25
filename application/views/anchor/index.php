@@ -22,7 +22,7 @@
 		</div>
 		<div style="width: 30%; margin-right:5px; float:left;"><h4><a href="<?php echo base_url()?>realization/show/directorate/IB">Institutional Banking</a></h4><?php echo count($anchor['ib']);?> Anchor Di Institutional Banking<br><br>
 			<div style="font-size:11px;">
-			<?php $grup=''; foreach ($anchor['ib'] as $anchr) {?>
+			<?php $grup=''; foreach ($anchor['ib'] as $anchr){?>
 				<?php if($grup!=$anchr->group){?>
 				<?php
 					if($anchr->group=='INSTITUTIONAL BANKING I'){$code='IB1';}

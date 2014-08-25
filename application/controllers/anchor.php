@@ -280,7 +280,12 @@ class Anchor extends CI_Controller {
     	$kind = $this->uri->segment(3);
     	$year = $this->uri->segment(4); $iter=1;
     	$month = ''; $year_fldr = '';
-    	if($kind == 'realization'){$month = $this->uri->segment(5); $year_fldr= $year."/"; $iptdata['month']= $month; $iptdata2['month']= $month;}
+    	if($kind == 'realization'){
+    		$month = $this->uri->segment(5); 
+    		$year_fldr= $year."/"; 
+    		$iptdata['month']= $month; 
+    		$iptdata2['month']= $month;
+    	}
     	$arr_target = $this->get_excel('datadashboard/'.$kind.'/'.$year_fldr.$kind.'_'.$year.$month.'.xlsx',"realisasi");
     	
     	foreach($arr_target as $target){
@@ -392,7 +397,12 @@ class Anchor extends CI_Controller {
     	$kind = $this->uri->segment(3);
     	$year = $this->uri->segment(4); $iter=1;
     	$month = ''; $year_fldr = '';
-    	if($kind == 'realization'){$month = $this->uri->segment(5); $year_fldr= $year."/"; $iptdata['month']= $month; $iptdata2['month']= $month;}
+    	if($kind == 'realization'){
+    		$month = $this->uri->segment(5); 
+    		$year_fldr= $year."/"; 
+    		$iptdata['month']= $month; 
+    		$iptdata2['month']= $month;
+    	}
     	$arr_target = $this->get_excel_company('datadashboard/company_'.$kind.'/'.$year_fldr.$kind.'_'.$year.$month.'.xlsx',"realisasi");
     	
     	foreach($arr_target as $target){
@@ -502,7 +512,7 @@ class Anchor extends CI_Controller {
     }
     
     public function get_excel($filename, $kind){
-    	if($kind == "realisasi"){$jumcol = 40;}
+    	if($kind == "realisasi"){$jumcol = 82;}
     	elseif($kind == "detail"){$jumcol = 15;}
     	$objReader = PHPExcel_IOFactory::createReader('Excel2007');
 		$objReader->setReadDataOnly(TRUE);
@@ -561,11 +571,21 @@ class Anchor extends CI_Controller {
     }
     
     public function excel(){
+    	$kind = $this->uri->segment(3);
+    	$year = $this->uri->segment(4);
+    	$month = ''; $year_fldr = '';
+    	if($kind == 'realization'){
+    		$month = $this->uri->segment(5); 
+    		$year_fldr= $year."/"; 
+    		$iptdata['month']= $month; 
+    		$iptdata2['month']= $month;
+    	}
+    	
     	$data['title'] = "Profile";
     	
 		$objReader = PHPExcel_IOFactory::createReader('Excel2007');
 		$objReader->setReadDataOnly(TRUE);
-		$objPHPExcel = $objReader->load("assets/datadashboard/ib/daftar_target_ws_al_2014.xlsx");
+		$objPHPExcel = $objReader->load('assets/datadashboard/'.$kind.'/'.$year_fldr.$kind.'_'.$year.$month.'.xlsx');
 
 		$objWorksheet = $objPHPExcel->getActiveSheet();
 		// Get the highest row and column numbers referenced in the worksheet
@@ -574,17 +594,54 @@ class Anchor extends CI_Controller {
 		$highestColumnIndex = PHPExcel_Cell::columnIndexFromString($highestColumn); // e.g. 5
 		
 		echo '<table border=1>' . "\n";
-		echo '<tr><td rowspan=2>No</td><td rowspan=2>Anchor</td><td rowspan=2>Group</td><td rowspan=2>Company</td><td rowspan=2>Code</td><td colspan=3>CASA</td><td colspan=2>Time Deposit</td><td colspan=3>Working Capital Loan</td>
+		echo '<tr><td rowspan=2>No</td><td rowspan=2>Anchor</td><td rowspan=2>Group</td><td rowspan=2>Company</td><td rowspan=2>Code</td><td colspan=4>CASA</td><td colspan=2>Time Deposit</td><td colspan=3>Working Capital Loan</td>
 		<td colspan=3>Investment Loan</td><td colspan=3>Structured Loan</td><td colspan=2>Fx & Derivative</td>
 		<td colspan=2>Supply Chain Financing</td><td colspan=2>Trade Services</td><td colspan=2>Pwe Non L/C</td>
 		<td colspan=2>Trust Receipt</td><td colspan=2>Bank Guarantee</td><td colspan=2>Outgoing Intl Remittance</td>
 		<td colspan=3>Others Wholesale</td><td colspan=2>ECM</td><td colspan=2>DCM</td><td colspan=2>M&A</td>
+		<td colspan=2>WM</td>
+		<td colspan=2>DPLK</td>
+		<td colspan=2>PCD</td>
+		<td colspan=3>VCCD</td>
+		<td colspan=3>VCL</td>
+		<td colspan=3>VCLnDF</td>
+		<td colspan=3>Micro</td>
+		<td colspan=2>MKM</td>
+		<td colspan=2>KPR</td>
+		<td colspan=2>Auto</td>
+		<td colspan=2>CC</td>
+		<td colspan=2>EDC</td>
+		<td colspan=2>ATM</td>
+		<td colspan=2>AXA</td>
+		<td colspan=2>MAGI</td>
+		<td colspan=2>retail</td>
+		<td colspan=2>cicil Emas</td>
+		<td colspan=3>Other Aliansi</td>
 		</tr>';
-		echo '<tr><td>Volume</td><td>NII</td><td>FBI</td><td>Volume</td><td>NII</td><td>Volume</td><td>NII</td><td>FBI</td>
+		echo '<tr><td>Volume</td><td>NII</td><td>FBI</td><td>Trans</td><td>Volume</td><td>NII</td><td>Volume</td><td>NII</td><td>FBI</td>
 		<td>Volume</td><td>NII</td><td>FBI</td><td>Volume</td><td>NII</td><td>FBI</td>
 		<td>Volume</td><td>FBI</td><td>Volume</td><td>FBI</td><td>Volume</td><td>FBI</td><td>Volume</td><td>FBI</td>
 		<td>Volume</td><td>NII</td><td>Volume</td><td>FBI</td><td>Volume</td><td>FBI</td>
 		<td>Volume</td><td>NII</td><td>FBI</td><td>Volume</td><td>FBI</td><td>Volume</td><td>FBI</td><td>Volume</td><td>FBI</td>
+		<td>Volume</td><td>NII</td>
+		<td>Volume</td><td>FBI</td>
+		<td>Volume</td><td>NII</td>
+		<td>Volume</td><td>NII</td><td>FBI</td>
+		<td>Volume</td><td>NII</td><td>FBI</td>
+		<td>Volume</td><td>NII</td><td>FBI</td>
+		<td>Volume</td><td>NII</td><td>FBI</td>
+		<td>Volume</td><td>NII</td>
+		<td>Volume</td><td>NII</td>
+		<td>Volume</td><td>NII</td>
+		<td>Volume</td><td>NII</td>
+		<td>Volume</td><td>FBI</td>
+		<td>Volume</td><td>FBI</td>
+		<td>Volume</td><td>FBI</td>
+		<td>Volume</td><td>FBI</td>
+		<td>Volume</td><td>FBI</td>
+		<td>Volume</td><td>FBI</td>
+		<td>Volume</td><td>NII</td><td>FBI</td>
+		
 		</tr>';
 		$same='';
 		$i=1;
@@ -599,75 +656,107 @@ class Anchor extends CI_Controller {
 				$i++;
 			}
 			else{
-				for ($ar=4;$ar<=40;$ar++){
+				for ($ar=4;$ar<=82;$ar++){
 					$rachel[$i-1][$ar] = $rachel[$i-1][$ar]+$objWorksheet->getCellByColumnAndRow($ar, $row)->getValue();	
 				}
 			}
 		}
 		$iter=1;
-		foreach ($rachel as $cinta){
-			$anchor['name'] = $cinta[0];
-			$anchor['group'] = $cinta[1];
+		foreach ($rachel as $target){
+			$anchor['name'] = $target[0];
+			$anchor['group'] = $target[1];
 			
-			//$anchor_id = $this->manchor->insert_anchor($anchor);
-			
-			//$company['name'] = $cinta[2];
-			//$company['code'] = $cinta[3];
-			
-			//$company_id = $this->manchor->insert_company($company);
-			
-			$iptdata['CASA_vol']= $cinta[4];
-			$iptdata['CASA_nii']= $cinta[5];
-			$iptdata['CASA_fbi']= $cinta[6];
-			$iptdata['TD_vol']= $cinta[7];
-			$iptdata['TD_nii']= $cinta[8];
-			$iptdata['WCL_vol']= $cinta[9];
-			$iptdata['WCL_nii']= $cinta[10];
-			$iptdata['WCL_fbi']= $cinta[11];
-			$iptdata['IL_vol']= $cinta[12];
-			$iptdata['IL_nii']= $cinta[13];
-			$iptdata['IL_fbi']= $cinta[14];
-			$iptdata['SL_vol']= $cinta[15];
-			$iptdata['SL_nii']= $cinta[16];
-			$iptdata['SL_fbi']= $cinta[17];
-			$iptdata['FX_vol']= $cinta[18];
-			$iptdata['FX_fbi']= $cinta[19];
-			$iptdata['SCF_vol']= $cinta[20];
-			$iptdata['SCF_fbi']= $cinta[21];
-			$iptdata['Trade_vol']= $cinta[22];
-			$iptdata['Trade_fbi']= $cinta[23];
-			$iptdata['PWE_vol']= $cinta[24];
-			$iptdata['PWE_fbi']= $cinta[25];
-			$iptdata['TR_vol']= $cinta[26];
-			$iptdata['TR_nii']= $cinta[27];
-			$iptdata['BG_vol']= $cinta[28];
-			$iptdata['BG_fbi']= $cinta[29];
-			$iptdata['OIR_vol']= $cinta[30];
-			$iptdata['OIR_fbi']= $cinta[31];
-			$iptdata['OW_vol']= $cinta[32];
-			$iptdata['OW_nii']= $cinta[33];
-			$iptdata['OW_fbi']= $cinta[34];
-			$iptdata['ECM_vol']= $cinta[35];
-			$iptdata['ECM_fbi']= $cinta[36];
-			$iptdata['DCM_vol']= $cinta[37];
-			$iptdata['DCM_fbi']= $cinta[38];
-			$iptdata['MA_vol']= $cinta[39];
-			$iptdata['MA_fbi']= $cinta[40];
+			$iptdata['CASA_vol']= $target[4];
+				$iptdata['CASA_nii']= $target[5];
+				$iptdata['CASA_fbi']= $target[6];
+				$iptdata['CASA_trans']= $target[7];
+				$iptdata['TD_vol']= $target[8];
+				$iptdata['TD_nii']= $target[9];
+				$iptdata['WCL_vol']= $target[10];
+				$iptdata['WCL_nii']= $target[11];
+				$iptdata['WCL_fbi']= $target[12];
+				$iptdata['IL_vol']= $target[13];
+				$iptdata['IL_nii']= $target[14];
+				$iptdata['IL_fbi']= $target[15]; //salah
+				$iptdata['SL_vol']= $target[16];
+				$iptdata['SL_nii']= $target[17];
+				$iptdata['SL_fbi']= $target[18];
+				$iptdata['FX_vol']= $target[19];
+				$iptdata['FX_fbi']= $target[20];
+				$iptdata['SCF_vol']= $target[21]; //salah
+				$iptdata['SCF_fbi']= $target[22]; //salah
+				$iptdata['Trade_vol']= $target[23];
+				$iptdata['Trade_fbi']= $target[24];//salah
+				$iptdata['PWE_vol']= $target[25];
+				$iptdata['PWE_fbi']= $target[26];
+				$iptdata['TR_vol']= $target[27];
+				$iptdata['TR_nii']= $target[28];
+				$iptdata['BG_vol']= $target[29];
+				$iptdata['BG_fbi']= $target[30];
+				$iptdata['OIR_vol']= $target[31];
+				$iptdata['OIR_fbi']= $target[32];
+				$iptdata['OW_vol']= $target[33];
+				$iptdata['OW_nii']= $target[34];
+				$iptdata['OW_fbi']= $target[35];
+				$iptdata['ECM_vol']= $target[36];
+				$iptdata['ECM_fbi']= $target[37];
+				$iptdata['DCM_vol']= $target[38];
+				$iptdata['DCM_fbi']= $target[39];
+				$iptdata['MA_vol']= $target[40];
+				$iptdata['MA_fbi']= $target[41];		
+				$iptdata2['WM_vol']= $target[42];
+				$iptdata2['WM_nii']= $target[43];
+				$iptdata2['DPLK_vol']= $target[44];
+				$iptdata2['DPLK_fbi']= $target[45];
+				$iptdata2['PCD_vol']= $target[46];
+				$iptdata2['PCD_nii']= $target[47];
+				$iptdata2['VCCD_vol']= $target[48];
+				$iptdata2['VCCD_nii']= $target[49];
+				$iptdata2['VCCD_fbi']= $target[50];
+				$iptdata2['VCL_vol']= $target[51];
+				$iptdata2['VCL_nii']= $target[52];
+				$iptdata2['VCL_fbi']= $target[53];
+				$iptdata2['VCLnDF_vol']= $target[54];
+				$iptdata2['VCLnDF_nii']= $target[55];
+				$iptdata2['VCLnDF_fbi']= $target[56];
+				$iptdata2['Micro_Loan_vol']= $target[57];
+				$iptdata2['Micro_Loan_nii']= $target[58];
+				$iptdata2['Micro_Loan_fbi']= $target[59];
+				$iptdata2['MKM_vol']= $target[60];
+				$iptdata2['MKM_nii']= $target[61];
+				$iptdata2['KPR_vol']= $target[62];
+				$iptdata2['KPR_nii']= $target[63];
+				$iptdata2['Auto_vol']= $target[64];
+				$iptdata2['Auto_nii']= $target[65];
+				$iptdata2['CC_vol']= $target[66];
+				$iptdata2['CC_nii']= $target[67];
+				$iptdata2['EDC_vol']= $target[68];
+				$iptdata2['EDC_fbi']= $target[69];
+				$iptdata2['ATM_vol']= $target[70];
+				$iptdata2['ATM_fbi']= $target[71];
+				$iptdata2['AXA_vol']= $target[72];
+				$iptdata2['AXA_fbi']= $target[73];
+				$iptdata2['MAGI_vol']= $target[74];
+				$iptdata2['MAGI_fbi']= $target[75];
+				$iptdata2['retail_vol']= $target[76];
+				$iptdata2['retail_fbi']= $target[77];
+				$iptdata2['cicil_Emas_vol']= $target[78];
+				$iptdata2['cicil_Emas_fbi']= $target[79];
+				$iptdata2['OA_vol']= $target[80];
+				$iptdata2['OA_nii']= $target[81];
+				$iptdata2['OA_fbi']= $target[82];
 			
 			$iptdata['month']= 5;
 			$iptdata['year']= 2014;
-			//$iptdata['anchor_id']= $anchor_id;
-			
-			//$this->manchor->insert_ws($iptdata, 'realization');
 			
 			echo '<tr>';
-			echo '<td>'.$iter.'</td><td>'.$cinta[0].'</td><td>'.$cinta[1].'</td><td>'.$cinta[2].'</td><td>'.$cinta[3].'</td>';
-			for ($ar=4;$ar<=40;$ar++){
-				if($cinta[$ar]){
-					if($ar==18 || $ar == 19){$bagi = 6;}
-					elseif($ar==30){$bagi = 0;}
+			echo '<td>'.$iter.'</td><td>'.$target[0].'</td><td>'.$target[1].'</td><td>'.$target[2].'</td><td>'.$target[3].'</td>';
+			for ($ar=4;$ar<=82;$ar++){
+				if($target[$ar]){
+					if($ar==19 || $ar == 20){$bagi = 6;}
+					elseif($ar==31){$bagi = 0;}
 					else{$bagi = 9;}
-					echo '<td>'.number_format($cinta[$ar],1,',','.').'</td>';	
+					echo '<td>'.number_format($target[$ar],1,',','.').'</td>';	
 				}
 				else{
 					echo '<td>-</td>';
@@ -685,41 +774,5 @@ class Anchor extends CI_Controller {
 		//$data['content'] = $this->load->view('anchor/excel',array(),TRUE);
 
 		//$this->load->view('front',$data);
-    }
-    
-    public function pend(){
-    	$objReader = PHPExcel_IOFactory::createReader('Excel2007');
-		$objReader->setReadDataOnly(TRUE);
-		$objPHPExcel = $objReader->load("assets/dataRM.xlsx");
-
-		$objWorksheet = $objPHPExcel->getActiveSheet();
-		// Get the highest row and column numbers referenced in the worksheet
-		$highestRow = $objWorksheet->getHighestRow(); // e.g. 10
-		$highestColumn = $objWorksheet->getHighestColumn(); // e.g 'F'
-		$highestColumnIndex = PHPExcel_Cell::columnIndexFromString($highestColumn);
-    	echo "<table border=1>";
-    	$arrres = array();
-    	for ($row = 1; $row <= $highestRow; ++$row) {
-    		echo "<tr>";
-    		echo "<td>".$row."</td>";
-			for ($col = 0; $col < $highestColumnIndex; ++$col) {
-				$arrres[$row][$col] = $objWorksheet->getCellByColumnAndRow($col, $row)->getValue();
-				echo "<td>".$arrres[$row][$col]."</td>";
-				/*if($col == 1){
-					$arpend = explode(" ; ",$arrres[$row][$col]);
-					foreach($arpend as $pendi){
-						$pp = explode(" - ", $pendi);
-					}
-					//echo "<td>".count($arpend)."</td>";
-					foreach($pp as $p){
-						echo "<td>".$p."</td>";
-					}
-				}*/
-			}
-			//if($arrres[$row][2]=="S1" && count($arpend) !=1){echo "<td>Pinter S1</td>";}
-			//if($arrres[$row][2]=="S2" && count($arpend) !=2){echo "<td>Pinter S2</td>";}
-			echo "</tr>";
-		}
-		echo "</table>";
     }
 }
