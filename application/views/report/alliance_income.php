@@ -10,14 +10,45 @@
 		elseif(in_array($prod,$arrniial)){return "nii";}
 	}
 	
-	$tot = 0;
-	foreach($arrprodal as $alprod){ 
-		$typeinc = get_inc($alprod); 
-		$prodinc = $alprod."_".$typeinc;
-				
-		$tot = $tot + $al_inc['ty']->$prodinc/pow(10,9);				
+	function get_inc_val($prod, $al_inc, $kind){
+		$arrfbial = array('DPLK','EDC','ATM','AXA','MAGI','retail','cicil_Emas');
+		$arrniial = array('WM','PCD','MKM','KPR','Auto','CC');
+		$arrbothal = array('VCCD','VCL','VCLnDF','OA','Micro_Loan');
+		
+		if($prod == "VCL"){
+			return $al_inc[$kind]->VCL_nii + $al_inc[$kind]->VCL_fbi + $al_inc[$kind]->VCLnDF_nii + $al_inc[$kind]->VCLnDF_fbi;
+		}
+		else{
+			if(in_array($prod,$arrniial)){
+				$prods = $prod."_nii";
+				return $al_inc[$kind]->$prods;
+			}
+			elseif(in_array($prod,$arrfbial)){
+				$prods = $prod."_fbi";
+				return $al_inc[$kind]->$prods;
+			}
+			else{
+				$fbi = $prod."_fbi"; $nii = $prod."_nii";
+				return $al_inc[$kind]->$fbi + $al_inc['ty']->$nii;
+			}
+		}
 	}
-	$tot = $tot + (($al_inc['ty']->VCL_fbi + $al_inc['ty']->VCCD_fbi + $al_inc['ty']->VCLnDF_nii + $al_inc['ty']->VCLnDF_fbi)/pow(10,9));
+	
+	$tot = 0;
+	$i = 0;
+	$has_al = array();
+	foreach($arrprodal as $alprod){ 
+		$has_al [$i]['name'] = $arrprodname[$i];
+		$has_al [$i]['val_ty'] = get_inc_val($alprod,$al_inc, 'ty');
+		$has_al [$i]['val_ly'] = get_inc_val($alprod,$al_inc, 'ly');
+		$tot = $tot + get_inc_val($alprod,$al_inc, 'ty');
+		$i++;				
+	}
+	
+	usort($has_al, function($a, $b) {
+		return $b['val_ty'] - $a['val_ty'];
+	});
+	//$tot = $tot + (($al_inc['ty']->VCL_fbi + $al_inc['ty']->VCCD_fbi + $al_inc['ty']->VCLnDF_nii + $al_inc['ty']->VCLnDF_fbi)/pow(10,9));
 ?>
 <script type="text/javascript">
 	$(function () {
@@ -53,7 +84,10 @@
 					type: 'pie',
 					name: 'Income share',
 					data: [
-						<?php if($al_inc['ty']->WM_nii){?> ['Wealth Management', <?php echo ($al_inc['ty']->WM_nii);?>],<?php }?>
+							<?php foreach($has_al as $al){ if($al['val_ty']){?>
+								[<?php echo "'".$al['name']."'";?>,<?php echo $al['val_ty']?>],
+							<?php }}?>
+						/*<?php if($al_inc['ty']->WM_nii){?> ['Wealth Management', <?php echo ($al_inc['ty']->WM_nii);?>],<?php }?>
 						<?php if($al_inc['ty']->DPLK_fbi){?> ['DPLK', <?php echo ($al_inc['ty']->DPLK_fbi);?>],<?php }?>
 						<?php if($al_inc['ty']->PCD_nii){?> ['Payroll Casa Deposit', <?php echo ($al_inc['ty']->PCD_nii);?>],<?php }?>
 						<?php if($al_inc['ty']->VCCD_nii + $al_inc['ty']->VCCD_fbi){?> ['Value Chain Casa Deposit', <?php echo ($al_inc['ty']->VCCD_nii + $al_inc['ty']->VCCD_fbi);?>],<?php }?>
@@ -68,7 +102,7 @@
 						<?php if($al_inc['ty']->AXA_fbi){?> ['Life Insurance - AXA', <?php echo ($al_inc['ty']->AXA_fbi);?>],<?php }?>
 						<?php if($al_inc['ty']->MAGI_fbi){?> ['General Insurance - MAGI', <?php echo ($al_inc['ty']->MAGI_fbi);?>],<?php }?>
 						<?php if($al_inc['ty']->retail_fbi){?> ['Retail Trading - MANSEK', <?php echo ($al_inc['ty']->retail_fbi);?>],<?php }?>
-						<?php if($al_inc['ty']->cicil_Emas_fbi){?> ['Cicil Emas - BSM', <?php echo ($al_inc['ty']->cicil_Emas_fbi);?>],<?php }?>
+						<?php if($al_inc['ty']->cicil_Emas_fbi){?> ['Cicil Emas - BSM', <?php echo ($al_inc['ty']->cicil_Emas_fbi);?>],<?php }?>*/
 					]
 				}]
 			});
@@ -82,7 +116,7 @@
 	<div>
 		<!--<a href="<?php echo base_url()?>report/trans_xsell/<?php echo $info_page['type'];?>/<?php echo $info_page['id'];?>"><span style="float:right">Transaction Cross Sell </span></a>-->
 		<h2>Komposisi Alliance Income</h2>
-		<h4 style="color:grey;">
+		<h4 style="color:grey;">Penyumbang Aliansi terbesar : <?php echo $has_al[0]['name']?>, sebesar <?php echo number_format($has_al[0]['val_ty']/pow(10,9),1)?> Miliar atau <?php echo number_format($has_al[0]['val_ty']/$tot*100,1)?>%
 		</h4><br><br>
 		
 		<div style="width: 65%; margin: 0 auto; float:left;">
@@ -101,13 +135,12 @@
 							else{
 								$incymt_ty = $al_inc['ty']->$prodinc;
 								$incymt_ly = $al_inc['ly']->$prodinc;
-								
 							}
 						?>
 						<td><?php echo number_format($incymt_ly/pow(10,9),1)?></td>
 						<td><?php echo number_format($incymt_ty/pow(10,9),1)?></td>
 						<td><?php echo number_format($incymt_ty/pow(10,9)/$month*12,1)?></td>
-						<td><?php echo number_format($incymt_ty/pow(10,9)/$tot*100,1)?> %</td>
+						<td><?php echo number_format($incymt_ty/$tot*100,1)?> %</td>
 					</tr>
 				<?php $i++;}?>
 			</table>

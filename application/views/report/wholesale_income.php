@@ -144,8 +144,9 @@
 		</div>
 		<div  style="width: 50%; float:left" >
 			<div id="container_ly" style="width: 100%; height: 280px; margin: 0; float:left;"></div>
+			<div style="clear:both"></div><hr>
 			<div id="container_ty" style="width: 100%; height: 280px; margin: 0; float:left;"></div>
-			<div id="" style="width: 100%; height: 170px; margin: 0 auto; padding:10px; float:left; margin-top:54px;">
+			<!--<div id="" style="width: 100%; height: 170px; margin: 0 auto; padding:10px; float:left; margin-top:54px;">
 				<span style="float:right; font-size:11px;">(Rp Miliar)</span>
 				<table class="table table-bordered"">
 					<tr style="background-color:#08088A; color:white;"><th></th><th>2013</th><th>2014 (Ann.)</th></tr>
@@ -153,8 +154,8 @@
 					<tr><td>Non Loan</td><td><?php echo number_format($nonloan_ly,0)?></td><td><?php echo number_format($nonloan_ty,0)?></td></tr>
 					<tr><td>Total</td><td><?php echo number_format($loan_ly+$nonloan_ly,0)?></td><td><?php echo number_format($loan_ty+$nonloan_ty,0)?></td></tr>
 				</table>
-			</div>
-		</div><div style="clear:both"></div>
+			</div>-->
+		</div>
 		<br>
 	</div>
 </div>
