@@ -302,3 +302,18 @@
     	$bagi=9; if($product == 'FX' || $product == 'Trade'){$bagi=6;}elseif($product == 'OIR'){$bagi=0;}
     	return $bagi;
     }
+    
+    function get_month_name($month){
+    	if($month == 1){return "Jan";}
+    	elseif($month == 2){return "Feb";}
+    	elseif($month == 3){return "Mar";}
+    	elseif($month == 4){return "Apr";}
+    	elseif($month == 5){return "Mei";}
+    	elseif($month == 6){return "Jun";}
+    	elseif($month == 7){return "Jul";}
+    	elseif($month == 8){return "Agu";}
+    	elseif($month == 9){return "Sep";}
+    	elseif($month == 10){return "Okt";}
+    	elseif($month == 11){return "Nov";}
+    	elseif($month == 12){return "Des";}
+    }

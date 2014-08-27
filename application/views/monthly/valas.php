@@ -11,7 +11,6 @@
                 categories: ['Des 2013','Juni 2014']
             },
             yAxis: {
-                min: 0,
                 title: {
                     text: 'Rp Miliar'
                 }
@@ -36,7 +35,7 @@
             	data: [<?php echo round($total['ly']['idr']->CASA_idr/pow(10,9),0)?>,<?php echo round($total['tm']['idr']->CASA_idr/pow(10,9),0)?>],
             },{
                 name: 'Valas',
-            	data: [<?php echo round($total['tm']['val']->CASA_val/pow(10,9),0)?>,<?php echo round($total['tm']['val']->CASA_val/pow(10,9),0)?>],
+            	data: [<?php echo round($total['ly']['val']->CASA_val/pow(10,9),0)?>,<?php echo round($total['tm']['val']->CASA_val/pow(10,9),0)?>],
             	color:'yellow',
             }]
         });
@@ -51,7 +50,7 @@
 		<div style="padding-right:20px; padding-top:20px;">
 			<table class="table table-bordered" style="font-size:10px;">
 				<thead class="headertab"><tr>
-					<th rowspan=2 valign="middle" align="center">Nama Anchor</th><th colspan=2><center>Des 2013</center></th><th colspan=2><center>Juni 2014</center></th>
+					<th rowspan=2 valign="middle" align="center">Nama Anchor</th><th colspan=2><center>Des <?php echo date('Y')-1?></center></th><th colspan=2><center><?php echo get_month_name($month)." ".date('Y')?></center></th>
 				</tr><tr>
 					<th>Nom. IDR (%)</th><th>Nom. Valas (%)</th><th>Nom. IDR (%)</th><th>Nom. Valas (%)</th>
 				</tr></thead><tbody>
