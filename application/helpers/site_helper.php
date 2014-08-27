@@ -297,3 +297,8 @@
 		
 		return $title;
     }
+    
+    function get_produk_pow($product){
+    	$bagi=9; if($product == 'FX' || $product == 'Trade'){$bagi=6;}elseif($product == 'OIR'){$bagi=0;}
+    	return $bagi;
+    }

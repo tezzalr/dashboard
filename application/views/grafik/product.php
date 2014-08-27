@@ -1,3 +1,6 @@
+<?php
+	$bagi = get_produk_pow($this->uri->segment(4));
+?>
 <script type="text/javascript">
 	$(function () {
         $('#container4').highcharts({
@@ -12,7 +15,7 @@
             },
             yAxis: {
                 title: {
-                    text: 'Billions'
+                    text: ''
                 }
             },
             plotOptions: {
@@ -25,10 +28,10 @@
             },
             series: [{
                 name: '2014',
-                data: [<?php for($i=1;$i<=$last_month_data;$i++){$mth = 'mth_'.$i; echo round($this_year->$mth/pow(10,9),2).', ';}?>],
+                data: [<?php for($i=1;$i<=$last_month_data;$i++){$mth = 'mth_'.$i; echo round($this_year->$mth/pow(10,$bagi),1).', ';}?>],
             }, {
             	name: '2013',
-                data: [<?php for($i=1;$i<=12;$i++){$mth = 'mth_'.$i; echo round($ly_year->$mth/pow(10,9),2).', ';}?>],
+                data: [<?php for($i=1;$i<=12;$i++){$mth = 'mth_'.$i; echo round($ly_year->$mth/pow(10,$bagi),1).', ';}?>],
             }]
         });
     });
