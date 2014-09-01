@@ -55,7 +55,7 @@ class Bankwide extends CI_Controller {
 		
 		$data['header'] = $this->load->view('shared/header','',TRUE);	
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-		$data['content'] = $this->load->view('bankwide/top_transaksi',array('top_anchor_vol' => $top_anchor_vol, 'top_anchor_nom_grow' => $top_anchor_nom_grow, 'top_anchor_grow' => $top_anchor_grow, 'top_anchor_grow_tm' => $top_anchor_grow_tm, 'top_anchor_grow_tm_min' => $top_anchor_grow_tm_min,'top_anchor_grow_min' => $top_anchor_grow_min,'top_anchor_nom_grow_tm' => $top_anchor_nom_grow_tm, 'top_anchor_nom_grow_tm_min' => $top_anchor_nom_grow_tm_min, 'top_anchor_nom_grow_min' => $top_anchor_nom_grow_min,'product' => $product, 'total_prd' => $total_prd, 'prd_name' => $prd_name),TRUE);
+		$data['content'] = $this->load->view('bankwide/top_transaksi',array('month' => $month, 'top_anchor_vol' => $top_anchor_vol, 'top_anchor_nom_grow' => $top_anchor_nom_grow, 'top_anchor_grow' => $top_anchor_grow, 'top_anchor_grow_tm' => $top_anchor_grow_tm, 'top_anchor_grow_tm_min' => $top_anchor_grow_tm_min,'top_anchor_grow_min' => $top_anchor_grow_min,'top_anchor_nom_grow_tm' => $top_anchor_nom_grow_tm, 'top_anchor_nom_grow_tm_min' => $top_anchor_nom_grow_tm_min, 'top_anchor_nom_grow_min' => $top_anchor_nom_grow_min,'product' => $product, 'total_prd' => $total_prd, 'prd_name' => $prd_name),TRUE);
 
 		$this->load->view('front',$data);
     }
