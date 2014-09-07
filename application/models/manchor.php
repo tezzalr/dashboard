@@ -67,6 +67,13 @@ class Manchor extends CI_Model {
         return $query[0];
     }
     
+    function get_anchor_by_group($group){
+    	$this->db->where('group', $group);
+    	$this->db->order_by('name','asc');
+    	$result = $this->db->get('anchor');
+    	return $result->result();
+    }
+    
     function get_anchor_by_direktorat($direktorat){
     	if($direktorat == 'corporate'){
     		$this->db->where('group', 'CORPORATE BANKING AGRO BASED');

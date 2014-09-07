@@ -8,7 +8,7 @@
                 text: 'Komposisi CASA'
             },
             xAxis: {
-                categories: ['Des 2013','Juni 2014']
+                categories: ['Des 2013','<?php echo get_month_name($month)?> 2014']
             },
             yAxis: {
                 title: {

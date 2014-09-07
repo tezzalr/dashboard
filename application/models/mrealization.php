@@ -49,7 +49,7 @@ class Mrealization extends CI_Model {
     	else{$colom = $product.'_'.$this->get_product_income_type($product);}
     	
     	$db = $this->get_ws_or_al_by_product($product).'_realization';
-    	$last_month_data = $this->get_anchor_last_month($anchor_id, $db, $year);
+    	$last_month_data = $this->get_last_month($year);
     	$select_sentence = '';
     	for($i=1;$i<=$last_month_data;$i++)
     	{$select_sentence = $select_sentence.'mth_'.$i.'.'.$colom.' as mth_'.$i.', ';}
@@ -76,8 +76,8 @@ class Mrealization extends CI_Model {
     	$last_month_data = $this->get_last_month($year);
     	$select_sentence = '';
     	for($i=1;$i<=$last_month_data;$i++)
-    	{$select_sentence = $select_sentence.'mth_'.$i.'.'.$colom.' as mth_'.$i.', ';}
-    	$this->db->select($select_sentence);
+    	{$select_sentence = $select_sentence.'SUM(mth_'.$i.'.'.$colom.') as mth_'.$i.', ';}
+    	$this->db->select($select_sentence.', group');
     	$this->db->join('anchor', 'anchor.id = mth_'.$last_month_data.'.anchor_id');
     	for($i=1;$i<$last_month_data;$i++){
     		$this->db->join($db.' as mth_'.$i, 'anchor.id = mth_'.$i.'.anchor_id');
@@ -242,7 +242,7 @@ class Mrealization extends CI_Model {
 		$iptdata['SCF_inc']= $realization_ws->SCF_fbi;
 		$iptdata['Trade_vol']= $realization_ws->Trade_vol*1000;
 		$iptdata['Trade_inc']= $realization_ws->Trade_fbi;
-		$iptdata['PWE_vol']= $realization_ws->PWE_vol;
+		$iptdata['PWE_vol']= $realization_ws->PWE_vol*1000;
 		$iptdata['PWE_inc']= $realization_ws->PWE_fbi;
 		$iptdata['TR_vol']= $realization_ws->TR_vol;
 		$iptdata['TR_inc']= $realization_ws->TR_nii;

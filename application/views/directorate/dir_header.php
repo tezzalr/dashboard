@@ -9,6 +9,6 @@
 		<li><a href="<?php echo base_url()?>realization/show/directorate/<?php echo $directorate?>">Realization</a></li>
 		<li><a href="<?php echo base_url()?>directorate/pendapatan/<?php echo $directorate?>">Income</a></li>
 		<li><a href="<?php echo base_url()?>directorate/wallet/<?php echo $directorate?>">Wallet</a></li>
-		<li><a href="<?php echo base_url()?>directorate/product/<?php echo $directorate?>/CASA/income">Tren Product</a></li>
+		<li><a href="<?php echo base_url()?>tren/show/directorate/<?php echo $directorate;?>/CASA/volume">Trend Product</a></li>
 	</ul><div style="clear:both"></div>
 </div>

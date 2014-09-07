@@ -3,11 +3,22 @@
 		<h2>Input Survey</h2><hr>
 		<form method="post" id="form_src_rm" action="<?php echo base_url()?>datarm/search_rm/">
 			<div class="form-group">
-				<label for="">1. Anchor Client</label>
+				<label for="">1. Anchor Client</label><br>
+				<text>Group :</text>
 				<select class="form-control" style="width:220px">
-					<option>Corporate Banking</option>
-					<option>Institutional Banking</option>
-					<option>Commercial Banking</option>
+					<option value="">CB 1</option>
+					<option>CB 2</option>
+					<option>CB 3</option>
+					<option>AGB</option>
+					<option>SOG</option>
+					<option>IB 1</option><option>IB 2</option>
+					<option>JCS</option><option>RCS 1</option><option>RCS 2</option>
+				</select><br>
+				<text>Anchor :</text>
+				<select class="form-control" style="width:220px">
+					<?php foreach($anchor as $anc){?>
+					<option value="<?php echo $anc->id?>"><?php echo $anc->name?></option>
+					<?php }?>
 				</select>
 			</div><hr>
 			<div class="form-group">

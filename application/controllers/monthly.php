@@ -64,7 +64,7 @@ class Monthly extends CI_Controller {
     		$fbi[$group]["tm"] = $real_tm['Trade_inc']+$real_tm['BG_inc']+$real_tm['SF_inc']+$real_tm['FX_inc']+$real_tm['OIR_inc']+$real_tm['LMF_inc'];
     		$fbi[$group]["wal"] = $wal->Trade_fbi + $wal->BG_fbi + $wal->SL_fbi + $wal->FX_fbi + $wal->OIR_fbi + $wal->WCL_fbi + $wal->IL_fbi;
     		$fbi[$group]["tgt"] = $tgt->Trade_fbi + $tgt->BG_fbi + $tgt->SL_fbi + $tgt->FX_fbi + $tgt->OIR_fbi + $tgt->WCL_fbi + $tgt->IL_fbi;
-    		if($group == "SOG"){$fbi[$group]["wal"] = $fbi[$group]["tgt"];}
+    		//if($group == "SOG"){$fbi[$group]["wal"] = $fbi[$group]["tgt"];}
 			
 			$kredit[$group]["ly"] = $this->manchor->get_total_vol_prd("WCL", 12, $year-1, 'wholesale_realization',$group)->WCL_vol+$this->manchor->get_total_vol_prd("IL", 12, $year-1, 'wholesale_realization',$group)->IL_vol;
 			$kredit[$group]["tm"] = $this->manchor->get_total_vol_prd("WCL", $month, $year, 'wholesale_realization',$group)->WCL_vol+$this->manchor->get_total_vol_prd("IL", $month, $year, 'wholesale_realization',$group)->IL_vol;

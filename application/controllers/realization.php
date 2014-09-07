@@ -70,7 +70,7 @@ class Realization extends CI_Controller {
     	
 		if($target_ws && $realization_ws){
 			$json['status'] = 1;
-    		$tableview = $this->load->view('grafik/realisasi/_table_view',array('ytd' => $realization_YTD, 'pct' =>$realization_percent, 'rlzn' => $realization_now, 'tgt' => $target_ws, 'prod' => $arr_prod, 'arr_name' => $arr_name),TRUE);
+    		$tableview = $this->load->view('grafik/realisasi/_table_view',array('month' => $realization_ws->month, 'ytd' => $realization_YTD, 'pct' =>$realization_percent, 'rlzn' => $realization_now, 'tgt' => $target_ws, 'prod' => $arr_prod, 'arr_name' => $arr_name),TRUE);
             $json['html'] = $tableview;
 		}else{
 			$json['status'] = 0;

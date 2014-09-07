@@ -43,7 +43,7 @@
 <div style="margin-top:20px;">
 <h3>Volume Realization</h3>
 <table class="table table-striped">
-	<thead><tr><th>Product</th><th>Unit</th><th  style="text-align:right">Juni 2014</th><th  style="text-align:right">Target 2014</th><th  style="text-align:right">YTD 2014</th><th  style="text-align:right">% Target</th></tr></thead>
+	<thead><tr><th>Product</th><th>Unit</th><th  style="text-align:right"><?php echo get_month_name($month)?> 2014</th><th  style="text-align:right">Target 2014</th><th  style="text-align:right">YTD 2014</th><th  style="text-align:right">% Target</th></tr></thead>
 	<tbody>
 		<?php foreach($arrprod as $prod){
 			echo "<tr><td>".$prod['name']."</td>
@@ -64,7 +64,7 @@
 <table class="table table-striped">
 	<thead><tr>
 		<th>Product</th>
-		<th  style="text-align:right">Juni 2014</th><th  style="text-align:right">Target 2014</th><th  style="text-align:right">YTD 2014</th><th  style="text-align:right">% Target</th>
+		<th  style="text-align:right"><?php echo get_month_name($month)?> 2014</th><th  style="text-align:right">Target 2014</th><th  style="text-align:right">YTD 2014</th><th  style="text-align:right">% Target</th>
 	</tr></thead>
 	<tbody>
 		<?php foreach($arrprod_inc as $prod){

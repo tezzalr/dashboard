@@ -1,5 +1,5 @@
 <?php
-	$bagi = get_produk_pow($this->uri->segment(4));
+	$bagi = get_produk_pow($this->uri->segment(5));
 ?>
 <script type="text/javascript">
 	$(function () {
@@ -42,17 +42,17 @@
 	<div>
 		<div>
 			<div style="margin-bottom: 20px; float:left;">
-					<form method="post" action="<?php echo base_url()?>anchor/refresh_product/<?php echo $anchor->id?>">
+					<form method="post" action="<?php echo base_url()?>tren/refresh_product/<?php echo $level?>/<?php echo $id?>">
 					<label style="margin-right:20px;">Produk:</label> 
 					<select name="product">
 						<?php foreach($arr_prod as $prod){?>
-						<option value="<?php echo $prod['id']?>" <?php if($this->uri->segment(4)==$prod['id']){echo "selected";}?>><?php echo $prod['name']?></option>
+						<option value="<?php echo $prod['id']?>" <?php if($this->uri->segment(5)==$prod['id']){echo "selected";}?>><?php echo $prod['name']?></option>
 						<?php }?>
 					</select><br>
 					<label style="margin-right:37px;">Data:</label> 
 					<select name="kind">
-						<option value="volume" <?php if($this->uri->segment(5)=="volume"){echo "selected";}?>>Volume</option>
-						<option value="income" <?php if($this->uri->segment(5)=="income"){echo "selected";}?>>Income</option>
+						<option value="volume" <?php if($this->uri->segment(6)=="volume"){echo "selected";}?>>Volume</option>
+						<option value="income" <?php if($this->uri->segment(6)=="income"){echo "selected";}?>>Income</option>
 					</select><hr>
 					<button type="submit" class="btn btn-default btn-md">Cari</button>
 					</form>

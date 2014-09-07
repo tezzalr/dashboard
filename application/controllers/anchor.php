@@ -511,6 +511,151 @@ class Anchor extends CI_Controller {
     	}
     }
     
+    public function input_data_rm(){
+    	$objReader = PHPExcel_IOFactory::createReader('Excel2007');
+		$objReader->setReadDataOnly(TRUE);
+		$objPHPExcel = $objReader->load("assets/datadashboard/data_rm_anchor_client.xlsx");
+
+		$objWorksheet = $objPHPExcel->getActiveSheet();
+		// Get the highest row and column numbers referenced in the worksheet
+		$highestRow = $objWorksheet->getHighestRow(); // e.g. 10
+		$highestColumn = $objWorksheet->getHighestColumn(); // e.g 'F'
+		$highestColumnIndex = PHPExcel_Cell::columnIndexFromString($highestColumn);
+		echo "<table border=1>";
+    	$arrres = array();
+    	for ($row = 2; $row <= $highestRow; ++$row) {
+			echo "<tr>";
+			echo "<td>".($row-1)."</td>";
+			for ($col = 0; $col < $highestColumnIndex; ++$col) {
+				$arrres[$row][$col] = $objWorksheet->getCellByColumnAndRow($col, $row)->getValue();
+				echo "<td>".$arrres[$row][$col]."</td>";
+			}
+			$anchor_id = $this->manchor->get_anchor_id($arrres[$row][1],"");
+			echo "<td>".$anchor_id."</td>";
+			echo "</tr>";
+		}
+		/*foreach ($arrres as $res){		
+			$iptdata['nip']= $res[0];
+			$iptdata['nama']= $res[1];
+			$iptdata['sumber']= $res[2];
+			$iptdata['jab']= $res[3];
+			$iptdata['group']= $res[4];
+			$iptdata['departemen']= $res[5];
+			$iptdata['sebelum']= $res[6];
+			$iptdata['pl']= $res[13];
+			$iptdata['tc']= $res[14];
+			$iptdata['toeic']= $res[15];
+			$iptdata['pendidikan']= $res[16];
+			
+			$rm_id = $this->mrm->input_rm_and_get_id($iptdata);
+			
+			for($i=0;$i<3;$i++){
+				$nex = $i*2;
+				if($res[7+$nex]){
+					$nas['nama'] = $res[7+$nex];
+					$nas['klasifikasi'] = $res[8+$nex];
+					$nas['rm_id'] = $rm_id;
+					
+					//input nasabah
+					$this->mrm->insert_nasabah($nas);
+				}
+			}
+			
+			$s1=$res[26]; $s2=$res[27]; $s3=$res[28]; $tot=$s1+$s2+$s3;
+			for($i=0;$i<$tot;$i++){
+				$nex = $i*3;
+				if($i<$s1){$tingkat='S1';}elseif($i>=$s1 && $i<($s1+$s2)){$tingkat='S2';}
+				elseif($i>=($s1+$s2) && $i<($s1+$s2+$s3)){$tingkat='S3';}
+				$pend['prodi']=$res[17+$nex];
+				$pend['univ']=$res[18+$nex];
+				$pend['tahun_lulus']=$res[19+$nex];
+				$pend['tingkat']=$tingkat;
+				$pend['rm_id']=$rm_id;
+				
+				//input pendidikan
+				$this->mrm->insert_pendidikan($pend);
+			} 
+		
+			//$this->manchor->insert_ws($iptdata, $kind);
+		}*/
+		echo "</table>";
+    }
+    
+    public function input_data_gas(){
+    	$objReader = PHPExcel_IOFactory::createReader('Excel2007');
+		$objReader->setReadDataOnly(TRUE);
+		$objPHPExcel = $objReader->load("assets/datadashboard/data_gas_anchor_client.xlsx");
+
+		$objWorksheet = $objPHPExcel->getActiveSheet();
+		// Get the highest row and column numbers referenced in the worksheet
+		$highestRow = $objWorksheet->getHighestRow(); // e.g. 10
+		$highestColumn = $objWorksheet->getHighestColumn(); // e.g 'F'
+		$highestColumnIndex = PHPExcel_Cell::columnIndexFromString($highestColumn);
+		echo "<table border=1>";
+    	$arrres = array();
+    	for ($row = 2; $row <= $highestRow; ++$row) {
+			echo "<tr>";
+			echo "<td>".($row-1)."</td>";
+			for ($col = 0; $col < $highestColumnIndex; ++$col) {
+				$arrres[$row][$col] = $objWorksheet->getCellByColumnAndRow($col, $row)->getValue();
+				echo "<td>".$arrres[$row][$col]."</td>";
+			}
+			$anchor_id = $this->manchor->get_anchor_id($arrres[$row][1],"");
+			echo "<td>".$anchor_id."</td>";
+			echo "</tr>";
+		}
+		/*foreach ($arrres as $res){		
+			$anchor_id = $this->manchor->get_anchor_id($target[0],'');
+			if($anchor_id){	
+				$iptdata['gas']= $res[1];
+				$iptdata['comp']= $res[2];
+			}
+			$iptdata['nip']= $res[0];
+			$iptdata['nama']= $res[1];
+			$iptdata['sumber']= $res[2];
+			$iptdata['jab']= $res[3];
+			$iptdata['group']= $res[4];
+			$iptdata['departemen']= $res[5];
+			$iptdata['sebelum']= $res[6];
+			$iptdata['pl']= $res[13];
+			$iptdata['tc']= $res[14];
+			$iptdata['toeic']= $res[15];
+			$iptdata['pendidikan']= $res[16];
+			
+			$rm_id = $this->mrm->input_rm_and_get_id($iptdata);
+			
+			for($i=0;$i<3;$i++){
+				$nex = $i*2;
+				if($res[7+$nex]){
+					$nas['nama'] = $res[7+$nex];
+					$nas['klasifikasi'] = $res[8+$nex];
+					$nas['rm_id'] = $rm_id;
+					
+					//input nasabah
+					$this->mrm->insert_nasabah($nas);
+				}
+			}
+			
+			$s1=$res[26]; $s2=$res[27]; $s3=$res[28]; $tot=$s1+$s2+$s3;
+			for($i=0;$i<$tot;$i++){
+				$nex = $i*3;
+				if($i<$s1){$tingkat='S1';}elseif($i>=$s1 && $i<($s1+$s2)){$tingkat='S2';}
+				elseif($i>=($s1+$s2) && $i<($s1+$s2+$s3)){$tingkat='S3';}
+				$pend['prodi']=$res[17+$nex];
+				$pend['univ']=$res[18+$nex];
+				$pend['tahun_lulus']=$res[19+$nex];
+				$pend['tingkat']=$tingkat;
+				$pend['rm_id']=$rm_id;
+				
+				//input pendidikan
+				$this->mrm->insert_pendidikan($pend);
+			} 
+		
+			//$this->manchor->insert_ws($iptdata, $kind);
+		}*/
+		echo "</table>";
+    }
+    
     public function get_excel($filename, $kind){
     	if($kind == "realisasi"){$jumcol = 82;}
     	elseif($kind == "detail"){$jumcol = 15;}
