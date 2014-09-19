@@ -8,6 +8,7 @@
         <link href="<?php echo base_url();?>assets/css/bootstrap.min.css" rel="stylesheet"/>
         <link href="<?php echo base_url();?>assets/css/shared.css" rel="stylesheet"/>
         <link href="<?php echo base_url();?>assets/css/datepicker.css" rel="stylesheet"/>
+        <link href="<?php echo base_url();?>assets/css/datepicker3.css" rel="stylesheet"/>
         
         <script>
 			var config = {

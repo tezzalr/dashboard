@@ -266,6 +266,18 @@
 		elseif($initial ==  "SF"){return 'Syndication Fee';}
 		elseif($initial ==  "OW_nii"){return 'NII Others';}
 		elseif($initial ==  "OW_fbi"){return 'FBI Others';}
+		elseif($initial ==  "VC"){return 'Value Chain';}
+		elseif($initial ==  "WM"){return 'Wealth Management';}
+		elseif($initial ==  "EDC"){return 'EDC';}
+		elseif($initial ==  "ATM"){return 'ATM';}
+		elseif($initial ==  "Micro"){return 'Micro';}
+		elseif($initial ==  "CC"){return 'Credit Card';}
+		elseif($initial ==  "CM"){return 'Cash Management';}
+		elseif($initial ==  "cicil_Emas"){return 'Cicil Emas';}
+		elseif($initial ==  "DPLK"){return 'DPLK';}
+		elseif($initial ==  "MAGI"){return 'Mandiri AXA General Insurance';}
+		elseif($initial ==  "MTF"){return 'Mandiri Tunas Finance';}
+		elseif($initial ==  "Mansek"){return 'Mandiri Sekuritas';}
     }
     
     function get_tot_income($ws, $al, $month,$pow){
@@ -316,4 +328,30 @@
     	elseif($month == 10){return "Okt";}
     	elseif($month == 11){return "Nov";}
     	elseif($month == 12){return "Des";}
+    }
+    
+    function get_month_full_name($month){
+    	if($month == 1){return "January";}
+    	elseif($month == 2){return "February";}
+    	elseif($month == 3){return "March";}
+    	elseif($month == 4){return "April";}
+    	elseif($month == 5){return "Mei";}
+    	elseif($month == 6){return "June";}
+    	elseif($month == 7){return "July";}
+    	elseif($month == 8){return "August";}
+    	elseif($month == 9){return "September";}
+    	elseif($month == 10){return "October";}
+    	elseif($month == 11){return "November";}
+    	elseif($month == 12){return "Desember";}
+    }
+    
+    function get_product_anal_prod(){
+    	$prod = array(); $i=0;
+    	$inisial = array("Trade","BG","SCF","VC","WM","EDC","ATM","Micro","CC","CM","cicil_Emas","DPLK","MAGI","MTF","FX","Mansek","OIR");
+    	foreach($inisial as $asu){
+    		$prod[$i]['ins'] = $asu;
+    		$prod[$i]['name'] = change_real_name($asu);
+    		$i++;
+    	}
+    	return $prod;
     }
