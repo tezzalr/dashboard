@@ -121,7 +121,7 @@ class Update extends CI_Controller {
     	$mading['title'] = $this->input->post('title');
     	$mading['nextstep'] = $this->input->post('nextstep');
     	$mading['progress'] = $this->input->post('progress');
-    	$mading['support'] = $this->input->post('support');
+    	//$mading['support'] = $this->input->post('support');
     	$mading['report_month'] = $this->input->post('report_month');
     	$mading['date'] = date('Y-m-d h:i:s');
     	
@@ -184,18 +184,22 @@ class Update extends CI_Controller {
     	$data['title'] = "Input Product Analysis";
         
         $header = '';//$this->load->view('survey/survey_header',array(''),TRUE);
+        $user = $this->session->userdata('userdb');
+        $user = $this->muser->get_user_by_id($user['id']);
+        $prods = explode(";", $user->product);
         
         $data['header'] = $this->load->view('shared/header','',TRUE);	
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-		$data['content'] = $this->load->view('update/input_product_anal',array('header' => $header, 'activity' => ""),TRUE);
+		$data['content'] = $this->load->view('update/input_product_anal',array('header' => $header,'prodsusr' => $prods, 'activity' => ""),TRUE);
 		
 		$this->load->view('front',$data);
     }
     
     public function submit_product_analysis(){
     	$id = $this->uri->segment(3);
+    	$user = $this->session->userdata('userdb');
     	$mading['product_id'] = $this->input->post('product');
-    	$mading['cmt'] = $this->input->post('cmt');
+    	$mading['cmt'] = $user['id'];
     	$mading['analysis'] = $this->input->post('analysis');
     	$mading['issue'] = $this->input->post('issue');
     	$mading['report_month'] = $this->input->post('report_month');

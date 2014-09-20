@@ -40,17 +40,17 @@
 							</div><hr>
 						</div>
 						<div>
-							<span class="sub_judul">Issue</span>
+							<span class="sub_judul">Issue & Support Needed</span>
 							<div style="margin-top:10px">
 								<?php echo $act->issue?>
 							</div><hr>
 						</div>
-						<div>
+						<!--<div>
 							<span class="sub_judul">Support Needed</span>
 							<div style="margin-top:10px">
 								<?php echo $act->support?>
 							</div><hr>
-						</div>
+						</div>-->
 					</div><div style="clear:both"></div>
 				</div>
 				<hr>

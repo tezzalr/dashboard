@@ -3,24 +3,15 @@
 <div id="" class="container no_pad">
 	<div style="margin-bottom:20px">
 		<?php if($activity){?><h2>Edit Activity</h2><?php }else{?><h2>New Product Analysis</h2><?php }?><hr>
-		<form class="form-horizontal" method="post" id="form_src_rm" action="<?php if($activity){echo base_url()."update/submit_product_analysis/".$activity->mading_id;}else{echo base_url()."update/submit_product_analysis/";}?>">
-			<div class="form-group">
-				<label class="col-sm-2 control-label" for="">Partner</label>
-				<div class="col-sm-4">
-				<select id="groupdir" class="form-control" style="width:320px" name="cmt">
-					<option value='Pranowo Dewantoro' <?php if($activity && $activity->cmt == "Pranowo Dewantoro"){echo "selected";}?>>Pranowo Dewantoro</option>
-					<option value='Claudio Suhalim' <?php if($activity && $activity->cmt == "Claudio Suhalim"){echo "selected";}?>>Claudio Suhalim</option>
-					<option value='Ferry Adrian' <?php if($activity && $activity->cmt == "Ferry Adrian"){echo "selected";}?>>Ferry Adrian</option>
-				</select>
-				</div>
-			</div>
+		<form class="form-horizontal" method="post" id="form_src_rm" action="<?php if($activity){echo base_url()."update/submit_product_analysis/".$activity->mading_id;}else{echo base_url()."update/submit_product_analysis/";}?>">	
 			<div class="form-group">
 				<label class="col-sm-2 control-label" for="">Product</label>
 				<div class="col-sm-4">
 					<select id="groupdir" class="form-control" style="width:320px" name="product">
+						<?php foreach($prodsusr as $produsr){?>
 						<?php $prods = get_product_anal_prod(); foreach($prods as $prod){?>
-							<option value="<?php echo $prod['ins']?>" <?php if($activity){echo "selected";}?>><?php echo $prod['name']?></option>
-						<?php }?>
+							<?php if($produsr==$prod['ins']){?><option value="<?php echo $prod['ins']?>" <?php if($activity){echo "selected";}?>><?php echo $prod['name']?></option><?php }?>
+						<?php }}?>
 					</select>
 				</div>
 			</div>

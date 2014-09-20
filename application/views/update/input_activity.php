@@ -66,17 +66,17 @@
 				</div>
 			</div><hr>
 			<div class="form-group">
-				<label for="" class="col-sm-2 control-label">Issue</label>
+				<label for="" class="col-sm-2 control-label">Issue and Support Needed</label>
 				<div class="col-sm-8">
 					<textarea type="text" class="form-control" name="issue"><?php if($activity){echo $activity->issue;}?></textarea>
 				</div>
 			</div><hr>
-			<div class="form-group">
+			<!--<div class="form-group">
 				<label for="" class="col-sm-2 control-label">Support Needed</label>
 				<div class="col-sm-8">
 					<textarea type="text" class="form-control" name="support"><?php if($activity){echo $activity->support;}?></textarea>
 				</div>
-			</div><hr>
+			</div><hr>-->
 			<div class="form-group">
 				<label for="" class="col-sm-2 control-label">Deadline</label>
 				<div class="col-sm-4">
