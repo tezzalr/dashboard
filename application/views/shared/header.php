@@ -25,3 +25,13 @@
 	
 	<div style="clear:both"></div>
 </div>
+<div style="float:right; padding:5px 25px 5px 5px;">
+<label style="margin-right:20px">Bulan laporan:</label>
+<select id="mth" name="report_month" style="width:150px">
+	<?php for($i=1;$i<=12;$i++){?>
+		<option value="<?php echo $i?>" <?php if(date('m') == $i){echo "selected";}?>><?php echo get_month_full_name($i)?></option>
+	<?php }?>
+</select>
+
+</div><div style="clear:both"></div>
+<hr style="margin: 0">

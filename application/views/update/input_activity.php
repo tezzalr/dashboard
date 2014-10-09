@@ -34,7 +34,7 @@
 			<div class="form-group">
 				<label class="col-sm-2 control-label" for="">Report Month</label>
 				<div class="col-sm-4">
-					<select id="groupdir" class="form-control" style="width:320px" name="report_month">
+					<select id="mth" class="form-control" style="width:320px" name="report_month">
 						<?php for($i=1;$i<=12;$i++){?>
 							<option value="<?php echo $i?>" <?php if(date('m') == $i){echo "selected";}?>><?php echo get_month_full_name($i)?></option>
 						<?php }?>
