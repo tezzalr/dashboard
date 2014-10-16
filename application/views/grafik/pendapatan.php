@@ -376,7 +376,7 @@
 					<span style="font-size:16px">Total Alliance : <?php echo "Rp ".number_format($al_income/pow(10,9),1,'.',',')." Miliar"?></span>
 				</div><hr>
 				<table>
-					<tr><td style="width:200px">TRX X-SELL</td><td><?php echo number_format($trx_sow/$loan_sow,2,'.',',');?></td></tr>
+					<tr><td style="width:200px">TRX X-SELL</td><td><?php if($loan_sow==0){$loan_sow = $trx_sow/10;} echo number_format($trx_sow/$loan_sow,2,'.',',');?></td></tr>
 					<tr><td style="width:200px">ALL X-SELL</td><td><?php echo number_format($al_ytd/$ws_ytd*100,0,'.',',')?>%</td></tr>
 				</table>
 			</div>
