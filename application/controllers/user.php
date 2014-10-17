@@ -68,6 +68,8 @@ class User extends CI_Controller {
                 redirect('update/activity_wall');
             }elseif($user->role == "cmt"){
                 redirect('update/activity_wall');
+            }elseif($user->role == "rm"){
+            	redirect('anchor');
             }
         }else{
             $params['type_login']="failed";

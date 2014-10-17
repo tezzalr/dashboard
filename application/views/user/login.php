@@ -14,7 +14,7 @@ $(document).ready(function(){
 <div id="" class="container no_pad">
 	<div class="col-xs-12 col-md-5 login-form" style="margin 0 auto">
 		<form class="form-signin" action="<?php echo base_url();?>user/userEnter" method="post" role="form">
-			<h3 class="form-signin-heading">Mandiri Corplan 2020</h3>
+			<h3 class="form-signin-heading">Anchor Client Report and Analysis</h3>
 			<p class="desc_login_form">Please login here: </p>
 			<input type="text" class="form-control" placeholder="Username" name="username" required autofocus>
 			<input type="password" class="form-control" placeholder="Password" name="password" required>

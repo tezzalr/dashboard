@@ -10,14 +10,28 @@ class Anchor extends CI_Controller {
         $this->load->model('mtarget');
         $this->load->model('mwallet');
         $this->load->library('excel');
+        
+        $session = $this->session->userdata('userdb');
+        
+        if(!$session){
+            redirect('user/login');
+        }
     }
     /**
      * Method for page (public)
      */
     public function index()
     {
-
 		$data['title'] = "Daftar Anchor";
+		
+		$lstmth = $this->mrealization->get_last_month(date('Y'));
+		$this->session->set_userdata('lstmth',$lstmth);
+		
+		$rptmth = $this->session->userdata('rptmth');
+		if(!$rptmth){
+			$rptmth = $this->mrealization->get_last_month(date('Y'));
+			$this->session->set_userdata('rptmth',$rptmth);
+		}
 		
 		$anchor['cor'] = $this->manchor->get_anchor_by_direktorat('corporate');
 		$anchor['ib'] = $this->manchor->get_anchor_by_direktorat('institutional');
@@ -29,6 +43,12 @@ class Anchor extends CI_Controller {
 
 		$this->load->view('front',$data);
         
+    }
+    
+    public function change_report_month(){
+    	$this->session->set_userdata('rptmth',$this->input->post('report_month'));
+    	$uri = $this->input->post('last_url');
+    	redirect($uri);
     }
     
     public function pendapatan(){

@@ -75,7 +75,7 @@
                 enabled: false
             },
             series: [{
-                name: 'Income',
+                name: 'Realisasi',
                 data: [<?php foreach($arrinc as $inc){echo round($inc,1).", ";}?>],
                 color: 'yellow',
                 id: 'inc'
@@ -144,7 +144,7 @@
                 enabled: false
             },
             series: [{
-                name: 'Income',
+                name: 'Realisasi',
                 //data: [<?php echo $rlz_ws['CASA_vol'] ?>, <?php echo $rlz_ws['TD_vol'] ?>, <?php echo $rlz_ws['WCL_vol'] ?>, <?php echo $rlz_ws['IL_vol'] ?>, <?php echo $rlz_ws['SL_vol'] ?>, <?php echo $rlz_ws['TR_vol'] ?>, <?php echo $rlz_ws['FX_vol'] ?>, <?php echo $rlz_ws['SCF_vol'] ?>, <?php echo $rlz_ws['Trade_vol'] ?>, <?php echo $rlz_ws['BG_vol'] ?>, <?php echo $rlz_ws['OIR_vol'] ?>, <?php echo $rlz_ws['PWE_vol'] ?>, <?php echo $rlz_ws['ECM_vol'] ?>, <?php echo $rlz_ws['DCM_vol'] ?>, <?php echo $rlz_ws['MA_vol'] ?>],
                 data: [<?php foreach($arrinc_inc as $inc){echo $inc.", ";}?>],
                 color: 'yellow',

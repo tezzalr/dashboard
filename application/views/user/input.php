@@ -90,7 +90,7 @@ $(document).ready(function(){
 					<select id="" class="form-control" name="role">
 						<option value='admin' >Admin</option>
 						<option value='cmt' >CMT</option>
-						<option value='cmt' >RM</option>
+						<option value='rm' >RM</option>
 					</select>
 				</div>
 			</div>

@@ -25,7 +25,7 @@ class Mrealization extends CI_Model {
     /*Anchor Function*/
     
     function get_anchor_ws_realization($anchor_id, $year){
-    	$month = $this->get_last_month($year);
+    	$month = $this->session->userdata('rptmth');
     	$this->db->where('anchor_id',$anchor_id);
     	$this->db->where('month',$month);
     	$this->db->where('year',$year);
@@ -35,7 +35,7 @@ class Mrealization extends CI_Model {
     }
     
     function get_anchor_al_realization($anchor_id, $year){
-    	$month = $this->get_last_month($year);
+    	$month = $this->session->userdata('rptmth');
     	$this->db->where('anchor_id',$anchor_id);
     	$this->db->where('month',$month);
     	$this->db->where('year',$year);
@@ -68,32 +68,9 @@ class Mrealization extends CI_Model {
         return $query[0];
     }
     
-    function get_dir_prd_realization_annual($product, $kind, $year, $direktorat){
-    	if($kind == 'volume'){$colom = $product.'_vol';}
-    	else{$colom = $product.'_'.$this->get_product_income_type($product);}
-    	
-    	$db = $this->get_ws_or_al_by_product($product).'_realization';
-    	$last_month_data = $this->get_last_month($year);
-    	$select_sentence = '';
-    	for($i=1;$i<=$last_month_data;$i++)
-    	{$select_sentence = $select_sentence.'SUM(mth_'.$i.'.'.$colom.') as mth_'.$i.', ';}
-    	$this->db->select($select_sentence.', group');
-    	$this->db->join('anchor', 'anchor.id = mth_'.$last_month_data.'.anchor_id');
-    	for($i=1;$i<$last_month_data;$i++){
-    		$this->db->join($db.' as mth_'.$i, 'anchor.id = mth_'.$i.'.anchor_id');
-    		$this->db->where('mth_'.$i.'.month',$i);
-    		$this->db->where('mth_'.$i.'.year',$year);
-    	}
-    	$this->db->where('mth_'.$last_month_data.'.month',$last_month_data);
-    	$this->db->where('mth_'.$last_month_data.'.year',$year);
-    	get_direktorat_where($direktorat,$this);
-    	$result = $this->db->get($db.' as mth_'.$last_month_data);
-    	$query = $result->result();
-        return $query[0];
-    }
     
     function get_anchor_total_income($anchor_id, $year){
-    	$month = $this->get_last_month($year);
+    	$month = $this->session->userdata('rptmth');
     	$ws_realization = $this->get_anchor_ws_realization($anchor_id, $year);
     	$al_realization = $this->get_anchor_al_realization($anchor_id, $year);
     	
@@ -126,7 +103,7 @@ class Mrealization extends CI_Model {
     
     /*Directorate Function*/
     function get_directorate_realization($direktorat, $year, $type){
-    	$month = $this->get_last_month($year);
+    	$month = $this->session->userdata('rptmth');
     	$db = $type.'_realization';
     	get_type_select_month($type,$this);
     	get_direktorat_where($direktorat,$this);
@@ -150,8 +127,32 @@ class Mrealization extends CI_Model {
         return $query[0];
     }
     
+    function get_dir_prd_realization_annual($product, $kind, $year, $direktorat){
+    	if($kind == 'volume'){$colom = $product.'_vol';}
+    	else{$colom = $product.'_'.$this->get_product_income_type($product);}
+    	
+    	$db = $this->get_ws_or_al_by_product($product).'_realization';
+    	$last_month_data = $this->get_last_month($year);
+    	$select_sentence = '';
+    	for($i=1;$i<=$last_month_data;$i++)
+    	{$select_sentence = $select_sentence.'SUM(mth_'.$i.'.'.$colom.') as mth_'.$i.', ';}
+    	$this->db->select($select_sentence.', group');
+    	$this->db->join('anchor', 'anchor.id = mth_'.$last_month_data.'.anchor_id');
+    	for($i=1;$i<$last_month_data;$i++){
+    		$this->db->join($db.' as mth_'.$i, 'anchor.id = mth_'.$i.'.anchor_id');
+    		$this->db->where('mth_'.$i.'.month',$i);
+    		$this->db->where('mth_'.$i.'.year',$year);
+    	}
+    	$this->db->where('mth_'.$last_month_data.'.month',$last_month_data);
+    	$this->db->where('mth_'.$last_month_data.'.year',$year);
+    	get_direktorat_where($direktorat,$this);
+    	$result = $this->db->get($db.' as mth_'.$last_month_data);
+    	$query = $result->result();
+        return $query[0];
+    }
+    
     function get_directorate_total_income($direktorat, $year){
-    	$month = $this->get_last_month($year);
+    	$month = $this->session->userdata('rptmth');
     	$ws_realization = $this->get_directorate_realization($direktorat, $year, 'wholesale');
     	$al_realization = $this->get_directorate_realization($direktorat, $year, 'alliance');
     	

@@ -20,6 +20,8 @@ class Realization extends CI_Controller {
     }
     
     public function show(){
+    	$rptmth = $this->session->userdata('rptmth');
+    	
     	if($this->uri->segment(3)=='anchor'){
 			$anchor_id = $this->uri->segment(4);
 			$target_ws = $this->mtarget->get_anchor_ws_target($anchor_id);
@@ -35,7 +37,8 @@ class Realization extends CI_Controller {
 			$realization_ws = $this->mrealization->get_directorate_realization($directorate, date('Y'), 'wholesale');
 			
 			$header = $this->load->view('directorate/dir_header',array('directorate' => $directorate, 'id_ybs' => $directorate, 'code' => 'dir'),TRUE);
-			$data['title'] = "Realisasi";
+			$dirname = get_direktorat_full_name($directorate);
+			$data['title'] = "Realisasi - $dirname";
 		}
 		$realization = $this->mrealization->count_realization($target_ws, $realization_ws);
 		$arr_prod = array(); for($i=1;$i<=19;$i++){$arr_prod[$i] = return_prod_name($i);}

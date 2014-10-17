@@ -40,7 +40,7 @@ class Product extends CI_Controller {
     	$data['title'] = "Top Anchor Product";
     	$product = $this->uri->segment(3);
     	$year = date('Y');
-    	$month = $this->mrealization->get_last_month($year);
+    	$month = $this->session->userdata('rptmth');
     	$total_prd = $this->manchor->get_total_vol_prd($product, $month, $year, 'wholesale_realization','');
     	$top_anchor_vol = $this->manchor->get_top_anchor_prd($product, $month, $year);
     	$top_anchor_nom_grow = $this->manchor->get_top_anchor_prd_nml_grw($product, $month, $year, 12, 'desc');
@@ -85,7 +85,7 @@ class Product extends CI_Controller {
     	$type = $this->input->get('type');
     	
     	$year = date('Y');
-    	$month = $this->mrealization->get_last_month($year);
+    	$month = $this->session->userdata('rptmth');
     	
     	if($type == 'ytd'){$month_ly = 12;}
     	else{$month_ly = $month;}

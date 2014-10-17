@@ -1,12 +1,11 @@
 <div id="" class="container no_pad">
-	<div class="no_pad" style="border-bottom: 1px solid #ccc; margin-bottom: 20px;">
-		<h2 style="float:left">Top Anchor Bank Mandiri</h2>
+	<!--<div class="no_pad" style="border-bottom: 1px solid #ccc; margin-bottom: 20px;">
 		<ul class="nav nav-pills" style="float:right; margin-top:30px;">
 		  <li><a href="<?php echo base_url()?>bankwide/top_volume/<?php echo $product?>">Volume</a></li>
 		  <li><a href="<?php echo base_url()?>bankwide/top_growth/<?php echo $product?>">Growth</a></li>
 		  <li><a href="<?php echo base_url()?>bankwide/top_nominal_growth/<?php echo $product?>">Nominal Growth</a></li>
 		</ul><div style="clear:both"></div>
-	</div>
+	</div>-->
 	<div>
 		<div>
 			<h3>Top Volume Transaksi <?php echo $prd_name?></h3><br>
@@ -17,8 +16,8 @@
 						<?php foreach($arr_prod as $prod){?>
 						<option value="<?php echo $prod['id']?>" <?php if($this->uri->segment(3)==$prod['id']){echo "selected";}?>><?php echo $prod['name']?></option>
 						<?php }?>
-					</select><br>
-					<button type="submit" class="btn btn-default btn-sm" style="margin-left:195px; margin-top:5px;">Pilih</button>
+					</select>
+					<button type="submit" class="btn btn-default btn-xs" margin-top:5px;">Pilih</button>
 					</form>
 			</div><hr>
 			<div style="margin-left:0px">
