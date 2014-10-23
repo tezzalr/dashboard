@@ -81,6 +81,12 @@ class Mwallet extends CI_Model {
     			if(!$wallet->$wlt_inc){$arr_sow[$i]=100;}
     			else{$arr_sow[$i]=$realization[$this->return_prod_name($i-15)."_inc"]/$wallet->$wlt_inc*100;}	
     		}
+    		$loan_wlt = $wallet->IL_vol+$wallet->WCL_vol+$wallet->SL_vol;
+    		$loan_rlz = $realization['IL_vol']+$realization['SL_vol']+$realization['WCL_vol'];
+    		if($loan_wlt){
+    			$arr_sow[31] = ($loan_rlz)/($loan_wlt)*100;
+    		}else{$arr_sow[31] = $arr_sow[1];}
+    		
     	}
     	return $arr_sow;
     }

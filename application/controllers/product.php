@@ -109,22 +109,34 @@ class Product extends CI_Controller {
                      ->set_output(json_encode($json));
     }
     
-    public function month(){
+    public function casa_xsell(){
     	$data['title'] = "Product";
+    	$dir = $this->uri->segment(3);
+    	$anc_xsll = array(); $i=0;
+    	$month = $this->session->userdata('rptmth');
+    	
+    	$anchors = $this->manchor->get_anchor_by_direktorat($dir);
+    	foreach($anchors as $anchor){
+    		$rlz = $this->mrealization->get_anchor_ws_realization($anchor->id, date('Y'));
+			$data_xsell['wal'] = $this->mwallet->get_anchor_ws_wallet($anchor->id, date('Y'));		
+    		$data_xsell['rlz'] = $this->mrealization->count_realization_value($rlz, $month);
+    		$data_xsell['sow'] = $this->mwallet->get_sow($data_xsell['wal'], $data_xsell['rlz'], 'wholesale');
+    		if(!$data_xsell['sow'][31]){$casa_xsell=1;}
+    		else{$casa_xsell = $data_xsell['sow'][1]/$data_xsell['sow'][31];}
+    		if($casa_xsell<1){
+    			$anc_xsll[$i]['anchor'] = $anchor;
+    			$anc_xsll[$i]['wallet'] = $data_xsell['wal']->CASA_vol;
+    			$anc_xsll[$i]['rlz'] = $data_xsell['rlz']['CASA_vol'];
+    			$anc_xsll[$i]['sow_casa'] = $data_xsell['sow'][1];
+    			$anc_xsll[$i]['sow_loan'] = $data_xsell['sow'][31];
+    			$anc_xsll[$i]['casa_xsell'] = $casa_xsell;
+    			$i++;
+    		}	
+    	}
 		
 		$data['header'] = $this->load->view('shared/header','',TRUE);	
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-		$data['content'] = $this->load->view('bankwide/month',array(),TRUE);
-
-		$this->load->view('front',$data);
-    }
-    
-    public function profile(){
-    	$data['title'] = "Profile";
-		
-		$data['header'] = $this->load->view('shared/header','',TRUE);	
-		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-		$data['content'] = $this->load->view('anchor/profile',array(),TRUE);
+		$data['content'] = $this->load->view('product/casa_xsell',array('anchors' => $anc_xsll,'month' => $month),TRUE);
 
 		$this->load->view('front',$data);
     }

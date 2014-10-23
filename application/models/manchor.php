@@ -75,18 +75,18 @@ class Manchor extends CI_Model {
     }
     
     function get_anchor_by_direktorat($direktorat){
-    	if($direktorat == 'corporate'){
+    	if($direktorat == 'corporate' || $direktorat == 'CB'){
     		$this->db->where('group', 'CORPORATE BANKING AGRO BASED');
     		$this->db->or_where('group', 'CORPORATE BANKING I');
     		$this->db->or_where('group', 'CORPORATE BANKING II');
     		$this->db->or_where('group', 'CORPORATE BANKING III');
     		$this->db->or_where('group', 'SYNDICATION, OIL & GAS');
     	}
-    	elseif($direktorat == 'institutional'){
+    	elseif($direktorat == 'institutional' || $direktorat == 'IB'){
     		$this->db->where('group', 'INSTITUTIONAL BANKING I');
     		$this->db->or_where('group', 'INSTITUTIONAL BANKING II');
     	}
-    	else{
+    	elseif($direktorat == 'commercial' || $direktorat == 'CBB'){
     		$this->db->where('group', 'JAKARTA COMMERCIAL SALES');
     		$this->db->or_where('group', 'REGIONAL COMMERCIAL SALES I');
     		$this->db->or_where('group', 'REGIONAL COMMERCIAL SALES II');
@@ -228,5 +228,20 @@ class Manchor extends CI_Model {
     	$result = $this->db->get('anchor');
     	$query = $result->result();
     	if($query){return $query[0]->group;}
+    }
+    
+    function delete_detail($year,$month){
+    	$this->db->where('month',$month);
+    	$this->db->where('year',$year);
+    	$this->db->delete('detail_realization');
+    }
+    function delete_ws_al($type,$year,$month){
+    	if($type=="realization"){
+    		$this->db->where('month',$month);
+    	}
+    	$this->db->where('year',$year);
+    	$this->db->delete('alliance_'.$type);
+    	$this->db->delete('wholesale_'.$type);
+    	
     }
 }

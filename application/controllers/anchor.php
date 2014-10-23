@@ -51,94 +51,32 @@ class Anchor extends CI_Controller {
     	redirect($uri);
     }
     
-    public function pendapatan(){
-    	$anchor_id = $this->uri->segment(3);
-    	
-    	$realization_ws = $this->mrealization->get_anchor_ws_realization($anchor_id, date('Y'));
-    	$realization_al = $this->mrealization->get_anchor_al_realization($anchor_id, date('Y'));
-    	$wallet_ws = $this->mwallet->get_anchor_ws_wallet($anchor_id, date('Y'));
-    	$anchor = $this->manchor->get_anchor_by_id($anchor_id);
-    	$month = $this->mrealization->get_last_month(date('Y'));
-    	$anchor_header = $this->load->view('anchor/anchor_header',array('anchor' => $anchor),TRUE);
-    	
-    	$data['title'] = "Pendapatan - $anchor->name";
+    
+    public function form_input_file(){
+    	$data['title'] = "Form Input File";
 		
 		$data['header'] = $this->load->view('shared/header','',TRUE);	
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-		$data['content'] = $this->load->view('grafik/pendapatan',array('header' => $anchor_header, 'rlzn' => $realization_ws, 'anchor' => $anchor, 'ali' => $realization_al, 'wlt' => $wallet_ws, 'month' => $month),TRUE);
+		$data['content'] = $this->load->view('anchor/form_file',array(),TRUE);
 
 		$this->load->view('front',$data);
     }
     
-    public function wallet(){
-    	$anchor_id = $this->uri->segment(3);
+    public function submit_file_input(){
+    	$month = $this->input->post('month');
+    	$year = $this->input->post('year');
+    	$filetype = $this->input->post('filetype');
     	
-    	$wallet_ws = $this->mwallet->get_anchor_ws_wallet($anchor_id, date('Y'));
-    	$wallet_al = $this->mwallet->get_anchor_al_wallet($anchor_id, date('Y'));
-    	
-    	$realization_ws = $this->mrealization->get_anchor_ws_realization($anchor_id, date('Y'));
-    	$realization = $this->mrealization->count_realization_value($realization_ws, $realization_ws->month);
-    	$sow_ws = $this->mwallet->get_sow($wallet_ws, $realization, 'wholesale');
-    	
-    	$anchor = $this->manchor->get_anchor_by_id($anchor_id);
-    	$anchor_header = $this->load->view('anchor/anchor_header',array('anchor' => $anchor),TRUE);
-    	
-    	$arr_prod = array(); for($i=1;$i<=15;$i++){$arr_prod[$i] = $this->mwallet->return_prod_name($i);}
-    	$arr_name = array(); for($i=1;$i<=15;$i++){$arr_name[$i] = $this->mwallet->change_real_name($arr_prod[$i]);}
-    	
-    	$data['title'] = "Wallet - $anchor->name";
-		
-		$data['header'] = $this->load->view('shared/header','',TRUE);	
-		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-		$data['content'] = $this->load->view('grafik/wallet',array('header' => $anchor_header,  'wlt_ws' => $wallet_ws, 'anchor' => $anchor, 'wlt_al' => $wallet_al, 'rlz_ws' => $realization, 'sow_ws' => $sow_ws, 'prod' => $arr_prod, 'arr_name' => $arr_name),TRUE);
-
-		$this->load->view('front',$data);
-    }
-    
-    public function product(){
-    	$anchor_id = $this->uri->segment(3);
-    	
-    	$kind = $this->uri->segment(5);
-    	$product = $this->uri->segment(4);
-    	
-    	$realization_now = $this->mrealization->get_anchor_prd_realization_annual($anchor_id, $product, $kind, date('Y'));
-    	$realization_ly = $this->mrealization->get_anchor_prd_realization_annual($anchor_id, $product, $kind, date('Y')-1);
-    	$anchor = $this->manchor->get_anchor_by_id($anchor_id);
-    	$anchor_header = $this->load->view('anchor/anchor_header',array('anchor' => $anchor),TRUE);
-    	$arr_prod = array(); 
-    	for($i=1;$i<=15;$i++){
-    		$arr_prod[$i]['id'] = $this->mwallet->return_prod_name($i);
-    		$arr_prod[$i]['name'] = $this->mwallet->change_real_name($arr_prod[$i]['id']);
+    	if($filetype == "detail"){
+    		$this->manchor->delete_detail($year,$month);
+    		$this->input_detail($year,$month);
     	}
+    	else{
+    		$this->manchor->delete_ws_al($filetype,$year,$month);
+    		$this->input_ws_al($filetype,$year,$month);
+    	}
+    	redirect('anchor');
     	
-    	$data['title'] = "Product - $anchor->name";
-		
-		$data['header'] = $this->load->view('shared/header','',TRUE);	
-		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-		$data['content'] = $this->load->view('grafik/product',array('header' => $anchor_header, 
-												'anchor' => $anchor, 'this_year' => $realization_now, 'ly_year' => $realization_ly, 'last_month_data' => $this->mrealization->get_anchor_last_month($anchor_id, 'wholesale_realization', date('Y')), 
-												'arr_prod' => $arr_prod,
-												'product_name' => $this->mwallet->change_real_name($product)),TRUE);
-
-		$this->load->view('front',$data);
-    }
-    
-    public function refresh_product(){
-    	$prod = $this->input->post('product');
-    	$kind = $this->input->post('kind');
-    	$anchor_id = $this->uri->segment(3);
-    	
-    	redirect('anchor/product/'.$anchor_id."/".$prod.'/'.$kind);
-    }
-    
-    public function profile(){
-    	$data['title'] = "Profile";
-		
-		$data['header'] = $this->load->view('shared/header','',TRUE);	
-		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-		$data['content'] = $this->load->view('grafik/profile',array(),TRUE);
-
-		$this->load->view('front',$data);
     }
     
     public function input_anchor(){
@@ -151,125 +89,7 @@ class Anchor extends CI_Controller {
 		}
     }
     
-    /*public function input_wholesale(){
-    	$kind = $this->uri->segment(3);
-    	$year = $this->uri->segment(4);
-    	$month = '';
-    	if($kind == 'realization'){$month = $this->uri->segment(5); $iptdata['month']= $month;}
-    	$arr_target = $this->get_excel('datadashboard/corporate/daftar_'.$kind.'_ws_'.$year.$month.'.xlsx');
-    	foreach($arr_target as $target){
-    		
-			$anchor_id = $this->manchor->get_anchor_id($target[0],$target[1]);
-			
-			$iptdata['CASA_vol']= $target[4];
-			$iptdata['CASA_nii']= $target[5];
-			$iptdata['CASA_fbi']= $target[6];
-			$iptdata['TD_vol']= $target[7];
-			$iptdata['TD_nii']= $target[8];
-			$iptdata['WCL_vol']= $target[9];
-			$iptdata['WCL_nii']= $target[10];
-			$iptdata['WCL_fbi']= $target[11];
-			$iptdata['IL_vol']= $target[12];
-			$iptdata['IL_nii']= $target[13];
-			$iptdata['IL_fbi']= $target[14]; //salah
-			$iptdata['SL_vol']= $target[15];
-			$iptdata['SL_nii']= $target[16];
-			$iptdata['SL_fbi']= $target[17];
-			$iptdata['FX_vol']= $target[18];
-			$iptdata['FX_fbi']= $target[19];
-			$iptdata['SCF_vol']= $target[20]; //salah
-			$iptdata['SCF_fbi']= $target[21]; //salah
-			$iptdata['Trade_vol']= $target[22];
-			$iptdata['Trade_fbi']= $target[23];//salah
-			$iptdata['PWE_vol']= $target[24];
-			$iptdata['PWE_fbi']= $target[25];
-			$iptdata['TR_vol']= $target[26];
-			$iptdata['TR_nii']= $target[27];
-			$iptdata['BG_vol']= $target[28];
-			$iptdata['BG_fbi']= $target[29];
-			$iptdata['OIR_vol']= $target[30];
-			$iptdata['OIR_fbi']= $target[31];
-			$iptdata['OW_vol']= $target[32];
-			$iptdata['OW_nii']= $target[33];
-			$iptdata['OW_fbi']= $target[34];
-			$iptdata['ECM_vol']= $target[35];
-			$iptdata['ECM_fbi']= $target[36];
-			$iptdata['DCM_vol']= $target[37];
-			$iptdata['DCM_fbi']= $target[38];
-			$iptdata['MA_vol']= $target[39];
-			$iptdata['MA_fbi']= $target[40];
-			
-			$iptdata['year']= $year;
-			$iptdata['anchor_id']= $anchor_id;
-			
-			$this->manchor->insert_ws($iptdata, $kind);
-			//echo $anchor_id.' = '.$target[4].'; ddd = '.$iptdata['CASA_vol'].'<br>';
-    	}
-    }
-    
-    public function input_alliance(){
-    	$kind = $this->uri->segment(3);
-    	$year = $this->uri->segment(4);
-    	$month = '';
-    	if($kind == 'realization'){$month = $this->uri->segment(5); $iptdata['month']= $month;}
-    	$arr_target = $this->get_excel('datadashboard/corporate/daftar_'.$kind.'_al_'.$year.$month.'.xlsx');
-    	foreach($arr_target as $target){
-    		
-			$anchor_id = $this->manchor->get_anchor_id($target[0],$target[1]);
-			
-			$iptdata['WM_vol']= $target[4];
-			$iptdata['WM_nii']= $target[5];
-			$iptdata['DPLK_vol']= $target[6];
-			$iptdata['DPLK_fbi']= $target[7];
-			$iptdata['PCD_vol']= $target[8];
-			$iptdata['PCD_nii']= $target[9];
-			$iptdata['VCCD_vol']= $target[10];
-			$iptdata['VCCD_nii']= $target[11];
-			$iptdata['VCCD_fbi']= $target[12];
-			$iptdata['VCL_vol']= $target[13];
-			$iptdata['VCL_nii']= $target[14];
-			$iptdata['VCL_fbi']= $target[15];
-			$iptdata['VCLnDF_vol']= $target[16];
-			$iptdata['VCLnDF_nii']= $target[17];
-			$iptdata['VCLnDF_fbi']= $target[18];
-			$iptdata['Micro_Loan_vol']= $target[19];
-			$iptdata['Micro_Loan_nii']= $target[20];
-			$iptdata['Micro_Loan_fbi']= $target[21];
-			$iptdata['MKM_vol']= $target[22];
-			$iptdata['MKM_nii']= $target[23];
-			$iptdata['KPR_vol']= $target[24];
-			$iptdata['KPR_nii']= $target[25];
-			$iptdata['Auto_vol']= $target[26];
-			$iptdata['Auto_nii']= $target[27];
-			$iptdata['CC_vol']= $target[28];
-			$iptdata['CC_nii']= $target[29];
-			$iptdata['EDC_vol']= $target[30];
-			$iptdata['EDC_fbi']= $target[31];
-			$iptdata['ATM_vol']= $target[32];
-			$iptdata['ATM_fbi']= $target[33];
-			$iptdata['AXA_vol']= $target[34];
-			$iptdata['AXA_fbi']= $target[35];
-			$iptdata['MAGI_vol']= $target[36];
-			$iptdata['MAGI_fbi']= $target[37];
-			$iptdata['retail_vol']= $target[38];
-			$iptdata['retail_fbi']= $target[39];
-			$iptdata['cicil_Emas_vol']= $target[40];
-			$iptdata['cicil_Emas_fbi']= $target[41];
-			$iptdata['OA_vol']= $target[42];
-			$iptdata['OA_nii']= $target[43];
-			$iptdata['OA_fbi']= $target[44];
-			
-			$iptdata['year']= $year;
-			$iptdata['anchor_id']= $anchor_id;
-			
-			$this->manchor->insert_al($iptdata, $kind);
-			//echo $anchor_id.' = '.$target[4].'; ddd = '.$iptdata['CASA_vol'].'<br>';
-    	}
-    }*/
-    
-    public function input_detail(){
-    	$year = $this->uri->segment(3);
-    	$month = $this->uri->segment(4);
+    private function input_detail($year, $month){
     	$arr_target = $this->get_excel('datadashboard/detail_realization/'.$year.'/detail_realization_'.$year.$month.'.xlsx',"detail");
     	foreach($arr_target as $target){
     		$anchor_id = $this->manchor->get_anchor_id($target[0],$target[1]);
@@ -296,12 +116,10 @@ class Anchor extends CI_Controller {
     	}
     }
     
-    public function input_ws_al(){
-    	$kind = $this->uri->segment(3);
-    	$year = $this->uri->segment(4); $iter=1;
+    private function input_ws_al($kind, $year, $month){
+    	$iter=1;
     	$month = ''; $year_fldr = '';
     	if($kind == 'realization'){
-    		$month = $this->uri->segment(5); 
     		$year_fldr= $year."/"; 
     		$iptdata['month']= $month; 
     		$iptdata2['month']= $month;
