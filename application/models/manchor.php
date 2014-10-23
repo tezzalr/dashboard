@@ -235,13 +235,18 @@ class Manchor extends CI_Model {
     	$this->db->where('year',$year);
     	$this->db->delete('detail_realization');
     }
-    function delete_ws_al($type,$year,$month){
+    function delete_ws($type,$year,$month){
+    	if($type=="realization"){
+    		$this->db->where('month',$month);
+    	}
+    	$this->db->where('year',$year);
+    	$this->db->delete('wholesale_'.$type);
+    }
+    function delete_al($type,$year,$month){
     	if($type=="realization"){
     		$this->db->where('month',$month);
     	}
     	$this->db->where('year',$year);
     	$this->db->delete('alliance_'.$type);
-    	$this->db->delete('wholesale_'.$type);
-    	
     }
 }
