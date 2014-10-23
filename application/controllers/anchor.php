@@ -72,9 +72,9 @@ class Anchor extends CI_Controller {
     		$this->input_detail($year,$month);
     	}
     	else{
-    		$this->manchor->delete_ws_al($filetype,$year,$month);
-    		$this->input_ws($filetype,$year,$month);
-    		$this->input_al($filetype,$year,$month);
+    		$this->manchor->delete_ws($filetype,$year,$month);
+    		$this->manchor->delete_al($filetype,$year,$month);
+    		$this->input_ws_al($filetype,$year,$month);
     	}
     	redirect('anchor');
     	
