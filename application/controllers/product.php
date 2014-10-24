@@ -121,7 +121,7 @@ class Product extends CI_Controller {
 			$data_xsell['wal'] = $this->mwallet->get_anchor_ws_wallet($anchor->id, date('Y'));		
     		$data_xsell['rlz'] = $this->mrealization->count_realization_value($rlz, $month);
     		$data_xsell['sow'] = $this->mwallet->get_sow($data_xsell['wal'], $data_xsell['rlz'], 'wholesale');
-    		if($data_xsell['sow'][31]>100){$data_xsell['sow'][31]=1;}
+    		if($data_xsell['sow'][31]>100){$data_xsell['sow'][31]=100;}
     		if(!$data_xsell['sow'][31]){$casa_xsell=1;}
     		else{$casa_xsell = $data_xsell['sow'][1]/$data_xsell['sow'][31];}
     		if($casa_xsell<1){
