@@ -25,14 +25,14 @@
 							<tr>
 								<td><?php echo $i?></td>
 								<td><?php echo $anchor['anchor']->name?></td>
-								<td><?php echo number_format($anchor['wallet'],0,',','.')?></td>
-								<td><?php echo number_format($anchor['rlz'],0,',','.')?></td>
-								<td><?php echo number_format($anchor['sow_casa'],0,',','.')?> %</td>
-								<!--<td><?php echo number_format($anchor['sow_loan'],0,',','.')?> %</td>
-								<td><?php echo number_format($anchor['casa_xsell'],2,',','.')?></td>-->
-								<td style="background-color:#34aadc"><?php echo number_format($min_casa,0,',','.')?></td>
-								<td style="background-color:#34aadc"><?php echo number_format($casa_to_be,0,',','.')?></td>
-								<td style="background-color:#34aadc"><?php echo number_format(30,0,',','.')?> %</td>
+								<td><?php echo number_format($anchor['wallet'],0,'.',',')?></td>
+								<td><?php echo number_format($anchor['rlz'],0,'.',',')?></td>
+								<td><?php echo number_format($anchor['sow_casa'],0,'.',',')?> %</td>
+								<!--<td><?php echo number_format($anchor['sow_loan'],0,'.',',')?> %</td>
+								<td><?php echo number_format($anchor['casa_xsell'],2,'.',',')?></td>-->
+								<td style="background-color:#34aadc"><?php echo number_format($min_casa,0,'.',',')?></td>
+								<td style="background-color:#34aadc"><?php echo number_format($casa_to_be,0,'.',',')?></td>
+								<td style="background-color:#34aadc"><?php echo number_format(30,0,'.',',')?> %</td>
 							</tr>
 						<?php
 								
@@ -45,13 +45,13 @@
 						 <tr style="background-color:yellow">
 							 <td></td>
 							 <td><b>Sub-total</b></td>
-							 <td><?php echo number_format($wlttot,0,',','.')?></td>
-							 <td><?php echo number_format($castot,0,',','.')?></td>
-							 <td><?php echo number_format($castot/$wlttot*100,0,',','.')?> %</td>
+							 <td><?php echo number_format($wlttot,0,'.',',')?></td>
+							 <td><?php echo number_format($castot,0,'.',',')?></td>
+							 <td><?php echo number_format($castot/$wlttot*100,0,'.',',')?> %</td>
 							 
-							 <td><?php echo number_format($min_casatot,0,',','.')?></td>
-							 <td><?php echo number_format($casa_tbtot,0,',','.')?></td>
-							 <td><?php echo number_format($casa_tbtot/$wlttot*100,0,',','.')?> %</td>
+							 <td><?php echo number_format($min_casatot,0,'.',',')?></td>
+							 <td><?php echo number_format($casa_tbtot,0,'.',',')?></td>
+							 <td><?php echo number_format($casa_tbtot/$wlttot*100,0,'.',',')?> %</td>
 						 </tr>
 						</tbody>
 					</table>
