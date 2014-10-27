@@ -20,7 +20,8 @@
 						</tr></thead><tbody>
 						<?php $i=1; $wlttot = 0; $castot = 0; $casa_tbtot = 0; $min_casatot = 0; $wltloantot = 0; $loantot = 0;
 							foreach($anchors as $anchor){ 
-								$casa_to_be = $anchor['sow_loan']/100*$anchor['wallet_casa'];
+								//$casa_to_be = $anchor['sow_loan']/100*$anchor['wallet_casa'];
+								$casa_to_be = $anchor['rlz_loan']*0.1;
 								$min_casa = $casa_to_be-$anchor['rlz_casa'];
 							?>
 							<tr>
@@ -47,7 +48,7 @@
 								$min_casatot = $min_casatot+$min_casa;
 								$i++;
 						 	}?>
-						 <tr style="background-color:yellow; font-size:16px;">
+						 <tr style="background-color:yellow; font-size:14px;">
 							 <td></td>
 							 <td><b>Sub-total</b></td>
 							 <td><?php echo number_format($wlttot,0,'.',',')?></td>

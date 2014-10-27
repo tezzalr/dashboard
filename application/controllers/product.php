@@ -121,15 +121,19 @@ class Product extends CI_Controller {
 			$data_xsell['wal'] = $this->mwallet->get_anchor_ws_wallet($anchor->id, date('Y'));		
     		$data_xsell['rlz'] = $this->mrealization->count_realization_value($rlz, $month);
     		$data_xsell['sow'] = $this->mwallet->get_sow($data_xsell['wal'], $data_xsell['rlz'], 'wholesale');
+    		
+    		$real_loan = $data_xsell['rlz']['WCL_vol']+$data_xsell['rlz']['IL_vol']+$data_xsell['rlz']['SL_vol'];
+    		
     		if($data_xsell['sow'][31]>100){$data_xsell['sow'][31]=100;}
     		if(!$data_xsell['sow'][31]){$casa_xsell=1;}
     		else{$casa_xsell = $data_xsell['sow'][1]/$data_xsell['sow'][31];}
-    		if($casa_xsell<1){
+    		//if($casa_xsell<1){
+    		if($real_loan && ($data_xsell['rlz']['CASA_vol']/$real_loan)< 0.1){
     			$anc_xsll[$i]['anchor'] = $anchor;
     			$anc_xsll[$i]['wallet_casa'] = $data_xsell['wal']->CASA_vol;
     			$anc_xsll[$i]['rlz_casa'] = $data_xsell['rlz']['CASA_vol'];
     			$anc_xsll[$i]['wallet_loan'] = $data_xsell['wal']->WCL_vol+$data_xsell['wal']->SL_vol+$data_xsell['wal']->IL_vol;
-    			$anc_xsll[$i]['rlz_loan'] = $data_xsell['rlz']['WCL_vol']+$data_xsell['rlz']['IL_vol']+$data_xsell['rlz']['SL_vol'];
+    			$anc_xsll[$i]['rlz_loan'] = $real_loan;
     			$anc_xsll[$i]['sow_casa'] = $data_xsell['sow'][1];
     			$anc_xsll[$i]['sow_loan'] = $data_xsell['sow'][31];
     			$anc_xsll[$i]['casa_xsell'] = $casa_xsell;

@@ -49,7 +49,7 @@
 								$min_casatot = $min_casatot+$min_casa;
 								$i++;
 						 	}?>
-						 <tr style="background-color:yellow">
+						 <tr style="background-color:yellow; font-size:14px;">
 							 <td></td>
 							 <td><b>Sub-total</b></td>
 							 <td><?php echo number_format($wlttot,0,'.',',')?></td>
