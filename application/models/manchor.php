@@ -249,4 +249,11 @@ class Manchor extends CI_Model {
     	$this->db->where('year',$year);
     	$this->db->delete('alliance_'.$type);
     }
+    
+    //UPDATE FUNCTION
+    
+    function update_anchor($anchor, $id){
+        $this->db->where('id',$id);
+        return $this->db->update('anchor', $anchor);
+    }
 }
