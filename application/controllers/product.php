@@ -160,8 +160,10 @@ class Product extends CI_Controller {
     		else{$casa_xsell = $data_xsell['sow'][1]/$data_xsell['sow'][31];}
     		if($data_xsell['sow'][1]<30 && $casa_xsell>1){
     			$anc_xsll[$i]['anchor'] = $anchor;
-    			$anc_xsll[$i]['wallet'] = $data_xsell['wal']->CASA_vol;
-    			$anc_xsll[$i]['rlz'] = $data_xsell['rlz']['CASA_vol'];
+    			$anc_xsll[$i]['wallet_casa'] = $data_xsell['wal']->CASA_vol;
+    			$anc_xsll[$i]['rlz_casa'] = $data_xsell['rlz']['CASA_vol'];
+    			$anc_xsll[$i]['wallet_loan'] = $data_xsell['wal']->WCL_vol+$data_xsell['wal']->SL_vol+$data_xsell['wal']->IL_vol;
+    			$anc_xsll[$i]['rlz_loan'] = $data_xsell['rlz']['WCL_vol']+$data_xsell['rlz']['IL_vol']+$data_xsell['rlz']['SL_vol'];
     			$anc_xsll[$i]['sow_casa'] = $data_xsell['sow'][1];
     			$anc_xsll[$i]['sow_loan'] = $data_xsell['sow'][31];
     			$anc_xsll[$i]['casa_xsell'] = $casa_xsell;
