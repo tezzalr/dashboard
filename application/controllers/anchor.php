@@ -438,6 +438,7 @@ class Anchor extends CI_Controller {
 			}
 			$anchor['gas'] = $arrres[$row][1];
 			$anchor['bank_comp'] = $arrres[$row][2];
+			$anchor['srt_name'] = $arrres[$row][3];
 			$anchor_id = $this->manchor->get_anchor_id($arrres[$row][0],"");
 			
 			$this->manchor->update_anchor($anchor, $anchor_id);

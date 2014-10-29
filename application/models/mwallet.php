@@ -81,11 +81,31 @@ class Mwallet extends CI_Model {
     			if(!$wallet->$wlt_inc){$arr_sow[$i]=100;}
     			else{$arr_sow[$i]=$realization[$this->return_prod_name($i-15)."_inc"]/$wallet->$wlt_inc*100;}	
     		}
-    		$loan_wlt = $wallet->IL_vol+$wallet->WCL_vol+$wallet->SL_vol;
-    		$loan_rlz = $realization['IL_vol']+$realization['SL_vol']+$realization['WCL_vol'];
-    		if($loan_wlt){
-    			$arr_sow[31] = ($loan_rlz)/($loan_wlt)*100;
-    		}else{$arr_sow[31] = $arr_sow[1];}
+    		$loan_vol_wlt = $wallet->IL_vol+$wallet->WCL_vol+$wallet->TR_vol;
+    		$loan_vol_rlz = $realization['IL_vol']+$realization['WCL_vol']+$realization['TR_vol'];
+    		$loan_inc_wlt = $wallet->IL_nii+$wallet->WCL_nii+$wallet->TR_nii;
+    		$loan_inc_rlz = $realization['IL_inc']+$realization['WCL_inc']+$realization['TR_inc'];
+    		
+    		$trx_vol_wlt = $wallet->CASA_vol+$wallet->FX_vol+$wallet->Trade_vol+$wallet->BG_vol+$wallet->OIR_vol;
+    		$trx_vol_rlz = $realization['CASA_vol']+$realization['FX_vol']+$realization['Trade_vol']+$realization['BG_vol']+$realization['OIR_vol'];
+    		$trx_inc_wlt = $wallet->CASA_nii+$wallet->FX_fbi+$wallet->Trade_fbi+$wallet->BG_fbi+$wallet->OIR_fbi;
+    		$trx_inc_rlz = $realization['CASA_inc']+$realization['FX_inc']+$realization['Trade_inc']+$realization['BG_inc']+$realization['OIR_inc'];
+    		
+    		if($loan_vol_wlt){
+    			$arr_sow[31] = ($loan_vol_rlz)/($loan_vol_wlt)*100;
+    		}else{$arr_sow[31] = 0;}
+    		
+    		if($loan_inc_wlt){
+    			$arr_sow[32] = ($loan_inc_rlz)/($loan_inc_wlt)*100;
+    		}else{$arr_sow[32] = 0;}
+    		
+    		if($trx_vol_wlt){
+    			$arr_sow[33] = ($trx_vol_rlz)/($trx_vol_wlt)*100;
+    		}else{$arr_sow[33] = 0;}
+    		
+    		if($trx_inc_wlt){
+    			$arr_sow[34] = ($trx_inc_rlz)/($trx_inc_wlt)*100;
+    		}else{$arr_sow[34] = 0;}
     		
     	}
     	return $arr_sow;

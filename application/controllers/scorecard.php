@@ -13,168 +13,66 @@ class Scorecard extends CI_Controller {
     /**
      * Method for page (public)
      */
-    public function index()
-    {
-
-		$data['title'] = "Bankwide";
+    public function show(){
+		$data['title'] = "Scorecard";
 		
-		$data['header'] = $this->load->view('shared/header','',TRUE);	
-		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-		$data['content'] = $this->load->view('bankwide/index',array(),TRUE);
-
-		$this->load->view('front',$data);
-        
-    }
-    
-    public function product(){
-    	$data['title'] = "Product";
+		$sc = array(); $i=0; 
+		$real = array();
+		$p1=0; $p2=0; $p3=0; $g1=0; $g2=0; $g3=0; $s1=0; $s2=0; $s3=0;
+		$month = $this->session->userdata('rptmth');
+		//$arrsc = array('platinum','gold','silver');
 		
-		$data['header'] = $this->load->view('shared/header','',TRUE);	
-		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-		$data['content'] = $this->load->view('bankwide/product',array(),TRUE);
-
-		$this->load->view('front',$data);
-    }
-    
-    public function top_transaksi(){
-    	$data['title'] = "Top Anchor Product";
-    	$product = $this->uri->segment(3);
-    	$year = date('Y');
-    	$month = $this->session->userdata('rptmth');
-    	$total_prd = $this->manchor->get_total_vol_prd($product, $month, $year, 'wholesale_realization','');
-    	$top_anchor_vol = $this->manchor->get_top_anchor_prd($product, $month, $year);
-    	$top_anchor_nom_grow = $this->manchor->get_top_anchor_prd_nml_grw($product, $month, $year, 12, 'desc');
-    	$top_anchor_nom_grow_min = $this->manchor->get_top_anchor_prd_nml_grw($product, $month, $year, 12, 'asc');
-    	$top_anchor_nom_grow_tm = $this->manchor->get_top_anchor_prd_nml_grw($product, $month, $year, $month, 'desc');
-    	$top_anchor_nom_grow_tm_min = $this->manchor->get_top_anchor_prd_nml_grw($product, $month, $year, $month, 'asc');
-    	$top_anchor_grow = $this->manchor->get_top_anchor_prd_grw($product, $month, $year, 12, 'desc');
-    	$top_anchor_grow_min = $this->manchor->get_top_anchor_prd_grw($product, $month, $year, 12, 'asc');
-    	$top_anchor_grow_tm = $this->manchor->get_top_anchor_prd_grw($product, $month, $year, $month, 'desc');
-    	$top_anchor_grow_tm_min = $this->manchor->get_top_anchor_prd_grw($product, $month, $year, $month, 'asc');
-    	
-    	$top_anchor['nom_grow'] = $this->manchor->get_top_anchor_prd_nml_grw($product, $month, $year, 12, 'desc');
-    	$top_anchor['nom_grow_min'] = $this->manchor->get_top_anchor_prd_nml_grw($product, $month, $year, 12, 'asc');
-    	$top_anchor['grow'] = $this->manchor->get_top_anchor_prd_grw($product, $month, $year, 12, 'desc');
-    	$top_anchor['grow_min'] = $this->manchor->get_top_anchor_prd_grw($product, $month, $year, 12, 'asc');
-    	
-    	$growth_tab = $this->load->view('product/_growth',array('asu' => 'ytd','top_anchor' => $top_anchor, 'product' => $product, 'month' => $month,'total_prd' => $total_prd),TRUE);
-    	
-    	$prd_name = $this->manchor->get_product_name_by_inisial($product);
-    	
-    	$arr_prod = array(); 
-    	for($i=1;$i<=15;$i++){
-    		$arr_prod[$i]['id'] = $this->mwallet->return_prod_name($i);
-    		$arr_prod[$i]['name'] = $this->mwallet->change_real_name($arr_prod[$i]['id']);
-    	}
-		
-		$data['header'] = $this->load->view('shared/header','',TRUE);	
-		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-		$data['content'] = $this->load->view('product/top_transaksi',array('asu' => 'ytd', 'growth_tab' => $growth_tab, 'arr_prod' => $arr_prod, 'month' => $month, 'top_anchor_vol' => $top_anchor_vol, 'product' => $product, 'total_prd' => $total_prd, 'prd_name' => $prd_name),TRUE);
-
-		$this->load->view('front',$data);
-    }
-    
-    public function refresh_top(){
-    	$prod = $this->input->post('product');
-    	
-    	redirect('product/top_transaksi/'.$prod);
-    }
-    
-    public function change_growth_table(){
-    	$product = $this->input->get('prod');
-    	$type = $this->input->get('type');
-    	
-    	$year = date('Y');
-    	$month = $this->session->userdata('rptmth');
-    	
-    	if($type == 'ytd'){$month_ly = 12;}
-    	else{$month_ly = $month;}
-    	
-    	$top_anchor['nom_grow'] = $this->manchor->get_top_anchor_prd_nml_grw($product, $month, $year, $month_ly, 'desc');
-		$top_anchor['nom_grow_min'] = $this->manchor->get_top_anchor_prd_nml_grw($product, $month, $year, $month_ly, 'asc');
-		$top_anchor['grow'] = $this->manchor->get_top_anchor_prd_grw($product, $month, $year, $month_ly, 'desc');
-		$top_anchor['grow_min'] = $this->manchor->get_top_anchor_prd_grw($product, $month, $year, $month_ly, 'asc');
-		$total_prd = $this->manchor->get_total_vol_prd($product, $month, $year, 'wholesale_realization','');
-        
-		if($top_anchor['nom_grow'] && $top_anchor['grow']){
-			$json['status'] = 1;
-    		$growth_tab = $this->load->view('product/_growth',array('top_anchor' => $top_anchor, 'product' => $product, 'month' => $month,'total_prd' => $total_prd, 'asu' => $type),TRUE);
-			$json['html'] = $growth_tab;
-			$json['type'] = $type;
-			if($type == 'ytd'){$json['rev'] = 'tm';}else{$json['rev'] = 'ytd';}
-		}else{
-			$json['status'] = 0;
+		$anchors = $this->manchor->get_anchor_sc();
+		foreach($anchors as $anchor){
+			$rlz_raw = $this->mrealization->get_anchor_ws_realization($anchor->id, date('Y'));
+			$wallet = $this->mwallet->get_anchor_ws_wallet($anchor->id, date('Y'));		
+    		$rlz = $this->mrealization->count_realization_value($rlz_raw, $month);
+    		$sow = $this->mwallet->get_sow($wallet, $rlz, 'wholesale');
+    		
+			$sc[$i]['anchor'] = $anchor;
+			$sc[$i]['wal'] = $this->mwallet->get_anchor_total_wallet($anchor->id, date('Y'));
+			$sc[$i]['inc'] = $this->mrealization->get_anchor_total_income($anchor->id, date('Y'));
+			$sc[$i]['sow'] = $sc[$i]['inc']['ws']/$sc[$i]['wal']['ws'];
+			if($sow[32]){
+				$sc[$i]['trx'] = $sow[34]/$sow[32];
+			}else{$sc[$i]['trx'] = 0;}
+			if($rlz['IL_vol']+$rlz['WCL_vol']+$rlz['SL_vol']){
+				$sc[$i]['casx'] = $rlz['CASA_vol']/($rlz['IL_vol']+$rlz['WCL_vol']+$rlz['SL_vol']);
+			}else{$sc[$i]['casx'] = 0;}
+			$i++;
 		}
-		$this->output->set_content_type('application/json')
-                     ->set_output(json_encode($json));
-    }
-    
-    public function casa_xsell(){
-    	$data['title'] = "Product";
-    	$dir = $this->uri->segment(3);
-    	$anc_xsll = array(); $i=0;
-    	$month = $this->session->userdata('rptmth');
-    	
-    	$anchors = $this->manchor->get_anchor_by_direktorat($dir);
-    	foreach($anchors as $anchor){
-    		$rlz = $this->mrealization->get_anchor_ws_realization($anchor->id, date('Y'));
-			$data_xsell['wal'] = $this->mwallet->get_anchor_ws_wallet($anchor->id, date('Y'));		
-    		$data_xsell['rlz'] = $this->mrealization->count_realization_value($rlz, $month);
-    		$data_xsell['sow'] = $this->mwallet->get_sow($data_xsell['wal'], $data_xsell['rlz'], 'wholesale');
-    		if($data_xsell['sow'][31]>100){$data_xsell['sow'][31]=100;}
-    		if(!$data_xsell['sow'][31]){$casa_xsell=1;}
-    		else{$casa_xsell = $data_xsell['sow'][1]/$data_xsell['sow'][31];}
-    		if($casa_xsell<1){
-    			$anc_xsll[$i]['anchor'] = $anchor;
-    			$anc_xsll[$i]['wallet_casa'] = $data_xsell['wal']->CASA_vol;
-    			$anc_xsll[$i]['rlz_casa'] = $data_xsell['rlz']['CASA_vol'];
-    			$anc_xsll[$i]['wallet_loan'] = $data_xsell['wal']->WCL_vol+$data_xsell['wal']->SL_vol+$data_xsell['wal']->IL_vol;
-    			$anc_xsll[$i]['rlz_loan'] = $data_xsell['rlz']['WCL_vol']+$data_xsell['rlz']['IL_vol']+$data_xsell['rlz']['SL_vol'];
-    			$anc_xsll[$i]['sow_casa'] = $data_xsell['sow'][1];
-    			$anc_xsll[$i]['sow_loan'] = $data_xsell['sow'][31];
-    			$anc_xsll[$i]['casa_xsell'] = $casa_xsell;
-    			$i++;
-    		}	
-    	}
+		
+		foreach($sc as $each){
+			if($each['sow']<=0.1 || $each['trx']<=0.5 || $each['casx']<=0.05){
+				$ring = 3;
+			}
+			elseif(($each['sow']>0.1 && $each['sow']<=0.3) || ($each['trx']>0.5 && $each['trx']<=1) || ($each['casx']>0.05 && $each['casx']<=0.1)){
+				$ring = 2;
+			}else{
+				$ring = 1;
+			}
+			if($each['anchor']->gas >20000){
+				if($ring==1){$x=$p1;}elseif($ring==2){$x=$p2;}else{$x=$p3;}
+				$arrsc['platinum'][$ring][$x] = $each;
+				if($ring==1){$p1++;}elseif($ring==2){$p2++;}else{$p3++;}
+			}
+			elseif($each['anchor']->gas < 20000 && $each['anchor']->gas > 5000){
+				if($ring==1){$x=$g1;}elseif($ring==2){$x=$g2;}else{$x=$g3;}
+				$arrsc['gold'][$ring][$x] = $each;
+				if($ring==1){$g1++;}elseif($ring==2){$g2++;}else{$g3++;}
+			}
+			elseif($each['anchor']->gas < 5000){
+				if($ring==1){$x=$s1;}elseif($ring==2){$x=$s2;}else{$x=$s3;}
+				$arrsc['silver'][$ring][$x] = $each;
+				if($ring==1){$s1++;}elseif($ring==2){$s2++;}else{$s3++;}
+			}
+		}
 		
 		$data['header'] = $this->load->view('shared/header','',TRUE);	
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-		$data['content'] = $this->load->view('product/casa_xsell',array('anchors' => $anc_xsll,'month' => $month),TRUE);
+		$data['content'] = $this->load->view('scorecard/scorecard_table',array('scs'=>$arrsc),TRUE);
 
 		$this->load->view('front',$data);
-    }
-    
-    public function casa_sow(){
-    	$data['title'] = "Product";
-    	$dir = $this->uri->segment(3);
-    	$anc_xsll = array(); $i=0;
-    	$month = $this->session->userdata('rptmth');
-    	
-    	$anchors = $this->manchor->get_anchor_by_direktorat($dir);
-    	foreach($anchors as $anchor){
-    		$rlz = $this->mrealization->get_anchor_ws_realization($anchor->id, date('Y'));
-			$data_xsell['wal'] = $this->mwallet->get_anchor_ws_wallet($anchor->id, date('Y'));		
-    		$data_xsell['rlz'] = $this->mrealization->count_realization_value($rlz, $month);
-    		$data_xsell['sow'] = $this->mwallet->get_sow($data_xsell['wal'], $data_xsell['rlz'], 'wholesale');
-    		if(!$data_xsell['sow'][31]){$casa_xsell=1;}
-    		else{$casa_xsell = $data_xsell['sow'][1]/$data_xsell['sow'][31];}
-    		if($data_xsell['sow'][1]<30 && $casa_xsell>1){
-    			$anc_xsll[$i]['anchor'] = $anchor;
-    			$anc_xsll[$i]['wallet_casa'] = $data_xsell['wal']->CASA_vol;
-    			$anc_xsll[$i]['rlz_casa'] = $data_xsell['rlz']['CASA_vol'];
-    			$anc_xsll[$i]['wallet_loan'] = $data_xsell['wal']->WCL_vol+$data_xsell['wal']->SL_vol+$data_xsell['wal']->IL_vol;
-    			$anc_xsll[$i]['rlz_loan'] = $data_xsell['rlz']['WCL_vol']+$data_xsell['rlz']['IL_vol']+$data_xsell['rlz']['SL_vol'];
-    			$anc_xsll[$i]['sow_casa'] = $data_xsell['sow'][1];
-    			$anc_xsll[$i]['sow_loan'] = $data_xsell['sow'][31];
-    			$anc_xsll[$i]['casa_xsell'] = $casa_xsell;
-    			$i++;
-    		}	
-    	}
-		
-		$data['header'] = $this->load->view('shared/header','',TRUE);	
-		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-		$data['content'] = $this->load->view('product/casa_sow',array('anchors' => $anc_xsll,'month' => $month),TRUE);
-
-		$this->load->view('front',$data);
+        
     }
 }

@@ -8,7 +8,7 @@
                 type: 'line'
             },
             title: {
-                text: 'Pertumbuhan <?php echo $this->uri->segment(5)?> <?php echo $product_name?> <?php $date = date("Y"); echo $date-1?> & <?php echo $date?>'
+                text: 'Pertumbuhan <?php echo $this->uri->segment(6)?> <?php echo $product_name?> <?php $date = date("Y"); echo $date-1?> & <?php echo $date?>'
             },
             xAxis: {
                 categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']

@@ -51,6 +51,20 @@ class Manchor extends CI_Model {
     //GET FUNCTION
     
     /*Anchor Function*/
+    function get_anchor_sc(){
+		$this->db->where('group', 'CORPORATE BANKING AGRO BASED');
+		$this->db->or_where('group', 'CORPORATE BANKING I');
+		$this->db->or_where('group', 'CORPORATE BANKING II');
+		$this->db->or_where('group', 'CORPORATE BANKING III');
+		$this->db->or_where('group', 'SYNDICATION, OIL & GAS');
+		$this->db->or_where('group', 'INSTITUTIONAL BANKING I');
+		$this->db->or_where('group', 'INSTITUTIONAL BANKING II');
+    	$this->db->order_by('gas','desc');
+    	//$this->db->order_by('name','asc');
+    	$result = $this->db->get('anchor');
+    	return $result->result();
+    }
+    
     function get_anchor_id($name,$group){
     	$this->db->where('name',$name);
     	//$this->db->where('group',$group);
@@ -90,6 +104,15 @@ class Manchor extends CI_Model {
     		$this->db->where('group', 'JAKARTA COMMERCIAL SALES');
     		$this->db->or_where('group', 'REGIONAL COMMERCIAL SALES I');
     		$this->db->or_where('group', 'REGIONAL COMMERCIAL SALES II');
+    	}
+    	elseif($direktorat == 'CBIB'){
+    		$this->db->where('group', 'CORPORATE BANKING AGRO BASED');
+    		$this->db->or_where('group', 'CORPORATE BANKING I');
+    		$this->db->or_where('group', 'CORPORATE BANKING II');
+    		$this->db->or_where('group', 'CORPORATE BANKING III');
+    		$this->db->or_where('group', 'SYNDICATION, OIL & GAS');
+    		$this->db->or_where('group', 'INSTITUTIONAL BANKING I');
+    		$this->db->or_where('group', 'INSTITUTIONAL BANKING II');
     	}
     	$this->db->order_by('group','asc');
     	$this->db->order_by('name','asc');
@@ -229,6 +252,8 @@ class Manchor extends CI_Model {
     	$query = $result->result();
     	if($query){return $query[0]->group;}
     }
+    
+    //DELETE FUNCTION
     
     function delete_detail($year,$month){
     	$this->db->where('month',$month);

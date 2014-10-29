@@ -127,8 +127,8 @@ class Product extends CI_Controller {
     		if($data_xsell['sow'][31]>100){$data_xsell['sow'][31]=100;}
     		if(!$data_xsell['sow'][31]){$casa_xsell=1;}
     		else{$casa_xsell = $data_xsell['sow'][1]/$data_xsell['sow'][31];}
-    		//if($casa_xsell<1){
-    		if($real_loan && ($data_xsell['rlz']['CASA_vol']/$real_loan)< 0.1){
+    		if($casa_xsell<1){
+    		//if($real_loan && ($data_xsell['rlz']['CASA_vol']/$real_loan)< 0.1){
     			$anc_xsll[$i]['anchor'] = $anchor;
     			$anc_xsll[$i]['wallet_casa'] = $data_xsell['wal']->CASA_vol;
     			$anc_xsll[$i]['rlz_casa'] = $data_xsell['rlz']['CASA_vol'];
