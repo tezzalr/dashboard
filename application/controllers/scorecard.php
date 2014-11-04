@@ -35,10 +35,10 @@ class Scorecard extends CI_Controller {
 			$sc[$i]['sow'] = $sc[$i]['inc']['ws']/$sc[$i]['wal']['ws'];
 			if($sow[32]){
 				$sc[$i]['trx'] = $sow[34]/$sow[32];
-			}else{$sc[$i]['trx'] = 0;}
+			}else{$sc[$i]['trx'] = 10;}
 			if($rlz['IL_vol']+$rlz['WCL_vol']+$rlz['SL_vol']){
 				$sc[$i]['casx'] = $rlz['CASA_vol']/($rlz['IL_vol']+$rlz['WCL_vol']+$rlz['SL_vol']);
-			}else{$sc[$i]['casx'] = 0;}
+			}else{$sc[$i]['casx'] = 10;}
 			$i++;
 		}
 		
