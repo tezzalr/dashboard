@@ -109,7 +109,7 @@
 <div id="" class="container no_pad">
 	<?php echo $header?>
 	<div>
-		<a href="<?php echo base_url()?>report/trans_xsell/<?php echo $info_page['type'];?>/<?php echo $info_page['id'];?>"><span style="float:right">Transaction Cross Sell --></span></a>
+		<a href="<?php echo base_url()?>report/alliance_income/<?php echo $info_page['type'];?>/<?php echo $info_page['id'];?>"><span style="float:right">Alliance Income --></span></a>
 		<h2>Komposisi Wholesale Income</h2>
 		<h4 style="color:grey;">Komposisi Income Loan : Non Loan adalah <?php echo number_format($loan_pct_ly,1)." % : ".number_format($nonloan_pct_ly,1)." % (2013)";?> menjadi <?php echo number_format($loan_pct_ty,1)." % : ".number_format($nonloan_pct_ty,1)." % (2014)";?>
 		</h4><br><br>

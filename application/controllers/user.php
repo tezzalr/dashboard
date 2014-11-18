@@ -65,9 +65,9 @@ class User extends CI_Controller {
             );
             $this->session->set_userdata('userdb',$data);
             if($user->role == "admin"){
-                redirect('update/activity_wall');
+                redirect('anchor');
             }elseif($user->role == "cmt"){
-                redirect('update/activity_wall');
+                redirect('anchor');
             }elseif($user->role == "rm"){
             	redirect('anchor');
             }

@@ -3,13 +3,13 @@
 ?>
 <style>
 	.header_top a{
-		color:white;
+		color:#0B0A51;
 	}
 	.header_top a:hover{
 		color:white;
 	}
 </style>
-<div style="width:100%; background-color:black; color:white; padding-left:60px; height:30px; padding-top:5px;">
+<div style="width:100%; background-color:#D4D5D9; padding-left:60px; height:30px; padding-top:5px;">
 	<div class="header_top" style="float:left; margin-right:20px;"><a href="<?php echo base_url()?>anchor">Anchor</a></div>
 	<div class="header_top" style="float:left; margin-right:20px;"><a href="<?php echo base_url()?>product/top_transaksi/CASA">Produk</a></div>
 	<div class="header_top" style="float:left; margin-right:20px;"><a href="<?php echo base_url()?>monthly/share_anchor">Monthly Report</a></div>
@@ -35,7 +35,7 @@
 				<option value="<?php echo $i?>" <?php if($rptmth == $i){echo "selected";}?>><?php echo get_month_full_name($i)?></option>
 		<?php }?>
 	</select>
-	<input type="submit" class="btn btn-xs btn-default" value="Ubah">
+	<input type="submit" class="btn btn-xs btn-default" value="Ubah" style="background-color:#0B0A51; border-color:#0B0B61; color:white;">
 </form>
 
 </div><div style="clear:both"></div>

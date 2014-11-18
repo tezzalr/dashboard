@@ -115,6 +115,7 @@
 	<?php echo $header?>
 	<div>
 		<!--<a href="<?php echo base_url()?>report/trans_xsell/<?php echo $info_page['type'];?>/<?php echo $info_page['id'];?>"><span style="float:right">Transaction Cross Sell </span></a>-->
+		<a href="<?php echo base_url()?>report/trans_xsell/<?php echo $info_page['type'];?>/<?php echo $info_page['id'];?>"><span style="float:right">Transaction Cross Sell --></span></a>
 		<h2>Komposisi Alliance Income</h2>
 		<h4 style="color:grey;">Penyumbang Aliansi terbesar : <?php echo $has_al[0]['name']?>, sebesar <?php echo number_format($has_al[0]['val_ty']/pow(10,9),1)?> Miliar atau <?php echo number_format($has_al[0]['val_ty']/$tot*100,1)?>%
 		</h4><br><br>

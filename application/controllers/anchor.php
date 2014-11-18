@@ -13,9 +13,9 @@ class Anchor extends CI_Controller {
         
         $session = $this->session->userdata('userdb');
         
-        /*if(!$session){
+        if(!$session){
             redirect('user/login');
-        }*/
+        }
     }
     /**
      * Method for page (public)
@@ -43,6 +43,41 @@ class Anchor extends CI_Controller {
 
 		$this->load->view('front',$data);
         
+    }
+    
+    public function sum_anchor(){
+    	$data['title'] = "Sum";
+    	$dir = $this->uri->segment(3);
+    	$anc_xsll = array(); $i=0;
+    	$month = $this->session->userdata('rptmth');
+    	
+    	$anchors = $this->manchor->get_anchor_by_direktorat($dir);
+    	foreach($anchors as $anchor){
+			$rlz_raw = $this->mrealization->get_anchor_ws_realization($anchor->id, date('Y'));
+			$wallet = $this->mwallet->get_anchor_ws_wallet($anchor->id, date('Y'));		
+    		$rlz = $this->mrealization->count_realization_value($rlz_raw, $month);
+    		$sow = $this->mwallet->get_sow($wallet, $rlz, 'wholesale');
+    		
+			$sc[$i]['anchor'] = $anchor;
+			$sc[$i]['wal'] = $this->mwallet->get_anchor_total_wallet($anchor->id, date('Y'));
+			$sc[$i]['inc'] = $this->mrealization->get_anchor_total_income($anchor->id, date('Y'));
+			$sc[$i]['sow'] = $sc[$i]['inc']['tot']/$sc[$i]['wal']['tot'];
+			$sc[$i]['rlz'] = $rlz;
+			if($sow[32]){
+				$sc[$i]['trx'] = $sow[34]/$sow[32];
+			}else{$sc[$i]['trx'] = 10;}
+			if($rlz['IL_vol']+$rlz['WCL_vol']+$rlz['SL_vol']){
+				$sc[$i]['casx'] = $rlz['CASA_vol']/($rlz['IL_vol']+$rlz['WCL_vol']+$rlz['SL_vol']);
+			}else{$sc[$i]['casx'] = 10;}
+			$i++;
+    		
+    	}
+		
+		$data['header'] = $this->load->view('shared/header','',TRUE);	
+		$data['footer'] = $this->load->view('shared/footer','',TRUE);
+		$data['content'] = $this->load->view('anchor/sum_anchor',array('anchors' => $sc,'month' => $month),TRUE);
+
+		$this->load->view('front',$data);
     }
     
     public function change_report_month(){

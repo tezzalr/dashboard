@@ -108,6 +108,15 @@ class Manchor extends CI_Model {
     		$this->db->or_where('group', 'REGIONAL COMMERCIAL SALES I');
     		$this->db->or_where('group', 'REGIONAL COMMERCIAL SALES II');
     	}
+    	elseif($direktorat == 'CIB'){
+    		$this->db->where('group', 'CORPORATE BANKING AGRO BASED');
+    		$this->db->or_where('group', 'CORPORATE BANKING I');
+    		$this->db->or_where('group', 'CORPORATE BANKING II');
+    		$this->db->or_where('group', 'CORPORATE BANKING III');
+    		$this->db->or_where('group', 'SYNDICATION, OIL & GAS');
+    		$this->db->or_where('group', 'INSTITUTIONAL BANKING I');
+    		$this->db->or_where('group', 'INSTITUTIONAL BANKING II');
+    	}
     	$this->db->order_by('group','asc');
     	$this->db->order_by('name','asc');
     	$result = $this->db->get('anchor');

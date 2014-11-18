@@ -6,6 +6,9 @@ body {
   height: 100%;
   /* The html and body elements cannot have any padding or margin. */
 }
+a{
+	color:#122E8A;
+}	
 body a:hover{
 	color:#444;
 }

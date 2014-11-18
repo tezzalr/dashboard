@@ -1,6 +1,7 @@
+
 <div id="" class="container no_pad">
 	<div class="no_pad" style="border-bottom: 1px solid #ccc; margin-bottom: 20px;">
-		<h2>Anchor Client <a href="<?php echo base_url()?>realization/show/directorate/">Bank Mandiri</a></h2>
+		<h2><img style="width:100px; float:right; margin-top:-20px;" src="<?php echo base_url()?>assets/img/general/logo.jpg"><a href="<?php echo base_url()?>realization/show/directorate/">Anchor Client Bank Mandiri</a></h2>
 		<span style="font-size:20px"><?php echo count($anchor['cor'])+count($anchor['ib'])+count($anchor['com']);?> Anchor <div style="clear:both"></span></div>
 	</div>
 	<!--<div id="container_all" style="min-width: 310px; width: 100%; height: 500px; margin: 0;"></div><br><br>-->
@@ -14,7 +15,7 @@
 					elseif($anchr->group=='CORPORATE BANKING II'){$code='CB2';}
 					elseif($anchr->group=='CORPORATE BANKING III'){$code='CB3';}
 					elseif($anchr->group=='SYNDICATION, OIL & GAS'){$code='SOG';}?>
-				<hr><h5 style="color:orange"><a style="color:orange" href="<?php echo base_url()?>realization/show/directorate/<?php echo $code?>"><?php echo $anchr->group; $grup = $anchr->group; }?></a></h5>
+				<hr><h5 style="color:#EBB22D"><a style="color:orange" href="<?php echo base_url()?>realization/show/directorate/<?php echo $code?>"><?php echo $anchr->group; $grup = $anchr->group; }?></a></h5>
 				
 				<a href="<?php echo base_url()?>realization/show/anchor/<?php echo $anchr->id?>"><span><?php echo $anchr->name?></span><br></a>
 			<?php }?>
@@ -28,7 +29,7 @@
 					if($anchr->group=='INSTITUTIONAL BANKING I'){$code='IB1';}
 					elseif($anchr->group=='INSTITUTIONAL BANKING II'){$code='IB2';}
 				?>
-				<hr><h5 style="color:orange"><a style="color:orange" href="<?php echo base_url()?>realization/show/directorate/<?php echo $code?>"><?php echo $anchr->group; $grup = $anchr->group; }?></a></h5>
+				<hr><h5 style="color:#EBB22D"><a style="color:orange" href="<?php echo base_url()?>realization/show/directorate/<?php echo $code?>"><?php echo $anchr->group; $grup = $anchr->group; }?></a></h5>
 				
 				<a href ="<?php echo base_url()?>realization/show/anchor/<?php echo $anchr->id?>"><span><?php echo $anchr->name?></span><br></a>
 			<?php }?>
@@ -43,7 +44,7 @@
 					elseif($anchr->group=='REGIONAL COMMERCIAL SALES I'){$code='RCS1';}
 					elseif($anchr->group=='REGIONAL COMMERCIAL SALES II'){$code='RCS2';}
 				?>
-				<hr><h5 style="color:orange"><a style="color:orange" href="<?php echo base_url()?>realization/show/directorate/<?php echo $code?>"><?php echo $anchr->group; $grup = $anchr->group; }?></a></h5>
+				<hr><h5 style="color:#EBB22D"><a style="color:orange" href="<?php echo base_url()?>realization/show/directorate/<?php echo $code?>"><?php echo $anchr->group; $grup = $anchr->group; }?></a></h5>
 				
 				<a href ="<?php echo base_url()?>realization/show/anchor/<?php echo $anchr->id?>"><span><?php echo $anchr->name?></span><br></a>
 			<?php }?>

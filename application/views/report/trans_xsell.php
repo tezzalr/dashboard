@@ -48,7 +48,7 @@
 <div id="" class="container no_pad">
 	<?php echo $header?>
 	<div>
-		<a href="<?php echo base_url()?>report/alliance_income/<?php echo $info_page['type'];?>/<?php echo $info_page['id'];?>"><span style="float:right">Alliance Income --></span></a>
+		
 		<h2>Transaction Cross Sell*</h2>
 		<h4 style="color:grey;">Transaction Cross Sell* Tahun <?php echo date('Y')-1?> sebesar <?php if($loanres['sw_ly']==0){$loanres['sw_ly'] = $castrxres['sw_ly']/10;} echo number_format($castrxres['sw_ly']/$loanres['sw_ly'],1)?>
 		dan menjadi <?php if($loanres['sw']==0){$loanres['sw'] = $castrxres['sw']/10;} echo number_format($castrxres['sw']/$loanres['sw'],1)?> tahun <?php echo date('Y')?>
