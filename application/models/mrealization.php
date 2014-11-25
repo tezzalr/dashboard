@@ -31,7 +31,9 @@ class Mrealization extends CI_Model {
     	$this->db->where('year',$year);
     	$result = $this->db->get('wholesale_realization');
     	$query = $result->result();
-        return $query[0];
+        if($query){
+        	return $query[0];
+        }
     }
     
     function get_anchor_al_realization($anchor_id, $year){
@@ -41,7 +43,9 @@ class Mrealization extends CI_Model {
     	$this->db->where('year',$year);
     	$result = $this->db->get('alliance_realization');
     	$query = $result->result();
-        return $query[0];
+        if($query){
+        	return $query[0];
+        }
     }
     
     function get_anchor_prd_realization_annual($anchor_id, $product, $kind, $year){

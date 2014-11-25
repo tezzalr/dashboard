@@ -29,7 +29,9 @@ class Mwallet extends CI_Model {
     	$this->db->where('year',$year);
     	$result = $this->db->get('wholesale_wallet_size');
     	$query = $result->result();
-        return $query[0];
+        if($query){
+        	return $query[0];
+        }
     }
     
     function get_anchor_al_wallet($anchor_id, $year){
@@ -37,7 +39,9 @@ class Mwallet extends CI_Model {
     	$this->db->where('year',$year);
     	$result = $this->db->get('alliance_wallet_size');
     	$query = $result->result();
-        return $query[0];
+        if($query){
+        	return $query[0];
+        }
     }
     
     function get_anchor_total_wallet($anchor_id, $year){
@@ -81,15 +85,27 @@ class Mwallet extends CI_Model {
     			if(!$wallet->$wlt_inc){$arr_sow[$i]=100;}
     			else{$arr_sow[$i]=$realization[$this->return_prod_name($i-15)."_inc"]/$wallet->$wlt_inc*100;}	
     		}
+    		if($wallet && $realization){
     		$loan_vol_wlt = $wallet->IL_vol+$wallet->WCL_vol+$wallet->TR_vol;
     		$loan_vol_rlz = $realization['IL_vol']+$realization['WCL_vol']+$realization['TR_vol'];
     		$loan_inc_wlt = $wallet->IL_nii+$wallet->WCL_nii+$wallet->TR_nii;
     		$loan_inc_rlz = $realization['IL_inc']+$realization['WCL_inc']+$realization['TR_inc'];
-    		
-    		$trx_vol_wlt = $wallet->CASA_vol+$wallet->FX_vol+$wallet->Trade_vol+$wallet->BG_vol+$wallet->OIR_vol;
-    		$trx_vol_rlz = $realization['CASA_vol']+$realization['FX_vol']+$realization['Trade_vol']+$realization['BG_vol']+$realization['OIR_vol'];
-    		$trx_inc_wlt = $wallet->CASA_nii+$wallet->FX_fbi+$wallet->Trade_fbi+$wallet->BG_fbi+$wallet->OIR_fbi;
-    		$trx_inc_rlz = $realization['CASA_inc']+$realization['FX_inc']+$realization['Trade_inc']+$realization['BG_inc']+$realization['OIR_inc'];
+    	
+    			$trx_vol_wlt = $wallet->CASA_vol+$wallet->FX_vol+$wallet->Trade_vol+$wallet->BG_vol+$wallet->OIR_vol;
+    			$trx_vol_rlz = $realization['CASA_vol']+$realization['FX_vol']+$realization['Trade_vol']+$realization['BG_vol']+$realization['OIR_vol'];
+    			$trx_inc_wlt = $wallet->CASA_nii+$wallet->FX_fbi+$wallet->Trade_fbi+$wallet->BG_fbi+$wallet->OIR_fbi;
+    			$trx_inc_rlz = $realization['CASA_inc']+$realization['FX_inc']+$realization['Trade_inc']+$realization['BG_inc']+$realization['OIR_inc'];
+    		}
+    		else{
+    			$trx_vol_wlt = 0;
+    			$trx_vol_rlz = 0;
+    			$trx_inc_wlt = 0;
+    			$trx_inc_rlz = 0;
+    			$loan_vol_wlt = 0;
+    			$loan_vol_rlz = 0;
+    			$loan_inc_wlt = 0;
+    			$loan_inc_rlz = 0;
+    		}
     		
     		if($loan_vol_wlt){
     			$arr_sow[31] = ($loan_vol_rlz)/($loan_vol_wlt)*100;

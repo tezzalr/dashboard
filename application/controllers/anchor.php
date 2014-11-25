@@ -61,14 +61,21 @@ class Anchor extends CI_Controller {
 			$sc[$i]['anchor'] = $anchor;
 			$sc[$i]['wal'] = $this->mwallet->get_anchor_total_wallet($anchor->id, date('Y'));
 			$sc[$i]['inc'] = $this->mrealization->get_anchor_total_income($anchor->id, date('Y'));
-			$sc[$i]['sow'] = $sc[$i]['inc']['tot']/$sc[$i]['wal']['tot'];
+			if($sc[$i]['wal']['tot']){
+				$sc[$i]['sow'] = $sc[$i]['inc']['tot']/$sc[$i]['wal']['tot'];
+			}else{
+				$sc[$i]['sow'] = 1;	
+			}
 			$sc[$i]['rlz'] = $rlz;
 			if($sow[32]){
 				$sc[$i]['trx'] = $sow[34]/$sow[32];
 			}else{$sc[$i]['trx'] = 10;}
 			if($rlz['IL_vol']+$rlz['WCL_vol']+$rlz['SL_vol']){
 				$sc[$i]['casx'] = $rlz['CASA_vol']/($rlz['IL_vol']+$rlz['WCL_vol']+$rlz['SL_vol']);
-			}else{$sc[$i]['casx'] = 10;}
+			}elseif(!$rlz['CASA_vol'] && !($rlz['IL_vol']+$rlz['WCL_vol']+$rlz['SL_vol'])){
+				$sc[$i]['casx'] = 0;
+			}
+			else{$sc[$i]['casx'] = 10;}
 			$i++;
     		
     	}
