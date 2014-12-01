@@ -9,7 +9,8 @@
 					<table class="table table-bordered" style="font-size:10px;">
 						<thead class="headertab"><tr>
 							<th style="width:30px">No</th><th>Name</th><th>Gas</th>
-							<th>Wallet Ttl</th><th>Relationship</th><th>Wallet WS</th><th>Wholesale</th>
+							<th>Wallet Ttl</th><th>Relationship</th>
+							<th>Wlt WS</th><th>WS</th><th>Wlt AL</th><th>AL</th>
 							<th>SoW</th><th>Trx X-Sell</th>
 							<th>CASA X-Sell</th>
 							<th>Wal CASA</th>
@@ -29,6 +30,8 @@
 								<td><?php echo number_format($anchor['inc']['tot'],0)?></td>
 								<td><?php echo number_format($anchor['wal']['ws'],0)?></td>
 								<td><?php echo number_format($anchor['inc']['ws'],0)?></td>
+								<td><?php echo number_format($anchor['wal']['al'],0)?></td>
+								<td><?php echo number_format($anchor['inc']['al'],0)?></td>
 								<td><?php echo number_format($anchor['sow']*100,0)?> %</td>
 								<td><?php echo number_format($anchor['trx'],1)?></td>
 								<td><?php echo number_format($anchor['casx'],1)?></td>
