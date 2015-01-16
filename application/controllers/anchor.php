@@ -13,9 +13,9 @@ class Anchor extends CI_Controller {
         
         $session = $this->session->userdata('userdb');
         
-        if(!$session){
+        /*if(!$session){
             redirect('user/login');
-        }
+        }*/
     }
     /**
      * Method for page (public)
